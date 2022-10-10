@@ -33,8 +33,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public int insertUser(User user) {
-        int insert = userMapper.insert(user);
-        return insert;
+    public int insertUser(String username, String password, String payKey) {
+        User user = new User();
+        user.setUserName(username);
+        user.setUserPassword(password);
+
+        // 生成一个该用户对应的区块链上的账户
+
+
+        return userMapper.insert(user);
     }
 }

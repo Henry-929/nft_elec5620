@@ -32,34 +32,14 @@ public class User implements Serializable {
     private Long userId;
 
     /**
-     * 用户账号
+     * 用户名
      */
-    private String userAccount;
+    private String userName;
 
     /**
      * 密码，数据库中通过保存通过SHA-256处理过的值
      */
     private String userPassword;
-
-    /**
-     * 手机号码
-     */
-    private String userPhone;
-
-    /**
-     * 用户昵称
-     */
-    private String userName;
-
-    /**
-     * 用户头像图片文件的ID
-     */
-    private Long userHeadImageId;
-
-    /**
-     * 是否已经跳过教程
-     */
-    private Boolean skipCourse;
 
     /**
      * 以太坊地址
