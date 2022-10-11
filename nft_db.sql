@@ -11,10 +11,10 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 04/10/2022 08:38:28
+ Date: 11/10/2022 01:45:28
 */
 
-SET NAMES utf8;
+SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
@@ -178,7 +178,6 @@ CREATE TABLE `goods_trade` (
   PRIMARY KEY (`trade_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品交易记录表';
 
-
 -- ----------------------------
 -- Table structure for shopping_car
 -- ----------------------------
@@ -213,12 +212,8 @@ CREATE TABLE `token` (
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `user_id` bigint(20) NOT NULL COMMENT '用户ID',
-  `user_account` varchar(255) NOT NULL COMMENT '用户账号',
+  `user_name` varchar(255) DEFAULT NULL COMMENT '用户名',
   `user_password` varchar(255) NOT NULL COMMENT '密码，数据库中通过保存通过SHA-256处理过的值',
-  `user_phone` char(13) DEFAULT NULL COMMENT '手机号码',
-  `user_name` varchar(255) DEFAULT NULL COMMENT '用户昵称',
-  `user_head_image_id` bigint(20) DEFAULT NULL COMMENT '用户头像图片文件的ID',
-  `skip_course` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否已经跳过教程',
   `eth_address` varchar(255) NOT NULL COMMENT '以太坊地址',
   `key_src` varchar(255) NOT NULL COMMENT 'key文件名',
   `version` int(11) NOT NULL DEFAULT '1' COMMENT '乐观锁',
@@ -232,9 +227,9 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 BEGIN;
-INSERT INTO `user` VALUES (1509518438970200066, '123123', '123123', '12374238625', '王五', NULL, 0, '0x6aedf11d5c59e604ec19c52cc76119a882e77ab1', 'UTC--2022-03-31T13-09-50.890000000Z--6aedf11d5c59e604ec19c52cc76119a882e77ab1.json', 1, 0, '2022-03-31 21:10:16', '2022-03-31 21:10:16');
-INSERT INTO `user` VALUES (1509520444493434882, '11', '11', NULL, NULL, NULL, 0, '0x78f52982bec708c7a5b818ba6e28e90525fc1aa5', 'UTC--2022-03-31T13-17-51.946000000Z--78f52982bec708c7a5b818ba6e28e90525fc1aa5.json', 1, 0, '2022-03-31 21:18:14', '2022-03-31 21:18:14');
-INSERT INTO `user` VALUES (1511346456264978433, '2368733361cjt', 'abcd12345678', '18229215492', '星空', NULL, 0, '0x78024d5c0890d7c63f902fc4e989baaccd3c1c9a', 'UTC--2022-04-05T14-13-39.863000000Z--78024d5c0890d7c63f902fc4e989baaccd3c1c9a.json', 1, 0, '2022-04-05 22:14:09', '2022-04-05 22:14:09');
+INSERT INTO `user` VALUES (1509518438970200066, '王五', '123123', '0x6aedf11d5c59e604ec19c52cc76119a882e77ab1', 'UTC--2022-03-31T13-09-50.890000000Z--6aedf11d5c59e604ec19c52cc76119a882e77ab1.json', 1, 0, '2022-03-31 21:10:16', '2022-03-31 21:10:16');
+INSERT INTO `user` VALUES (1509520444493434882, NULL, '11', '0x78f52982bec708c7a5b818ba6e28e90525fc1aa5', 'UTC--2022-03-31T13-17-51.946000000Z--78f52982bec708c7a5b818ba6e28e90525fc1aa5.json', 1, 0, '2022-03-31 21:18:14', '2022-03-31 21:18:14');
+INSERT INTO `user` VALUES (1511346456264978433, '星空', 'abcd12345678', '0x78024d5c0890d7c63f902fc4e989baaccd3c1c9a', 'UTC--2022-04-05T14-13-39.863000000Z--78024d5c0890d7c63f902fc4e989baaccd3c1c9a.json', 1, 0, '2022-04-05 22:14:09', '2022-04-05 22:14:09');
 COMMIT;
 
 -- ----------------------------
