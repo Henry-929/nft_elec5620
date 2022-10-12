@@ -3,6 +3,7 @@ package com.nft.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.nft.entity.User;
 import com.nft.mapper.UserMapper;
+import com.nft.service.EthBlockchainService;
 import com.nft.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    EthBlockchainService ethBlockchainService;
 
     @Override
     public User selectUserByName(String username) {
@@ -33,12 +36,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public int insertUser(String username, String password, String payKey) {
+    public int insertUser(String username, String password, String payKey) throws Exception {
         User user = new User();
         user.setUserName(username);
         user.setUserPassword(password);
 
         // 生成一个该用户对应的区块链上的账户
+        ethBlockchainService.creatEthAddress(payKey);
+
 
 
         return userMapper.insert(user);
