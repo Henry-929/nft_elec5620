@@ -6,6 +6,7 @@ import com.nft.mapper.UserMapper;
 import com.nft.service.EthBlockchainService;
 import com.nft.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,8 +43,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setUserPassword(password);
 
         // 生成一个该用户对应的区块链上的账户
-        ethBlockchainService.creatEthAddress(payKey);
-
+        JSONObject jsonObject = new JSONObject(ethBlockchainService.creatEthAddress(payKey));
+        user.setEthAddress((String) jsonObject.get("address"));
+        user.setKeySrc((String) jsonObject.get("fileName"));
 
 
         return userMapper.insert(user);

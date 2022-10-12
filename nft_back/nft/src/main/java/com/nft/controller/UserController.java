@@ -30,7 +30,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/register")
-    public Result register(@RequestBody Map<String, Object> map){
+    public Result register(@RequestBody Map<String, Object> map) throws Exception {
         String username = (String) map.get("username");     //用户名
         String password = (String) map.get("password");     //登录密码
         String payKey = (String) map.get("payKey");         //支付密码
@@ -42,9 +42,8 @@ public class UserController {
         if (null != searchUser)
             return new Result(ResultCode.REPEAT_USER_ACCOUNTERROR);
 
-        userService.insertUser(username,password,payKey);
-
-        return new Result(ResultCode.SUCCESS);
+        int i = userService.insertUser(username, password, payKey);
+        return i>0 ? new Result(ResultCode.SUCCESS) : new Result(ResultCode.FAIL);
     }
 
 }
