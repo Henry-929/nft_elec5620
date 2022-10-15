@@ -11,7 +11,7 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 11/10/2022 01:45:28
+ Date: 16/10/2022 01:00:11
 */
 
 SET NAMES utf8mb4;
@@ -194,57 +194,42 @@ CREATE TABLE `shopping_car` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='购物车';
 
 -- ----------------------------
--- Table structure for token
--- ----------------------------
-DROP TABLE IF EXISTS `token`;
-CREATE TABLE `token` (
-  `token_id` bigint(20) NOT NULL,
-  `token` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
-  `create_time` datetime NOT NULL,
-  `deadline_time` datetime NOT NULL,
-  PRIMARY KEY (`token_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='token表';
-
--- ----------------------------
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
-  `user_name` varchar(255) DEFAULT NULL COMMENT '用户名',
-  `user_password` varchar(255) NOT NULL COMMENT '密码，数据库中通过保存通过SHA-256处理过的值',
-  `eth_address` varchar(255) NOT NULL COMMENT '以太坊地址',
-  `key_src` varchar(255) NOT NULL COMMENT 'key文件名',
-  `version` int(11) NOT NULL DEFAULT '1' COMMENT '乐观锁',
-  `deleted` int(11) NOT NULL DEFAULT '0',
-  `create_time` datetime NOT NULL COMMENT '创造时间',
-  `update_time` datetime NOT NULL COMMENT '修改时间',
+  `user_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+  `user_name` varchar(255) NOT NULL COMMENT '用户名',
+  `user_password` varchar(255) NOT NULL COMMENT '密码，数据库中通过保存通过md5加密处理过的值',
+  `roles` varchar(255) DEFAULT NULL,
+  `perms` varchar(255) DEFAULT NULL,
+  `eth_address` varchar(255) DEFAULT NULL COMMENT '以太坊地址',
+  `key_src` varchar(255) DEFAULT NULL COMMENT 'key文件名',
+  `version` int(11) DEFAULT '1' COMMENT '乐观锁',
+  `create_time` datetime DEFAULT NULL COMMENT '创造时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
 BEGIN;
-INSERT INTO `user` VALUES (1509518438970200066, '王五', '123123', '0x6aedf11d5c59e604ec19c52cc76119a882e77ab1', 'UTC--2022-03-31T13-09-50.890000000Z--6aedf11d5c59e604ec19c52cc76119a882e77ab1.json', 1, 0, '2022-03-31 21:10:16', '2022-03-31 21:10:16');
-INSERT INTO `user` VALUES (1509520444493434882, NULL, '11', '0x78f52982bec708c7a5b818ba6e28e90525fc1aa5', 'UTC--2022-03-31T13-17-51.946000000Z--78f52982bec708c7a5b818ba6e28e90525fc1aa5.json', 1, 0, '2022-03-31 21:18:14', '2022-03-31 21:18:14');
-INSERT INTO `user` VALUES (1511346456264978433, '星空', 'abcd12345678', '0x78024d5c0890d7c63f902fc4e989baaccd3c1c9a', 'UTC--2022-04-05T14-13-39.863000000Z--78024d5c0890d7c63f902fc4e989baaccd3c1c9a.json', 1, 0, '2022-04-05 22:14:09', '2022-04-05 22:14:09');
+INSERT INTO `user` VALUES (1, 'vivo', 'bedfe476f8a2800b2711c7fdbc4d1e50', 'user', 'admin:manage', NULL, NULL, 1, '2022-10-16 00:28:25', '2022-10-16 00:28:25');
+INSERT INTO `user` VALUES (2, 'papi', 'bedfe476f8a2800b2711c7fdbc4d1e50', 'user', 'user:visit', NULL, NULL, 1, '2022-10-16 00:29:09', '2022-10-16 00:29:09');
 COMMIT;
 
 -- ----------------------------
--- Table structure for user_identity
+-- Procedure structure for NewProc
 -- ----------------------------
-DROP TABLE IF EXISTS `user_identity`;
-CREATE TABLE `user_identity` (
-  `user_identity_id` bigint(20) NOT NULL COMMENT '用户ID',
-  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
-  `user_identity` int(11) NOT NULL COMMENT '用户身份(1:审核员 2:管理员 3:工作人员)',
-  `version` int(11) NOT NULL DEFAULT '1' COMMENT '乐观锁',
-  `deleted` int(11) NOT NULL DEFAULT '0',
-  `create_time` datetime NOT NULL COMMENT '创造时间',
-  `update_time` datetime NOT NULL COMMENT '修改时间',
-  PRIMARY KEY (`user_identity_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='身份表';
+DROP PROCEDURE IF EXISTS `NewProc`;
+delimiter ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `NewProc`()
+BEGIN
+  #Routine body goes here...
+TRUNCATE TABLE user;
+END;
+;;
+delimiter ;
 
 SET FOREIGN_KEY_CHECKS = 1;
