@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import shopCart from './module/shoppingCart.js'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -10,6 +10,7 @@ export default new Vuex.Store({
   },
   actions: {
   },
-  modules: {
-  }
+  modules:{
+    shopCart
+  },
 })
