@@ -1,8 +1,8 @@
 package com.nft.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.nft.service.EthBlockchainService;
 import com.nft.util.EthUtil;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.web3j.crypto.Bip39Wallet;
 import org.web3j.crypto.Bip44WalletUtils;
@@ -12,6 +12,8 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class EthBlockchainServiceImpl implements EthBlockchainService {
@@ -48,10 +50,10 @@ public class EthBlockchainServiceImpl implements EthBlockchainService {
                 .send();
         if (transactionReceipt.getStatus().equals("0x1")) {
 
-            return new JSONObject()
-                    .put("address", address)
-                    .put("fileName", bip39Wallet.getFilename())
-                    .toString();
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("address", address);
+            map.put("fileName", bip39Wallet.getFilename());
+            return JSON.toJSONString(map);
         }
         return null;
     }

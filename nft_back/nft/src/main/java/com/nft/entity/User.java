@@ -5,7 +5,6 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import lombok.Data;
@@ -28,7 +27,7 @@ public class User implements Serializable {
     /**
      * 用户ID
      */
-    @TableId(value = "user_id", type = IdType.ASSIGN_ID)
+    @TableId(value = "user_id", type = IdType.AUTO)
     private Long userId;
 
     /**
@@ -37,7 +36,7 @@ public class User implements Serializable {
     private String userName;
 
     /**
-     * 密码，数据库中通过保存通过SHA-256处理过的值
+     * 密码，数据库中通过保存通过md5加密处理过的值
      */
     private String userPassword;
 
@@ -52,13 +51,20 @@ public class User implements Serializable {
     private String keySrc;
 
     /**
+     * 用户角色
+     */
+    private String roles;
+
+    /**
+     * 角色权限
+     */
+    private String perms;
+
+    /**
      * 乐观锁
      */
     @Version
     private Integer version;
-
-    @TableLogic
-    private Integer deleted;
 
     /**
      * 创造时间

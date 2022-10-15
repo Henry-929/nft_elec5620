@@ -15,11 +15,11 @@ import java.math.BigInteger;
 
 public class EthUtil {
 
-    private String contractAddress = "0x523d9De49dC6A1eb4e74C741A6d98E87972f53e2";
-    private String baseKeyPath = "/Users/mac/IdeaProjects/nft/GETH/keystore";
-    private String adminKey = "UTC--2022-03-31T11-44-06.488721200Z--43bb182d89dca344eafaf536079389269ae408d7";
-    private String adminPassword = "123";
-    private static String url = "http://localhost:8545/";
+    private String contractAddress = "0xC81d3f19aFa188bF27FE941Fefe5b68fb4988864";
+    private String baseKeyPath = "/Users/mac/IdeaProjects/nft/GETH/keystore/";
+    private String adminKey = "UTC--2022-10-15T12-46-10.370Z--c81d3f19afa188bf27fe941fefe5b68fb4988864";
+    private String adminPassword = "12345678";
+    private static String url = "http://localhost:8545";
 
     private Web3j web3j;
 
@@ -70,7 +70,7 @@ public class EthUtil {
 
     public void sendETH(String address, int value) throws Exception {
 
-        Admin web3j = Admin.build(new HttpService());
+        Admin web3j = Admin.build(new HttpService(url));
         //给转账用户解锁
         Credentials credentials = WalletUtils.loadCredentials(adminPassword, baseKeyPath + adminKey);
 
