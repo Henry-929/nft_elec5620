@@ -1,7 +1,9 @@
 package com.nft.service;
 
+import com.nft.controller.vo.SimpleGoods;
 import com.nft.entity.Goods;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.nft.util.Pager;
 
 /**
  * <p>
@@ -12,5 +14,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-10-08
  */
 public interface GoodsService extends IService<Goods> {
+
+    // 获取所有的nft，
+    Pager<SimpleGoods> getAllGood(Integer start, Integer limit);
 
 }

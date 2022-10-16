@@ -15,4 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FileMapper extends BaseMapper<File> {
 
+    // 通过artId获取对应的一个展示文件
+    String getArtOneShowFileById(Long artId);
+
 }

@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nft.mapper.GoodsMapper">
+    <resultMap id="simpleGoodsMap" type="com.nft.controller.vo.SimpleGoods">
+        <id column="goods_id" property="goodsId"/>
+        <result column="trade_mode" property="tradeMode"/>
+        <result column="rent_start_time" property="rentStartTime"/>
+        <result column="rent_end_time" property="rentEndTime"/>
+        <result column="resale_price" property="resalePrice"/>
+        <association property="simpleArt" column="art_id"
+                     select="com.nft.mapper.ArtMapper.getSimpleArtById"/>
+        <association property="goodsSeller" javaType="User">
+            <id property="userId" column="user_id"/>
+            <result property="userName" column="user_name"/>
+        </association>
+    </resultMap>
+
+    <select id="getAllGoods" parameterType="map" resultMap="simpleGoodsMap">
+        SELECT `goods`.goods_id,`goods`.resale_price,
+               `art`.art_author,`art`.art_introduction,`art`.art_name,
+               `file`.file_path
+        FROM `goods`,`art`,`file`
+        WHERE `goods`.art_id = `art`.art_id and `file`.file_id = `art`.art_file
+        LIMIT #{start},#{limit}
+    </select>
 
 </mapper>

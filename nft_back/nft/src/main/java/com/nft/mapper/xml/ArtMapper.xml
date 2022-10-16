@@ -2,4 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nft.mapper.ArtMapper">
 
+    <resultMap id="simpleArtMap" type="com.nft.controller.vo.SimpleArt">
+        <id property="artId" column="art_id"/>
+        <result property="artName" column="art_name"/>
+        <result property="artIntroduction" column="art_introduction"/>
+        <result property="artAuthor" column="art_author"/>
+        <association property="showFile" javaType="File">
+            <id property="fileId" column="file_id"/>
+            <result property="filePath" column="file_path"/>
+        </association>
+    </resultMap>
+
+    <select id="getSimpleArtById" parameterType="long" resultMap="simpleArtMap">
+        SELECT `art`.art_id, `art`.art_name, `art`.art_introduction, `file`.file_path,`art`.art_author
+        FROM `art`,`file`
+        WHERE `art`.art_file = `file`.file_id
+          AND `art`.art_id = #{artId}
+    </select>
+
 </mapper>

@@ -1,5 +1,6 @@
 package com.nft.mapper;
 
+import com.nft.controller.vo.SimpleArt;
 import com.nft.entity.Art;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
@@ -14,5 +15,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ArtMapper extends BaseMapper<Art> {
+
+    // 根据artId获取SimpleArt
+    SimpleArt getSimpleArtById(Long artId);
 
 }
