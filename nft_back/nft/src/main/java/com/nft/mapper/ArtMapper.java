@@ -1,6 +1,6 @@
 package com.nft.mapper;
 
-import com.nft.controller.vo.SimpleArt;
+import com.nft.entity.vo.SimpleArt;
 import com.nft.entity.Art;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;

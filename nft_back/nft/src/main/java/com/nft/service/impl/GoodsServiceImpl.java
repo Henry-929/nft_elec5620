@@ -1,6 +1,6 @@
 package com.nft.service.impl;
 
-import com.nft.controller.vo.SimpleGoods;
+import com.nft.entity.vo.SimpleGoods;
 import com.nft.entity.Goods;
 import com.nft.mapper.GoodsMapper;
 import com.nft.service.GoodsService;

@@ -1,7 +1,7 @@
 package com.nft.controller;
 
 
-import com.nft.controller.vo.SimpleGoods;
+import com.nft.entity.vo.SimpleGoods;
 import com.nft.entity.Result;
 import com.nft.entity.ResultCode;
 import com.nft.service.GoodsService;
@@ -33,9 +33,9 @@ public class GoodsController {
      * @return
      */
     @PostMapping("/getAllGoods")
-    public Result getAllGoods(@RequestBody Map<String, Object> map) {
-        Integer start = (Integer) map.get("start");
-        Integer limit = (Integer) map.get("limit");
+    public Result getAllGoods(@RequestBody Map<String, Integer> map) {
+        Integer start = map.get("start");
+        Integer limit = map.get("limit");
         if (start == null) start = 0;
         if (limit == null) limit = 10;
 

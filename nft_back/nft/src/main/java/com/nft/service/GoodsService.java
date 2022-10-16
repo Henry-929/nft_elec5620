@@ -1,6 +1,6 @@
 package com.nft.service;
 
-import com.nft.controller.vo.SimpleGoods;
+import com.nft.entity.vo.SimpleGoods;
 import com.nft.entity.Goods;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.nft.util.Pager;

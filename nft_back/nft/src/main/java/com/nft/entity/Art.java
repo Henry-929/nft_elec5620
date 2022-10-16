@@ -42,11 +42,6 @@ public class Art implements Serializable {
     private Long artFile;
 
     /**
-     * 艺术品类型 0：电子图片艺术品 1：实体艺术品 2:音乐 3：影视 4：游戏 5：模型 6：绘画
-     */
-    private Integer artType;
-
-    /**
      * 艺术品简介
      */
     private String artIntroduction;

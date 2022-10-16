@@ -1,4 +1,4 @@
-package com.nft.controller.vo;
+package com.nft.entity.vo;
 
 import com.nft.entity.File;
 import lombok.Data;
