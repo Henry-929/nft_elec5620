@@ -11,7 +11,7 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 16/10/2022 01:00:11
+ Date: 16/10/2022 11:00:23
 */
 
 SET NAMES utf8mb4;
@@ -22,7 +22,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `art`;
 CREATE TABLE `art` (
-  `art_id` bigint(20) NOT NULL COMMENT '艺术品ID',
+  `art_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '艺术品ID',
   `art_name` varchar(255) NOT NULL COMMENT '艺术品名称',
   `art_file` bigint(20) DEFAULT NULL COMMENT '电子艺术品源文件',
   `art_type` int(11) NOT NULL COMMENT '艺术品类型 0：电子图片艺术品 1：实体艺术品 2:音乐 3：影视 4：游戏 5：模型 6：绘画',
@@ -30,21 +30,19 @@ CREATE TABLE `art` (
   `art_token` varchar(255) NOT NULL COMMENT '在区块链中的token',
   `art_author` varchar(255) NOT NULL DEFAULT '佚名' COMMENT '艺术品作者',
   `version` int(11) NOT NULL DEFAULT '1' COMMENT '乐观锁',
-  `deleted` int(11) NOT NULL DEFAULT '0',
   `create_time` datetime NOT NULL COMMENT '创造时间',
   `update_time` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`art_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='电子艺术品表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='电子艺术品表';
 
 -- ----------------------------
 -- Records of art
 -- ----------------------------
 BEGIN;
-INSERT INTO `art` VALUES (1509521707922657281, '七月的云', 1509521642646704130, 1, '坐在车里在高速公路上疾驰前行，时间正是太阳刚出来的时候，远方的云的轮廓慢慢清晰了起来，不管车行速度多快，云朵就像跟在眼前一样，不紧不慢。', '1509521643838185472', 'Gigashi', 1, 0, '2022-03-31 21:23:15', '2022-03-31 21:23:15');
-INSERT INTO `art` VALUES (1509522281791524865, 'line艺术', 1509522216633012226, 1, '缭乱却富有情感色彩，line艺术由人工智能参考数百万副优秀画作进行生成创作，line艺术是反映世界情感组成的一种构思，也表达对事物的一种情感寄托。', '1509522217874825216', 'Pixel blocks', 1, 0, '2022-03-31 21:25:32', '2022-03-31 21:25:32');
-INSERT INTO `art` VALUES (1509522801625174017, '流转的星月夜', 1509522736487632898, 1, '在这幅画中，生动地描绘了充满运动和变化的星空。 整个画面被一股汹涌、动荡的蓝绿色激流所吞噬，旋转、躁动、卷曲的星云使夜空变得异常活跃。', '1509522737549090816', '王炜', 1, 0, '2022-03-31 21:27:36', '2022-03-31 21:27:36');
-INSERT INTO `art` VALUES (1509523642717343746, '奇幻宇宙', 1509523577441390593, 1, '浩瀚的宇宙充满奇幻与神秘 太阳系的外面是银河系，而银河系的外面又有很多的星系和星体，令人向往！', '1509523578729340928', '刘佳', 1, 0, '2022-03-31 21:30:57', '2022-03-31 21:30:57');
-INSERT INTO `art` VALUES (1509524018581508098, '带刺的小绵羊', 1509523953435578370, 1, '爱情中生气爆炸都是必然的，可是只要那个人一哄，小绵羊就温顺柔软起来。', '1509523954509619200', '候义萍', 1, 0, '2022-03-31 21:32:26', '2022-03-31 21:32:26');
+INSERT INTO `art` VALUES (1, '七月的云', 1, 1, '坐在车里在高速公路上疾驰前行，时间正是太阳刚出来的时候，远方的云的轮廓慢慢清晰了起来，不管车行速度多快，云朵就像跟在眼前一样，不紧不慢。', '1509521643838185472', 'Gigashi', 1, '2022-03-31 21:23:15', '2022-03-31 21:23:15');
+INSERT INTO `art` VALUES (2, 'line艺术', 3, 1, '缭乱却富有情感色彩，line艺术由人工智能参考数百万副优秀画作进行生成创作，line艺术是反映世界情感组成的一种构思，也表达对事物的一种情感寄托。', '1509522217874825216', 'Pixel blocks', 1, '2022-03-31 21:25:32', '2022-03-31 21:25:32');
+INSERT INTO `art` VALUES (3, '流转的星月夜', 4, 1, '在这幅画中，生动地描绘了充满运动和变化的星空。 整个画面被一股汹涌、动荡的蓝绿色激流所吞噬，旋转、躁动、卷曲的星云使夜空变得异常活跃。', '1509522737549090816', '王炜', 1, '2022-03-31 21:27:36', '2022-03-31 21:27:36');
+INSERT INTO `art` VALUES (4, '奇幻宇宙', 2, 1, '浩瀚的宇宙充满奇幻与神秘 太阳系的外面是银河系，而银河系的外面又有很多的星系和星体，令人向往！', '1509523578729340928', '刘佳', 1, '2022-03-31 21:30:57', '2022-03-31 21:30:57');
 COMMIT;
 
 -- ----------------------------
@@ -84,26 +82,25 @@ CREATE TABLE `comment_like` (
 -- ----------------------------
 DROP TABLE IF EXISTS `file`;
 CREATE TABLE `file` (
-  `file_id` bigint(20) NOT NULL DEFAULT '2' COMMENT '文件Id',
+  `file_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '文件Id',
   `file_name` varchar(255) NOT NULL COMMENT '文件名称',
   `file_format` varchar(255) NOT NULL COMMENT '文件格式（.txt .png）',
   `file_path` varchar(255) NOT NULL COMMENT '文件保存路径',
   `file_hash` varchar(255) NOT NULL COMMENT '文件',
   `version` int(11) NOT NULL DEFAULT '1' COMMENT '乐观锁',
-  `deleted` int(11) NOT NULL DEFAULT '0',
   `create_time` datetime NOT NULL COMMENT '创造时间',
   `update_time` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文件表（保存各类文件，如艺术品的文件，上传的头像的文件，其他文件等）';
+) ENGINE=InnoDB AUTO_INCREMENT=1509527371508125699 DEFAULT CHARSET=utf8 COMMENT='文件表（保存各类文件，如艺术品的文件，上传的头像的文件，其他文件等）';
 
 -- ----------------------------
 -- Records of file
 -- ----------------------------
 BEGIN;
-INSERT INTO `file` VALUES (1509521642646704130, 'file3b338756-6e1b-470b-8d9f-2bfe97f7a688', 'Gigashi《七月的云》.jpg', '/122231/Gigashi《七月的云》.jpg', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, '2022-03-31 21:23:00', '2022-03-31 21:23:00');
-INSERT INTO `file` VALUES (1509523577441390593, 'file8cdad59b-fa57-44f4-80ec-c237534fb99f', '刘佳《奇幻宇宙》.png', '/122231/刘佳《奇幻宇宙》.png', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, '2022-03-31 21:30:41', '2022-03-31 21:30:41');
-INSERT INTO `file` VALUES (1509525694189178881, 'file236cd6cf-ea64-435e-b5f7-be7bcc6177d1', '1.png', '/122231/1.png', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, '2022-03-31 21:39:06', '2022-03-31 21:39:06');
-INSERT INTO `file` VALUES (1509527371508125698, 'filee3833edb-eebb-494e-9fc8-56453a0c9f2a', '3.png', '/122231/3.png', 'd41d8cd98f00b204e9800998ecf8427e', 1, 0, '2022-03-31 21:45:46', '2022-03-31 21:45:46');
+INSERT INTO `file` VALUES (1, 'file3b338756-6e1b-470b-8d9f-2bfe97f7a688', 'Gigashi《七月的云》.jpg', '/122231/Gigashi《七月的云》.jpg', 'd41d8cd98f00b204e9800998ecf8427e', 1, '2022-03-31 21:23:00', '2022-03-31 21:23:00');
+INSERT INTO `file` VALUES (2, 'file8cdad59b-fa57-44f4-80ec-c237534fb99f', '刘佳《奇幻宇宙》.png', '/122231/刘佳《奇幻宇宙》.png', 'd41d8cd98f00b204e9800998ecf8427e', 1, '2022-03-31 21:30:41', '2022-03-31 21:30:41');
+INSERT INTO `file` VALUES (3, 'file236cd6cf-ea64-435e-b5f7-be7bcc6177d1', '1.png', '/122231/1.png', 'd41d8cd98f00b204e9800998ecf8427e', 1, '2022-03-31 21:39:06', '2022-03-31 21:39:06');
+INSERT INTO `file` VALUES (4, 'filee3833edb-eebb-494e-9fc8-56453a0c9f2a', '3.png', '/122231/3.png', 'd41d8cd98f00b204e9800998ecf8427e', 1, '2022-03-31 21:45:46', '2022-03-31 21:45:46');
 COMMIT;
 
 -- ----------------------------
@@ -111,29 +108,26 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `goods`;
 CREATE TABLE `goods` (
-  `goods_id` bigint(20) NOT NULL COMMENT '商品ID',
+  `goods_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '商品ID',
   `art_id` bigint(20) NOT NULL COMMENT '商品艺术品ID',
   `trade_mode` int(11) NOT NULL COMMENT '交易模式（1:所有权买卖 2:租赁）',
-  `goods_quantity` decimal(3,2) NOT NULL COMMENT '商品数量（所有权：0.01-1.00 租赁 1）',
   `goods_seller_id` bigint(20) NOT NULL COMMENT '商品卖家ID',
   `rent_start_time` datetime DEFAULT NULL COMMENT '如果trade_mode为2，记录租赁开始时间',
   `rent_end_time` datetime DEFAULT NULL COMMENT '如果trade_mode为2，记录租赁结束时间',
-  `trade_fun` int(11) NOT NULL DEFAULT '1' COMMENT '交易方法 1：零售 2: 拍卖 3：盲盒',
   `resale_price` decimal(10,2) DEFAULT NULL COMMENT '零售价',
   `selled` tinyint(1) NOT NULL COMMENT '是否被售出',
   `version` int(11) NOT NULL DEFAULT '1' COMMENT '乐观锁',
-  `deleted` int(11) NOT NULL DEFAULT '0',
   `create_time` datetime NOT NULL COMMENT '创造时间',
   `update_time` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`goods_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='商品表';
 
 -- ----------------------------
 -- Records of goods
 -- ----------------------------
 BEGIN;
-INSERT INTO `goods` VALUES (1510239719805964290, 1509524272039104514, 1, 0.40, 1509520444493434882, NULL, NULL, 1, 22.00, 0, 1, 0, '2022-04-02 20:56:23', '2022-04-02 20:56:23');
-INSERT INTO `goods` VALUES (1510246883501035521, 1509524018581508098, 1, 0.40, 1509520444493434882, NULL, NULL, 1, 2000.00, 0, 1, 0, '2022-04-02 21:24:51', '2022-04-02 21:24:51');
+INSERT INTO `goods` VALUES (1, 1, 1, 1, NULL, NULL, 22.00, 0, 1, '2022-04-02 20:56:23', '2022-04-02 20:56:23');
+INSERT INTO `goods` VALUES (2, 2, 1, 2, NULL, NULL, 2000.00, 0, 1, '2022-04-02 21:24:51', '2022-04-02 21:24:51');
 COMMIT;
 
 -- ----------------------------

@@ -28,7 +28,7 @@ public class Art implements Serializable {
     /**
      * 艺术品ID
      */
-    @TableId(value = "art_id", type = IdType.ASSIGN_ID)
+    @TableId(value = "art_id", type = IdType.AUTO)
     private Long artId;
 
     /**
@@ -66,9 +66,6 @@ public class Art implements Serializable {
      */
     @Version
     private Integer version;
-
-    @TableLogic
-    private Integer deleted;
 
     /**
      * 创造时间

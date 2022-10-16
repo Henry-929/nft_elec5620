@@ -29,7 +29,7 @@ public class Goods implements Serializable {
     /**
      * 商品ID
      */
-    @TableId(value = "goods_id", type = IdType.ASSIGN_ID)
+    @TableId(value = "goods_id", type = IdType.AUTO)
     private Long goodsId;
 
     /**
@@ -41,11 +41,6 @@ public class Goods implements Serializable {
      * 交易模式（1:所有权买卖 2:租赁）
      */
     private Integer tradeMode;
-
-    /**
-     * 商品数量（所有权：0.01-1.00 租赁 1）
-     */
-    private BigDecimal goodsQuantity;
 
     /**
      * 商品卖家ID
@@ -63,11 +58,6 @@ public class Goods implements Serializable {
     private Date rentEndTime;
 
     /**
-     * 交易方法 1：零售 2: 拍卖 3：盲盒
-     */
-    private Integer tradeFun;
-
-    /**
      * 零售价
      */
     private BigDecimal resalePrice;
@@ -82,9 +72,6 @@ public class Goods implements Serializable {
      */
     @Version
     private Integer version;
-
-    @TableLogic
-    private Integer deleted;
 
     /**
      * 创造时间
