@@ -32,7 +32,47 @@
                `user`.user_name
         FROM `goods`,`art`,`file`,`user`
         WHERE `goods`.art_id = `art`.art_id and `file`.file_id = `art`.art_file and `goods`.goods_seller_id = `user`.user_id
+        AND `goods`.selled = false
         LIMIT #{start},#{limit}
+    </select>
+
+    <select id="getGoodDetailsById" parameterType="long" resultMap="simpleGoodsMap">
+        SELECT `goods`.goods_id,`goods`.resale_price,`goods`.selled,
+               `art`.art_id,`art`.art_author,`art`.art_introduction,`art`.art_name,
+               `file`.file_id,`file`.file_path,`file`.file_format,
+               `user`.user_id,`user`.user_name
+        FROM `goods`,`art`,`file`,`user`
+        WHERE `goods`.art_id = `art`.art_id and `file`.file_id = `art`.art_file and `goods`.goods_seller_id = `user`.user_id
+        and `goods`.goods_id = #{goodId}
+    </select>
+
+    <select id="getGoodsByKeywords" parameterType="string" resultMap="simpleGoodsMap">
+        SELECT `goods`.goods_id,`goods`.resale_price,`goods`.selled,
+               `art`.art_id,`art`.art_author,`art`.art_introduction,`art`.art_name,
+               `file`.file_id,`file`.file_path,`file`.file_format,
+               `user`.user_id,`user`.user_name
+        FROM `goods`,`art`,`file`,`user`
+        WHERE `goods`.art_id = `art`.art_id and `file`.file_id = `art`.art_file and `goods`.goods_seller_id = `user`.user_id
+          AND `goods`.selled = false
+          AND (`art`.art_name like concat('%', #{keywords}, '%')
+            OR `art`.art_introduction like concat('%', #{keywords}, '%')
+            OR `art`.art_author like concat('%', #{keywords}, '%'))
+    </select>
+
+    <select id="getGoodsByPrice" parameterType="double" resultMap="simpleGoodsMap">
+        SELECT `goods`.goods_id,`goods`.resale_price,`goods`.selled,
+               `art`.art_id,`art`.art_author,`art`.art_introduction,`art`.art_name,
+               `file`.file_id,`file`.file_path,`file`.file_format,
+               `user`.user_id,`user`.user_name
+        FROM `goods`,`art`,`file`,`user`
+        WHERE `goods`.art_id = `art`.art_id and `file`.file_id = `art`.art_file and `goods`.goods_seller_id = `user`.user_id
+          AND `goods`.selled = false
+        <if test="topPrice != null">
+            AND `goods`.resale_price &lt;= #{topPrice}
+        </if>
+        <if test="lowPrice != null">
+            AND `goods`.resale_price &gt;= #{lowPrice}
+        </if>
     </select>
 
 </mapper>

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -35,5 +36,20 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         simpleGoodsPager.setStartNum(start);
         simpleGoodsPager.setLimitNum(limit);
         return simpleGoodsPager;
+    }
+
+    @Override
+    public SimpleGoods getGoodDetailsById(Long goodId) {
+        return goodsMapper.getGoodDetailsById(goodId);
+    }
+
+    @Override
+    public List<SimpleGoods> getGoodsByKeywords(String keywords) {
+        return goodsMapper.getGoodsByKeywords(keywords);
+    }
+
+    @Override
+    public List<SimpleGoods> getGoodsByPrice(double topPrice, double lowPrice) {
+        return goodsMapper.getGoodsByPrice(topPrice,lowPrice);
     }
 }

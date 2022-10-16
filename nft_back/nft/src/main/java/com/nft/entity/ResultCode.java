@@ -25,9 +25,10 @@ public enum ResultCode {
     REPEAT_USER_ACCOUNTERROR(false,20004,"用户名已存在"),
     //---用户操作返回码  3xxxx----
     REPEAT_INPUT_ERROR(false,30001,"输入内容已存在"),
-    PARAMETER_NULL_ERROR(false,30002,"输入内容为空");
+    PARAMETER_NULL_ERROR(false,30002,"输入内容为空"),
     //---权限操作返回码----
     //---其他操作返回码----
+    EMPTY_CONTENT(true,50001,"暂无内容，看看其他的吧");
 
     //操作是否成功
     boolean success;

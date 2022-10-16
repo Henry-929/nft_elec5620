@@ -5,6 +5,8 @@ import com.nft.entity.Goods;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.nft.util.Pager;
 
+import java.util.List;
+
 /**
  * <p>
  * 商品表 服务类
@@ -18,4 +20,12 @@ public interface GoodsService extends IService<Goods> {
     // 获取所有的nft，
     Pager<SimpleGoods> getAllGood(Integer start, Integer limit);
 
+    //获取good详情by id
+    SimpleGoods getGoodDetailsById(Long goodId);
+
+    //搜索通过关键词
+    List<SimpleGoods> getGoodsByKeywords(String keywords);
+
+    //搜索通过价格
+    List<SimpleGoods> getGoodsByPrice(double topPrice, double lowPrice);
 }
