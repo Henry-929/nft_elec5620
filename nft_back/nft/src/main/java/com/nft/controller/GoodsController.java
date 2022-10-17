@@ -38,15 +38,19 @@ public class GoodsController {
     public Result getAllGoods(@RequestBody Map<String, Integer> map) {
         Integer start = map.get("start");
         Integer limit = map.get("limit");
-        if (start == null) start = 0;
+        if (start == null) start = 1;
         if (limit == null) limit = 10;
+        Integer page = (start-1)*limit;
 
-        Pager<SimpleGoods> arts = goodsService.getAllGood(start, limit);
+        Pager<SimpleGoods> goods = goodsService.getAllGood(page, limit);
 
-        if (arts == null) {
+        if (goods.getData().size() == 0) {
+            return new Result(ResultCode.EMPTY_CONTENT);
+        }
+        if (goods == null) {
             return new Result(ResultCode.SERVER_ERROR);
         }
-        return new Result(ResultCode.SUCCESS,arts);
+        return new Result(ResultCode.SUCCESS,goods);
     }
 
     /**

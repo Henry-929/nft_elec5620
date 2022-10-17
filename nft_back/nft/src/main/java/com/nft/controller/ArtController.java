@@ -96,7 +96,7 @@ public class ArtController {
      * 将艺术品设置为出售
      */
     @PostMapping(value = "/setSell")
-    public Result setSell(@RequestBody Map<String, Object> map) throws Exception {
+    public Result setSell(@RequestBody Map<String, Object> map){
         Long ownerId = ParamUtil.tradeToLong(map.get("ownerId"));       // ownerId
         Long artId = ParamUtil.tradeToLong(map.get("artId"));       // artId 艺术品ID
         Double price = ParamUtil.tradeToDouble(map.get("price"));      // 价格
