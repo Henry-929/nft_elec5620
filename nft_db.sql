@@ -11,7 +11,7 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 17/10/2022 20:25:21
+ Date: 17/10/2022 22:30:28
 */
 
 SET NAMES utf8mb4;
@@ -176,6 +176,7 @@ CREATE TABLE `user` (
   `user_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
   `user_name` varchar(255) NOT NULL COMMENT '用户名',
   `user_password` varchar(255) NOT NULL COMMENT '密码，数据库中通过保存通过md5加密处理过的值',
+  `balance` decimal(10,2) DEFAULT NULL COMMENT '账户余额(ETHB)',
   `roles` varchar(255) DEFAULT NULL,
   `perms` varchar(255) DEFAULT NULL,
   `eth_address` varchar(255) DEFAULT NULL COMMENT '以太坊地址',
@@ -184,14 +185,15 @@ CREATE TABLE `user` (
   `create_time` datetime DEFAULT NULL COMMENT '创造时间',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
 BEGIN;
-INSERT INTO `user` VALUES (1, 'vivo', 'bedfe476f8a2800b2711c7fdbc4d1e50', 'user', 'admin:manage', NULL, NULL, 1, '2022-10-16 00:28:25', '2022-10-16 00:28:25');
-INSERT INTO `user` VALUES (2, 'papi', 'bedfe476f8a2800b2711c7fdbc4d1e50', 'user', 'user:visit', NULL, NULL, 1, '2022-10-16 00:29:09', '2022-10-16 00:29:09');
+INSERT INTO `user` VALUES (1, 'vivo', 'bedfe476f8a2800b2711c7fdbc4d1e50', 61.00, 'user', 'admin:manage', NULL, NULL, 3, '2022-10-16 00:28:25', '2022-10-16 00:28:25');
+INSERT INTO `user` VALUES (2, 'papi', 'bedfe476f8a2800b2711c7fdbc4d1e50', NULL, 'user', 'user:visit', NULL, NULL, 1, '2022-10-16 00:29:09', '2022-10-16 00:29:09');
+INSERT INTO `user` VALUES (3, 'oppo', 'bedfe476f8a2800b2711c7fdbc4d1e50', 0.00, 'user', 'user:visit', NULL, NULL, 1, '2022-10-17 22:15:50', '2022-10-17 22:15:50');
 COMMIT;
 
 -- ----------------------------
