@@ -7,8 +7,10 @@
         <result property="artName" column="art_name"/>
         <result property="artIntroduction" column="art_introduction"/>
         <result property="artAuthor" column="art_author"/>
+        <result property="ownerId" column="owner_id"/>
         <association property="showFile" javaType="File">
             <id property="fileId" column="file_id"/>
+            <result property="fileFormat" column="file_format"/>
             <result property="filePath" column="file_path"/>
         </association>
     </resultMap>
@@ -18,6 +20,20 @@
         FROM `art`,`file`
         WHERE `art`.art_file = `file`.file_id
           AND `art`.art_id = #{artId}
+    </select>
+
+    <select id="getOwnerAllArt" parameterType="long" resultMap="simpleArtMap">
+        SELECT `art`.art_id, `art`.art_name, `art`.art_introduction,`file`.file_format, `file`.file_path,`art`.art_author
+        FROM `art`,`file`
+        WHERE `art`.art_file = `file`.file_id
+          AND `art`.owner_id = #{ownerId}
+        ORDER BY `art`.create_time
+        <if test="sort == 1">
+            ASC
+        </if>
+        <if test="sort == 2">
+            DESC
+        </if>
     </select>
 
 </mapper>

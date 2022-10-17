@@ -3,10 +3,7 @@
 <mapper namespace="com.nft.mapper.GoodsMapper">
     <resultMap id="simpleGoodsMap" type="com.nft.entity.vo.SimpleGoods">
         <id column="goods_id" property="goodsId"/>
-        <result column="trade_mode" property="tradeMode"/>
         <result column="selled" property="selled"/>
-        <result column="rent_start_time" property="rentStartTime"/>
-        <result column="rent_end_time" property="rentEndTime"/>
         <result column="resale_price" property="resalePrice"/>
         <association property="art" javaType="Art">
             <id property="artId" column="art_id"/>

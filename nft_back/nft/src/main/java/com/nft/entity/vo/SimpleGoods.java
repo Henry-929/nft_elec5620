@@ -11,11 +11,8 @@ import java.util.Date;
 public class SimpleGoods {
 
     private Long goodsId;
-    private Integer tradeMode;
     private Boolean selled;
     private User goodsSeller;
-    private Date rentStartTime;
-    private Date rentEndTime;
     private Double resalePrice;
     private Art art;
     private File file;

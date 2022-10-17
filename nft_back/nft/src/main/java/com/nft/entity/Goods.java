@@ -38,24 +38,9 @@ public class Goods implements Serializable {
     private Long artId;
 
     /**
-     * 交易模式（1:所有权买卖 2:租赁）
-     */
-    private Integer tradeMode;
-
-    /**
      * 商品卖家ID
      */
     private Long goodsSellerId;
-
-    /**
-     * 如果trade_mode为2，记录租赁开始时间
-     */
-    private Date rentStartTime;
-
-    /**
-     * 如果trade_mode为2，记录租赁结束时间
-     */
-    private Date rentEndTime;
 
     /**
      * 零售价

@@ -9,5 +9,6 @@ public class SimpleArt {
     private String artName;
     private String artIntroduction;
     private String artAuthor;
+    private Long ownerId;
     private File showFile;
 }

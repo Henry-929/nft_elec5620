@@ -57,6 +57,11 @@ public class Art implements Serializable {
     private String artAuthor;
 
     /**
+     * 艺术品拥有者id
+     */
+    private Long ownerId;
+
+    /**
      * 乐观锁
      */
     @Version
