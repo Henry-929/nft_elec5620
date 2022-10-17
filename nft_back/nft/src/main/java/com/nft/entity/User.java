@@ -1,6 +1,8 @@
 package com.nft.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+
+import java.math.BigDecimal;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -39,6 +41,11 @@ public class User implements Serializable {
      * 密码，数据库中通过保存通过md5加密处理过的值
      */
     private String userPassword;
+
+    /**
+     * 账户余额
+     */
+    private BigDecimal balance;
 
     /**
      * 以太坊地址

@@ -7,6 +7,7 @@ import com.nft.entity.User;
 import com.nft.service.UserService;
 import com.nft.shiro.JwtToken;
 import com.nft.util.JwtUtil;
+import com.nft.util.ParamUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -91,6 +92,44 @@ public class UserController {
     public Result logout() {
         SecurityUtils.getSubject().logout();
         return new Result(ResultCode.SUCCESS);
+    }
+
+    /**
+     * 充值
+     */
+    @PostMapping("/charge")
+    public Result chargeMTB(@RequestBody Map<String,Object> map){
+        Long userId = ParamUtil.tradeToLong(map.get("userId"));                           // userId
+        Double ETHBAmount = ParamUtil.tradeToDouble(map.get("ETHBAmount"));              // 充值金额
+        String chargeEvidence = ParamUtil.tradeToString(map.get("chargeEvidence"));     // 充值凭证
+
+        if (userId == null || ETHBAmount == null){
+            return new Result(ResultCode.PARAMETER_NULL_ERROR);
+        }
+        Double balance = userService.chargeETHB(userId,ETHBAmount,chargeEvidence);
+
+        if (balance == null) {
+            return new Result(ResultCode.SERVER_ERROR);
+        }
+        return new Result(ResultCode.SUCCESS,balance);
+    }
+
+    /**
+     * 查询余额
+     */
+    @PostMapping("/getBalance")
+    public Result getBalance(@RequestBody Map<String, Object> map){
+        Long userId = ParamUtil.tradeToLong(map.get("userId"));        // userId
+
+        if (userId == null) {
+            return new Result(ResultCode.PARAMETER_NULL_ERROR);
+        }
+
+        Double balance = userService.getBalance(userId);
+        if (balance == null) {
+            return new Result(ResultCode.SERVER_ERROR);
+        }
+        return new Result(ResultCode.SUCCESS,balance);
     }
 
     /**

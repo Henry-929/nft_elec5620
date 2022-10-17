@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -43,11 +44,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setUserPassword(StringUtil.md5(password + "aasd123viav9"));
         user.setRoles("user");
         user.setPerms("user:visit");
+        user.setBalance(new BigDecimal(0));
 
-//        // 生成一个该用户对应的区块链上的账户
+//        生成一个该用户对应的区块链上的账户
 //        JSONObject jsonObject = new JSONObject(ethBlockchainService.creatEthAddress(payKey));
 //        user.setEthAddress((String) jsonObject.get("address"));
 //        user.setKeySrc((String) jsonObject.get("fileName"));
         return userMapper.insert(user);
+    }
+
+    @Override
+    public Double chargeETHB(Long userId, Double ethbAmount, String chargeEvidence) {
+        User user = userMapper.selectById(userId);
+        user.setBalance(new BigDecimal(user.getBalance().doubleValue() + ethbAmount));
+        // 验证充值凭证
+
+        int i = userMapper.updateById(user);
+        if (i>0)
+            return user.getBalance().doubleValue() + ethbAmount;
+        return null;
+    }
+
+    @Override
+    public Double getBalance(Long userId) {
+        User user = userMapper.selectById(userId);
+        return user.getBalance().doubleValue();
     }
 }

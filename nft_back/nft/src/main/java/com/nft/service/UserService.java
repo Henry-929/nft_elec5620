@@ -15,4 +15,8 @@ public interface UserService extends IService<User> {
     User selectUserByName(String username);
 
     int insertUser(String username, String password, String payKey) throws Exception;
+
+    Double chargeETHB(Long userId, Double ethbAmount, String chargeEvidence);
+
+    Double getBalance(Long userId);
 }
