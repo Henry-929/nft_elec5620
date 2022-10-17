@@ -33,7 +33,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         hashMap.put("limit", limit);
         Pager<SimpleGoods> simpleGoodsPager = new Pager<>();
         simpleGoodsPager.setData(goodsMapper.getAllGoods(hashMap));
-        simpleGoodsPager.setStartNum(start);
+        simpleGoodsPager.setStartPage(start);
         simpleGoodsPager.setLimitNum(limit);
         return simpleGoodsPager;
     }
