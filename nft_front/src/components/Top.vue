@@ -10,10 +10,10 @@
 						</el-col>
 					</div>
 					<div>
-						<el-col style="width: 420px;margin-left: 40px;margin-top: 6px;">
+						<el-col style="width: 360px;margin-left: 40px;margin-top: 6px;">
 							<el-input placeholder="请在此输入" v-model="inputSearch"><i
 									style="margin-top: 12px;margin-right: 10px;" class="el-icon-search" slot="suffix"
-									@click="gotosearch"></i>
+									@click="handleSearch"></i>
 							</el-input>
 						</el-col>
 					</div>
@@ -24,19 +24,16 @@
 
 					<el-col>
 						<el-tooltip content="Minting">
-							<el-menu-item @click="createDrawerLoad()">
-								<i class="el-icon-edit-outline" style="font-size: 20px;color: #000000;"></i>
+							<el-menu-item @click="handleMinting()">
+								<i class="el-icon-edit-outline" style="font-size: 20px"></i>
 							</el-menu-item>
 						</el-tooltip>
 					</el-col>
 
 					<el-col>
 						<el-tooltip content="Profile">
-							<div v-if="token==null">
+							<div>
 								<el-menu-item  @click="handleLogin()"><i class="el-icon-user-solid"></i></el-menu-item>
-							</div>
-							<div v-else>
-								<el-menu-item index="/personalCenter/dynamicIssue"><i class="el-icon-user-solid"></i></el-menu-item>
 							</div>
 						</el-tooltip>
 					</el-col>
@@ -47,9 +44,14 @@
 						</el-tooltip>
 					</el-col>
 
-					<div v-if="showLogin">
-						<Login :showLogin="showLogin" @showDrawer="handleDrawer"></Login>
+					<div v-if="!token && showDrawer">
+						<Login :showDrawer="showDrawer" @showLogin="handleLoginDrawer"></Login>
 					</div>
+
+					<div v-else-if="token && showDrawer">
+						<Wallet :showDrawer="showDrawer" @showProfile="handleProfileDrawer"></Wallet>
+					</div>
+
 
 				</el-row>
 			</el-menu>
@@ -58,33 +60,42 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Login from '../view/Login/Index.vue'
+import Wallet from '../view/Wallet/Index.vue'
 export default {
 	components:{
-		Login
+		Login,
+		Wallet
 	},
 	data() {
-
 		return {
 			changeColor: true,
 			inputSearch: '',
-			activeIndex: '1',
-			activeIndex2: '1',
-			showLogin: false,
+			showDrawer: false,
+			showMinting: false
 		};
 	},
+
+	computed: {
+		...mapState(['token'])
+	},
+
 	methods: {
-		createDrawerLoad () {
-			this.showCreate = true;
-			this.timerCreate = new Date().getTime()
+		handleMinting () {
+			// this.showMinting = true;
 		},
 
 		handleLogin () {
-			this.showLogin = true
+			this.showDrawer = true
 		},
 
-		handleDrawer(value){
-			this.showLogin = value
+		handleLoginDrawer(value){
+			this.showDrawer = value
+		},
+
+		handleProfileDrawer(value){
+			this.showDrawer = value
 		},
 		
 		handleColorChange(){
@@ -96,14 +107,8 @@ export default {
 		},
 	
 		// 跳转到搜索页面
-		gotosearch() {
-			this.$router.push({
-				path: '/search',
-				query: {
-					input: this.inputSearch
-				}
-			});
-			//console.log(this.inputSearch);
+		handleSearch() {
+			
 		},
 
 

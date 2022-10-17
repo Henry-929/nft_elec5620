@@ -4,12 +4,12 @@
         <Top />
 
         <!-- center -->
-        <div style="margin-left: 5%;margin-right: 5%;">
+        <div style="margin-left: 8%;margin-right: 8%;">
             <el-row>
                 <el-col :span="12">
                     <el-carousel class="elcarousel1" indicator-position="none">
                         <el-carousel-item class="image" v-for="item in carouselImages1" :key="item.id">
-                            <img :src="item.url" width="100%" height="100%" alt="无图片" />
+                            <img :src="item.url" width="100%" height="100%" />
                         </el-carousel-item>
                     </el-carousel>
 
@@ -67,6 +67,14 @@ export default {
             ],
         }
     },
+	methods: {
+			handleMinting(){
+
+			},
+			handleShoppingCart(){
+				
+			}
+	}
 }
 </script>
 
@@ -79,6 +87,10 @@ export default {
 		margin-top: 10px;
 	}
 
+	.shoppingCart{
+		position: relative;
+		right: 10px;
+	}
 
 	#inputSearch {
 		height: 45px;
