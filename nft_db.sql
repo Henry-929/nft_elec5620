@@ -11,7 +11,7 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 16/10/2022 17:00:10
+ Date: 17/10/2022 20:25:21
 */
 
 SET NAMES utf8mb4;
@@ -26,22 +26,26 @@ CREATE TABLE `art` (
   `art_name` varchar(255) NOT NULL COMMENT '艺术品名称',
   `art_file` bigint(20) DEFAULT NULL COMMENT '电子艺术品源文件',
   `art_introduction` varchar(255) DEFAULT NULL COMMENT '艺术品简介',
-  `art_token` varchar(255) NOT NULL COMMENT '在区块链中的token',
+  `art_token` varchar(255) DEFAULT NULL COMMENT '在区块链中的token',
   `art_author` varchar(255) NOT NULL DEFAULT '佚名' COMMENT '艺术品作者',
+  `owner_id` bigint(20) NOT NULL COMMENT '艺术品拥有者id',
   `version` int(11) NOT NULL DEFAULT '1' COMMENT '乐观锁',
   `create_time` datetime NOT NULL COMMENT '创造时间',
   `update_time` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`art_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='电子艺术品表';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='电子艺术品表';
 
 -- ----------------------------
 -- Records of art
 -- ----------------------------
 BEGIN;
-INSERT INTO `art` VALUES (1, '七月的云', 1, '坐在车里在高速公路上疾驰前行，时间正是太阳刚出来的时候，远方的云的轮廓慢慢清晰了起来，不管车行速度多快，云朵就像跟在眼前一样，不紧不慢。', '1509521643838185472', 'Gigashi', 1, '2022-03-31 21:23:15', '2022-03-31 21:23:15');
-INSERT INTO `art` VALUES (2, 'line艺术', 3, '缭乱却富有情感色彩，line艺术由人工智能参考数百万副优秀画作进行生成创作，line艺术是反映世界情感组成的一种构思，也表达对事物的一种情感寄托。', '1509522217874825216', 'Pixel blocks', 1, '2022-03-31 21:25:32', '2022-03-31 21:25:32');
-INSERT INTO `art` VALUES (3, '流转的星月夜', 4, '在这幅画中，生动地描绘了充满运动和变化的星空。 整个画面被一股汹涌、动荡的蓝绿色激流所吞噬，旋转、躁动、卷曲的星云使夜空变得异常活跃。', '1509522737549090816', '王炜', 1, '2022-03-31 21:27:36', '2022-03-31 21:27:36');
-INSERT INTO `art` VALUES (4, '奇幻宇宙', 2, '浩瀚的宇宙充满奇幻与神秘 太阳系的外面是银河系，而银河系的外面又有很多的星系和星体，令人向往！', '1509523578729340928', '刘佳', 1, '2022-03-31 21:30:57', '2022-03-31 21:30:57');
+INSERT INTO `art` VALUES (1, '七月的云', 1, '坐在车里在高速公路上疾驰前行，时间正是太阳刚出来的时候，远方的云的轮廓慢慢清晰了起来，不管车行速度多快，云朵就像跟在眼前一样，不紧不慢。', '1509521643838185472', 'Gigashi', 1, 1, '2022-03-31 21:23:15', '2022-03-31 21:23:15');
+INSERT INTO `art` VALUES (2, 'line艺术', 3, '缭乱却富有情感色彩，line艺术由人工智能参考数百万副优秀画作进行生成创作，line艺术是反映世界情感组成的一种构思，也表达对事物的一种情感寄托。', '1509522217874825216', 'Pixel blocks', 2, 1, '2022-03-31 21:25:32', '2022-03-31 21:25:32');
+INSERT INTO `art` VALUES (3, '流转的星月夜', 4, '在这幅画中，生动地描绘了充满运动和变化的星空。 整个画面被一股汹涌、动荡的蓝绿色激流所吞噬，旋转、躁动、卷曲的星云使夜空变得异常活跃。', '1509522737549090816', '王炜', 1, 1, '2022-03-31 21:27:36', '2022-03-31 21:27:36');
+INSERT INTO `art` VALUES (4, '奇幻宇宙', 2, '浩瀚的宇宙充满奇幻与神秘 太阳系的外面是银河系，而银河系的外面又有很多的星系和星体，令人向往！', '1509523578729340928', '刘佳', 2, 1, '2022-03-31 21:30:57', '2022-03-31 21:30:57');
+INSERT INTO `art` VALUES (5, 'shortcat', 5, 'a short cat for demo', NULL, 'zzy', 1, 1, '2022-10-17 09:51:40', '2022-10-17 09:51:40');
+INSERT INTO `art` VALUES (6, '嘿嘿', 6, 'this is a demo', NULL, 'zzy', 1, 1, '2022-10-17 09:53:04', '2022-10-17 16:10:25');
+INSERT INTO `art` VALUES (7, '0嘿', 7, 'this is a demo', NULL, 'zzy', 1, 1, '2022-10-17 15:07:15', '2022-10-17 16:10:52');
 COMMIT;
 
 -- ----------------------------
@@ -90,7 +94,7 @@ CREATE TABLE `file` (
   `create_time` datetime NOT NULL COMMENT '创造时间',
   `update_time` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1509527371508125699 DEFAULT CHARSET=utf8 COMMENT='文件表（保存各类文件，如艺术品的文件，上传的头像的文件，其他文件等）';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='文件表（保存各类文件，如艺术品的文件，上传的头像的文件，其他文件等）';
 
 -- ----------------------------
 -- Records of file
@@ -100,6 +104,8 @@ INSERT INTO `file` VALUES (1, 'file3b338756-6e1b-470b-8d9f-2bfe97f7a688', 'Gigas
 INSERT INTO `file` VALUES (2, 'file8cdad59b-fa57-44f4-80ec-c237534fb99f', '刘佳《奇幻宇宙》.png', '/122231/刘佳《奇幻宇宙》.png', 'd41d8cd98f00b204e9800998ecf8427e', 1, '2022-03-31 21:30:41', '2022-03-31 21:30:41');
 INSERT INTO `file` VALUES (3, 'file236cd6cf-ea64-435e-b5f7-be7bcc6177d1', '1.png', '/122231/1.png', 'd41d8cd98f00b204e9800998ecf8427e', 1, '2022-03-31 21:39:06', '2022-03-31 21:39:06');
 INSERT INTO `file` VALUES (4, 'filee3833edb-eebb-494e-9fc8-56453a0c9f2a', '3.png', '/122231/3.png', 'd41d8cd98f00b204e9800998ecf8427e', 1, '2022-03-31 21:45:46', '2022-03-31 21:45:46');
+INSERT INTO `file` VALUES (5, 'file3e934172-276a-4a07-8ba7-d34c7c7aeb4a', '截屏2022-10-17 上午9.48.14.png', '/122917/截屏2022-10-17 上午9.48.14.png', 'd41d8cd98f00b204e9800998ecf8427e', 1, '2022-10-17 09:51:40', '2022-10-17 09:51:40');
+INSERT INTO `file` VALUES (6, 'filedbb9e5bc-aa6b-4c11-972e-47e79bf0fdde', '1.png', '/122917/1.png', 'd41d8cd98f00b204e9800998ecf8427e', 1, '2022-10-17 09:53:04', '2022-10-17 09:53:04');
 COMMIT;
 
 -- ----------------------------
@@ -109,47 +115,23 @@ DROP TABLE IF EXISTS `goods`;
 CREATE TABLE `goods` (
   `goods_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '商品ID',
   `art_id` bigint(20) NOT NULL COMMENT '商品艺术品ID',
-  `trade_mode` int(11) NOT NULL COMMENT '交易模式（1:所有权买卖 2:租赁）',
   `goods_seller_id` bigint(20) NOT NULL COMMENT '商品卖家ID',
-  `rent_start_time` datetime DEFAULT NULL COMMENT '如果trade_mode为2，记录租赁开始时间',
-  `rent_end_time` datetime DEFAULT NULL COMMENT '如果trade_mode为2，记录租赁结束时间',
   `resale_price` decimal(10,2) DEFAULT NULL COMMENT '零售价',
   `selled` tinyint(1) NOT NULL COMMENT '是否被售出',
   `version` int(11) NOT NULL DEFAULT '1' COMMENT '乐观锁',
   `create_time` datetime NOT NULL COMMENT '创造时间',
   `update_time` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`goods_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='商品表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='商品表';
 
 -- ----------------------------
 -- Records of goods
 -- ----------------------------
 BEGIN;
-INSERT INTO `goods` VALUES (1, 1, 1, 1, NULL, NULL, 22.00, 0, 1, '2022-04-02 20:56:23', '2022-04-02 20:56:23');
-INSERT INTO `goods` VALUES (2, 2, 1, 2, NULL, NULL, 2000.00, 0, 1, '2022-04-02 21:24:51', '2022-04-02 21:24:51');
+INSERT INTO `goods` VALUES (1, 1, 1, 22.00, 0, 1, '2022-04-02 20:56:23', '2022-04-02 20:56:23');
+INSERT INTO `goods` VALUES (2, 2, 2, 2000.00, 0, 1, '2022-04-02 21:24:51', '2022-04-02 21:24:51');
+INSERT INTO `goods` VALUES (3, 6, 1, 10.00, 0, 1, '2022-10-17 16:49:28', '2022-10-17 16:49:28');
 COMMIT;
-
--- ----------------------------
--- Table structure for goods_rent
--- ----------------------------
-DROP TABLE IF EXISTS `goods_rent`;
-CREATE TABLE `goods_rent` (
-  `rent_id` bigint(20) NOT NULL COMMENT '租赁ID',
-  `goods_id` bigint(20) NOT NULL,
-  `leaseholder_id` bigint(20) NOT NULL COMMENT '租赁人 收钱的一方',
-  `tenant_id` bigint(20) NOT NULL COMMENT '租客 出钱的一方',
-  `charter_money` decimal(10,2) NOT NULL COMMENT '租金',
-  `service_charge` decimal(10,2) NOT NULL COMMENT '手续费',
-  `trade_type` int(11) NOT NULL COMMENT '交易方式（1:零售 2:拍卖 3:盲盒）',
-  `type_id` bigint(20) NOT NULL COMMENT '如果为非零售，存储其方式ID，如果为零售，存储其商品ID',
-  `rent_start_time` datetime NOT NULL COMMENT '租期开始时间',
-  `rent_end_time` datetime DEFAULT NULL COMMENT '租期结束时间',
-  `version` int(11) NOT NULL DEFAULT '1' COMMENT '乐观锁',
-  `deleted` int(11) NOT NULL DEFAULT '0',
-  `create_time` datetime NOT NULL COMMENT '创造时间',
-  `update_time` datetime NOT NULL COMMENT '修改时间',
-  PRIMARY KEY (`rent_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品租赁';
 
 -- ----------------------------
 -- Table structure for goods_trade
