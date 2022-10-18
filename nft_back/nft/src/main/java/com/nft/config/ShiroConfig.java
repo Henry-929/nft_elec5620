@@ -65,6 +65,8 @@ public class ShiroConfig {
 //        filterMap.put("/favicon", "anon");
         filterMap.put("/hello", "anon");
         filterMap.put("/pages/**", "anon");
+        filterMap.put("/user/register", "anon");
+        filterMap.put("/goods/getAllGoods", "anon");
 
         filterMap.put("/**", "jwt");
 
