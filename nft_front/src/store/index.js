@@ -9,13 +9,12 @@ export default new Vuex.Store({
   },
   mutations: {
     setToken (state, token) {
-      state.token = token;
-      localStorage.setItem("token", state.token);     //存储token
-      console.log(state.token);
+      state.token = token.token
+      localStorage.setItem("token", state.token)     //存储token
     },
     delToken (state) {
-      state.token = '';
-      localStorage.removeItem("token");    //删除token
+      state.token = ''
+      localStorage.removeItem("token")    //删除token
     }
   },
   actions: {

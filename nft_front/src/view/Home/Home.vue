@@ -30,6 +30,18 @@
                     <el-button class="shoppingCart" type="success" @click="handleShoppingCart">Shopping Cart</el-button>
                 </el-col>
             </el-row>
+			<p style="font-size: 20px;font-weight: bold;margin-left: 2%;">Market</p>
+			<div v-for="item in NftLists" :key="item.goodsId">
+					<el-col :span="6" style="margin-left: 3%;">
+						<el-card :body-style="{ padding: '15px' }" style="height: 380px;margin-bottom: 20px;">
+							<div id="homeimage">
+								<img style="height: 100%;width: 100%;" :src="require(`../../assets/images/${item.art.artName}.png`)" alt="">
+							</div>
+							<h4>{{item.art.artName}}</h4>
+							<p style="font-size: 14px;font-family: 微软雅黑;font-weight:200;">简介:{{item.art.artIntroduction}}</p>
+						</el-card>
+					</el-col>
+				</div>
         </div>
     </div>
 </template>
@@ -65,9 +77,22 @@ export default {
                     url: require("../../assets/images/carousel5.png")
                 }
             ],
+			NftLists: []
         }
     },
+
+	mounted() {
+		this.getAllNfts()
+	},
+
 	methods: {
+			async getAllNfts(){
+				let res = await this.$axios.post(this.apiUrl+"/goods/getAllGoods", {
+					start: 1,
+					limit: 10
+				})
+				this.NftLists = res.data.data.data
+			},
 			handleMinting(){
 
 			},
@@ -140,5 +165,12 @@ export default {
 		margin-top: 10px;
 		border-radius: 5px;
 		height: 150px;
+	}
+
+	.nftImages{
+		width: 200px;
+		height: 200px;
+		margin-left: 8%;
+		cursor: pointer;
 	}
 </style>

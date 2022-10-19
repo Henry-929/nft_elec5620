@@ -98,10 +98,10 @@ export default {
 							//close drawer
 							this.$emit('showLogin', false)
 							this.$message.success('Successfully logged in!')
+							console.log(res.data.data.token);
 							this.setToken({
 								token: res.data.data.token
 							})
-							
 						} else {
 							console.log(res);
 							this.$message.error('Wrong account or password !')
