@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- top -->
-        <Top />
+        <Top @searchNft="handleSearchNft" />
 
         <!-- center -->
         <div style="margin-left: 8%;margin-right: 8%;">
@@ -31,17 +31,32 @@
                 </el-col>
             </el-row>
 			<p style="font-size: 20px;font-weight: bold;margin-left: 2%;">Market</p>
-			<div v-for="item in NftLists" :key="item.goodsId">
+			<template v-if="searchNftList.length">
+				<div v-for="item in searchNftList" :key="item.goodsId">
 					<el-col :span="6" style="margin-left: 3%;">
 						<el-card :body-style="{ padding: '15px' }" style="height: 380px;margin-bottom: 20px;">
 							<div id="homeimage">
 								<img style="height: 100%;width: 100%;" :src="require(`../../assets/images/${item.art.artName}.png`)" alt="">
 							</div>
 							<h4>{{item.art.artName}}</h4>
-							<p style="font-size: 14px;font-family: 微软雅黑;font-weight:200;">简介:{{item.art.artIntroduction}}</p>
+							<p style="font-size: 14px;font-weight:200;">intro:{{item.art.artIntroduction}}</p>
 						</el-card>
 					</el-col>
 				</div>
+			</template>
+			<template v-else>
+				<div v-for="item in NftLists" :key="item.goodsId">
+					<el-col :span="6" style="margin-left: 3%;">
+						<el-card :body-style="{ padding: '15px' }" style="height: 380px;margin-bottom: 20px;">
+							<div id="homeimage">
+								<img style="height: 100%;width: 100%;" :src="require(`../../assets/images/${item.art.artName}.png`)" alt="">
+							</div>
+							<h4>{{item.art.artName}}</h4>
+							<p style="font-size: 14px;font-weight:200;">intro:{{item.art.artIntroduction}}</p>
+						</el-card>
+					</el-col>
+				</div>
+			</template>
         </div>
     </div>
 </template>
@@ -77,7 +92,8 @@ export default {
                     url: require("../../assets/images/carousel5.png")
                 }
             ],
-			NftLists: []
+			NftLists: [],
+			searchNftList: []
         }
     },
 
@@ -92,6 +108,10 @@ export default {
 					limit: 10
 				})
 				this.NftLists = res.data.data.data
+			},
+			handleSearchNft(value){
+				this.searchNftList = value
+				console.log(this.searchNftList);
 			},
 			handleMinting(){
 

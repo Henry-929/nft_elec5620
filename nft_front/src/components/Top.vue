@@ -11,14 +11,21 @@
 					</div>
 					<div>
 						<el-col style="width: 360px;margin-left: 40px;margin-top: 6px;">
-							<el-input placeholder="请在此输入" v-model="inputSearch"><i
-									style="margin-top: 12px;margin-right: 10px;" class="el-icon-search" slot="suffix"
+							<el-input placeholder="Search here" v-model="inputSearch">
+								<i
+									style="margin-top: 14px;margin-right: 8px;" class="el-icon-search" slot="suffix"
 									@click="handleSearch"></i>
 							</el-input>
 						</el-col>
 					</div>
 					<el-col style="margin-left: 20px;">
-						<el-menu-item index="/" background-color="#1c213f" style="font-size: 15px;">Index Page
+						<el-menu-item 
+							index="/" 
+							background-color="#1c213f" 
+							style="font-size: 15px;"
+							@click="handleIndexPage"
+							>
+							Index Page
 						</el-menu-item>
 					</el-col>
 
@@ -100,18 +107,25 @@ export default {
 		
 		handleColorChange(){
 			if(!this.changeColor){
-				document.querySelector("body").setAttribute("style", "background-color:#909399");
+				document.querySelector("body").setAttribute("style", "background-color:#1E1E1E");
 			}else{
 				document.querySelector("body").setAttribute("style", "background-color:#ffffff");
 			}
 		},
 	
-		// 跳转到搜索页面
-		handleSearch() {
-			
+		async handleSearch() {
+			if(this.inputSearch == ''){
+				this.$message.error('Please inputs something !')
+			}else{
+				let res = await this.$axios.get(this.apiUrl + `/goods/search/${this.inputSearch}`)
+				this.$emit('searchNft', res.data.data)
+				this.inputSearch = ''
+			}
 		},
 
-
+		handleIndexPage(){
+			this.$emit('searchNft', [])
+		}
 	},
 }
 </script>
