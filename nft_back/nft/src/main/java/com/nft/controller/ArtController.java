@@ -32,17 +32,17 @@ public class ArtController {
     ArtService artService;
 
     /**
-     * 上传一个作品
+     * 上传一个nft作品（铸币）
      */
     @PostMapping("/uploadArt")
     public Result uploadArt(MultipartFile file, String artName, String artAuthor,
-                            String artIntroduction, String payKey, Long userId) throws IOException {
+                            String artIntroduction, Long userId) throws IOException {
 
-        if (artName == null || artIntroduction == null || payKey == null) {
+        if (artName == null || artIntroduction == null) {
             return new Result(ResultCode.PARAMETER_NULL_ERROR);
         }
 
-        Long artId = artService.uploadArt(artName,artIntroduction,file,payKey,artAuthor,userId);
+        Long artId = artService.uploadArt(artName,artIntroduction,file,artAuthor,userId);
 
         if (artId == null) {
             return new Result(ResultCode.SERVER_ERROR);

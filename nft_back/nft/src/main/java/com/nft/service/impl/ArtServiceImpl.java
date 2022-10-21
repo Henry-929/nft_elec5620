@@ -37,8 +37,8 @@ public class ArtServiceImpl extends ServiceImpl<ArtMapper, Art> implements ArtSe
 
     @Override
     public Long uploadArt(String artName, String artIntroduction, MultipartFile multipartFile,
-                          String payKey, String artAuthor, Long userId) throws IOException {
-        // 需要新建一个艺术品的字段
+                          String artAuthor, Long userId) throws IOException {
+        // 需要新建一个nft的字段
         Art art = new Art();
         art.setArtName(artName);
         art.setArtIntroduction(artIntroduction);
@@ -48,7 +48,7 @@ public class ArtServiceImpl extends ServiceImpl<ArtMapper, Art> implements ArtSe
         File file = fileService.addFile(multipartFile);
         art.setArtFile(file.getFileId());
 
-        // 将艺术品类存储到数据库中
+        // 将nft类存储到数据库中
         if (artMapper.insert(art) == 0) {
             return null;
         }
