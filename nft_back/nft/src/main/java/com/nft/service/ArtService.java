@@ -18,8 +18,8 @@ import java.util.ArrayList;
  */
 public interface ArtService extends IService<Art> {
 
-    // 上传一个艺术品
-    Long uploadArt(String artName, String artIntroduction, MultipartFile file, String payKey, String artAuthor, Long userId) throws IOException;
+    // 上传一个nft
+    Long uploadArt(String artName, String artIntroduction, MultipartFile file, String artAuthor, Long userId) throws IOException;
 
     // 获取用户本人的艺术品
     ArrayList<SimpleArt> getOwnerAllArt(Long ownerId, Integer sort);

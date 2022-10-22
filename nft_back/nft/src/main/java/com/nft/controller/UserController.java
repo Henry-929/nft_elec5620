@@ -46,7 +46,7 @@ public class UserController {
             return new Result(ResultCode.PARAMETER_NULL_ERROR);
         }
         Subject subject = SecurityUtils.getSubject();
-        String token = JwtUtil.createJWT(username, "back", "user", 1000 * 60 * 1);
+        String token = JwtUtil.createJWT(username, "back", "user", 1000 * 60 * 30);
         JwtToken jwtToken = new JwtToken(token, password);
         HashMap<String, Object> map = new HashMap<>();
         try {
