@@ -52,7 +52,7 @@
 								<img style="height: 100%;width: 100%;" :src="require(`../../assets/images/${item.art.artName}.png`)" alt="">
 							</div>
 							<h4>{{item.art.artName}}</h4>
-							<p style="font-size: 14px;font-weight:200;">intro:{{item.art.artIntroduction}}</p>
+							<p style="font-size: 14px">{{item.art.artIntroduction}}</p>
 						</el-card>
 					</el-col>
 				</div>

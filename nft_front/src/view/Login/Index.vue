@@ -83,7 +83,7 @@ export default {
 		};
 	},
 	methods: {
-		...mapMutations(['setToken']),
+		...mapMutations(['setToken', 'setUser']),
 
 		handleClose(){
 			this.$emit('showLogin', false)
@@ -97,14 +97,17 @@ export default {
 						if (res.status == 200) {
 							//close drawer
 							this.$emit('showLogin', false)
-							this.$message.success('Successfully logged in!')
-							console.log(res.data.data.token);
+							this.$message.success('Successfully logged in')
 							this.setToken({
 								token: res.data.data.token
 							})
+							this.setUser({
+								user: this.loginInfor.username,
+								id: res.data.data.user.userId
+							})
 						} else {
 							console.log(res);
-							this.$message.error('Wrong account or password !')
+							this.$message.error('Wrong account or password')
 						}
 					})
 					.catch(function(error) {console.log(error);});
@@ -113,7 +116,6 @@ export default {
 		},
 		
 		handleRegister() {
-			console.log(this.registerInfor);
 			if (!this.registerInfor.register_username || !this.registerInfor.register_password1 
 			|| !this.registerInfor.register_password2 || !this.registerInfor.register_payKey) {
 				this.$message.error('Username and password cannot be empty !')
@@ -129,7 +131,7 @@ export default {
 							console.log(res.data);
 							// close drawer
 							this.$emit('showLogin', false)
-							this.$message.success('Successfully registered !')
+							this.$message.success('Successfully registered')
 						} else {
 							console.log(res);
 							this.$message.error('registered failed')

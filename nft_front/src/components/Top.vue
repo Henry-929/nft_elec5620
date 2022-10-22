@@ -59,6 +59,9 @@
 						<Wallet :showDrawer="showDrawer" @showProfile="handleProfileDrawer"></Wallet>
 					</div>
 
+					<div v-if="token && showMinting">
+						<Mint :showMinting="showMinting" @showMint="handleMintDrawer"></Mint>
+					</div>
 
 				</el-row>
 			</el-menu>
@@ -70,10 +73,12 @@
 import { mapState } from 'vuex';
 import Login from '../view/Login/Index.vue'
 import Wallet from '../view/Wallet/Index.vue'
+import Mint from '../view/Mint/Index.vue'
 export default {
 	components:{
 		Login,
-		Wallet
+		Wallet,
+		Mint
 	},
 	data() {
 		return {
@@ -90,7 +95,11 @@ export default {
 
 	methods: {
 		handleMinting () {
-			// this.showMinting = true;
+			if(!this.token){
+				this.$message.error('Please login first !')
+			}else{
+				this.showMinting = true
+			}
 		},
 
 		handleLogin () {
@@ -103,6 +112,10 @@ export default {
 
 		handleProfileDrawer(value){
 			this.showDrawer = value
+		},
+
+		handleMintDrawer(value){
+			this.showMinting = value
 		},
 		
 		handleColorChange(){
