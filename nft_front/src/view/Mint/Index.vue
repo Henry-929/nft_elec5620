@@ -65,22 +65,17 @@ export default {
 		},
 
 		async uploadFile(){
-			console.log(this.fileList[0]);
-			console.log(this.uploadform.name);
-			console.log(this.user);
-			console.log(this.uploadform.artIntroduction);
-			console.log(this.userId);
 			if(!this.uploadform.name || !this.uploadform.artIntroduction || !this.fileList.length){
 				this.$message.error('Please complete the information')
 			}else{
-				let res = await this.$axios.post(this.apiUrl + '/art/uploadArt', {
-				file: this.fileList[0],
-				artName: this.uploadform.name,
-				artAuthor: this.user,
-				artIntroduction: this.uploadform.artIntroduction,
-				userId: this.userId
-			})
-			console.log(res)
+				let formData = new FormData()
+				formData.append('file', this.fileList[0].file)
+				formData.append('artName', this.uploadform.name)
+				formData.append('artAuthor', this.user)
+				formData.append('artIntroduction', this.uploadform.artIntroduction)
+				formData.append('userId', this.userId)
+				let res = await this.$axios.post(this.apiUrl + '/art/uploadArt', formData)
+				console.log(res)
 			}
 		},
 	}
