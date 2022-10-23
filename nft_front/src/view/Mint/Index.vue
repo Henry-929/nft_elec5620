@@ -76,6 +76,9 @@ export default {
 				formData.append('userId', this.userId)
 				let res = await this.$axios.post(this.apiUrl + '/art/uploadArt', formData)
 				console.log(res)
+				if(res.status == 200){
+					this.$message.success('upload successfully')
+				}
 			}
 		},
 	}

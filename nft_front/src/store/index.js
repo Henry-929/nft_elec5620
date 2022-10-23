@@ -5,14 +5,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    token: localStorage.getItem('token') ? localStorage.getItem('token') : '',
+    token: sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '',
     user: '',
     userId: 0
   },
   mutations: {
     setToken (state, token) {
       state.token = token.token
-      localStorage.setItem("token", state.token)     //存储token
+      sessionStorage.setItem("token", state.token)     //存储token
     },
     setUser(state, value) {
       state.user = value.user
@@ -20,7 +20,7 @@ export default new Vuex.Store({
     },
     delToken (state) {
       state.token = ''
-      localStorage.removeItem("token")    //删除token
+      sessionStorage.removeItem("token")    //删除token
     }
   },
   actions: {

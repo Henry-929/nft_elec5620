@@ -109,13 +109,16 @@ export default {
 				})
 				this.NftLists = res.data.data.data
 			},
+
 			handleSearchNft(value){
 				this.searchNftList = value
 				console.log(this.searchNftList);
 			},
+			
 			handleMinting(){
 
 			},
+
 			handleShoppingCart(){
 				
 			}

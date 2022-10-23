@@ -1,6 +1,7 @@
 <template>
     <div>
-        <el-drawer :visible.sync="showDrawer" :with-header="false" :before-close="handleClose">
+        <div v-if="!myNftShow">
+            <el-drawer :visible.sync="showDrawer" :with-header="false" :before-close="handleClose">
             <div style="flex-direction: row;display: flex;">
 					<img src="../../assets/images/logo/login_wallet.png"
 						style="width: 35px;height:35px;margin-left: 10px;margin-top: 10px;">
@@ -23,8 +24,15 @@
                         Add funds
 			        </el-button>
                     <el-button 
+                    @click="handleCheckMyNFT" 
+                    class="checkNFTButton" type="primary" 
+                    style="width: 150px;margin-top: 20px;margin-right: 30px;"
+                    >
+                        My NFTs
+			        </el-button>
+                    <el-button 
                     @click="handleLoginOut" 
-                    class="loginOutButton" type="primary" 
+                    class="loginOutButton" type="danger" 
                     style="width: 150px;margin-top: 20px;margin-right: 30px;"
                     >
                         Log out
@@ -32,18 +40,44 @@
                 </div>
             </div>
         </el-drawer>
+        </div>
+        <div v-else>
+            <el-drawer :visible.sync="showDrawer" :with-header="false" :before-close="handleClose">
+            <div style="flex-direction: row;display: flex;">
+					<img src="../../assets/images/logo/login_wallet.png"
+						style="width: 35px;height:35px;margin-left: 10px;margin-top: 10px;">
+					<div class="palette_style">
+                        My Wallet
+                    </div>
+                    
+                   
+                    <div v-for="item in myNftList" :key="item.artId" class="myNft">
+                        <img :src="require(`../../../../nft_back/nft/picture${item.showFile.filePath}`)" alt="">
+                        <span>{{ item.artName }}</span>
+                    </div>
+                    
+				</div>
+			<hr />
+        </el-drawer>
+        </div>
     </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 export default {
     props: ['showDrawer'],
     data() {
         return {
-            
+            myNftShow: false,
+            myNftList: []
         }
     },
+
+    computed:{
+        ...mapState(['userId'])
+    },
+
     methods: {
         ...mapMutations(['delToken']),
         handleClose(){
@@ -54,7 +88,18 @@ export default {
             this.delToken()
             this.$emit('showProfile', false)
             this.$message.success('Successfully logged out !')
-        }
+        },
+
+        async handleCheckMyNFT(){
+            this.myNftShow = true
+            let res = await this.$axios.post(this.apiUrl + '/art/getOwnerAllArt', {
+                ownerId: this.userId,
+                sort: 1
+            })
+            this.myNftList = res.data.data
+            console.log(this.myNftList)
+        },
+    
     },
 }
 </script>
@@ -76,6 +121,15 @@ export default {
                 font-size: 25px;
                 font-weight: bold;
             }
+        }
+    }
+    .myNft{
+        img{
+            width: 40px;
+            height: 40px;
+        }
+        span{
+            font-size: 16px;
         }
     }
 </style>
