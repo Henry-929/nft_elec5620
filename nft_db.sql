@@ -11,7 +11,7 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 17/10/2022 22:30:28
+ Date: 24/10/2022 10:04:16
 */
 
 SET NAMES utf8mb4;
@@ -33,7 +33,7 @@ CREATE TABLE `art` (
   `create_time` datetime NOT NULL COMMENT '创造时间',
   `update_time` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`art_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='电子艺术品表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='电子艺术品表';
 
 -- ----------------------------
 -- Records of art
@@ -43,9 +43,6 @@ INSERT INTO `art` VALUES (1, '七月的云', 1, '坐在车里在高速公路上�
 INSERT INTO `art` VALUES (2, 'line艺术', 3, '缭乱却富有情感色彩，line艺术由人工智能参考数百万副优秀画作进行生成创作，line艺术是反映世界情感组成的一种构思，也表达对事物的一种情感寄托。', '1509522217874825216', 'Pixel blocks', 2, 1, '2022-03-31 21:25:32', '2022-03-31 21:25:32');
 INSERT INTO `art` VALUES (3, '流转的星月夜', 4, '在这幅画中，生动地描绘了充满运动和变化的星空。 整个画面被一股汹涌、动荡的蓝绿色激流所吞噬，旋转、躁动、卷曲的星云使夜空变得异常活跃。', '1509522737549090816', '王炜', 1, 1, '2022-03-31 21:27:36', '2022-03-31 21:27:36');
 INSERT INTO `art` VALUES (4, '奇幻宇宙', 2, '浩瀚的宇宙充满奇幻与神秘 太阳系的外面是银河系，而银河系的外面又有很多的星系和星体，令人向往！', '1509523578729340928', '刘佳', 2, 1, '2022-03-31 21:30:57', '2022-03-31 21:30:57');
-INSERT INTO `art` VALUES (5, 'shortcat', 5, 'a short cat for demo', NULL, 'zzy', 1, 1, '2022-10-17 09:51:40', '2022-10-17 09:51:40');
-INSERT INTO `art` VALUES (6, '嘿嘿', 6, 'this is a demo', NULL, 'zzy', 1, 1, '2022-10-17 09:53:04', '2022-10-17 16:10:25');
-INSERT INTO `art` VALUES (7, '0嘿', 7, 'this is a demo', NULL, 'zzy', 1, 1, '2022-10-17 15:07:15', '2022-10-17 16:10:52');
 COMMIT;
 
 -- ----------------------------
@@ -94,7 +91,7 @@ CREATE TABLE `file` (
   `create_time` datetime NOT NULL COMMENT '创造时间',
   `update_time` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='文件表（保存各类文件，如艺术品的文件，上传的头像的文件，其他文件等）';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='文件表（保存各类文件，如艺术品的文件，上传的头像的文件，其他文件等）';
 
 -- ----------------------------
 -- Records of file
@@ -104,8 +101,6 @@ INSERT INTO `file` VALUES (1, 'file3b338756-6e1b-470b-8d9f-2bfe97f7a688', 'Gigas
 INSERT INTO `file` VALUES (2, 'file8cdad59b-fa57-44f4-80ec-c237534fb99f', '刘佳《奇幻宇宙》.png', '/122231/刘佳《奇幻宇宙》.png', 'd41d8cd98f00b204e9800998ecf8427e', 1, '2022-03-31 21:30:41', '2022-03-31 21:30:41');
 INSERT INTO `file` VALUES (3, 'file236cd6cf-ea64-435e-b5f7-be7bcc6177d1', '1.png', '/122231/1.png', 'd41d8cd98f00b204e9800998ecf8427e', 1, '2022-03-31 21:39:06', '2022-03-31 21:39:06');
 INSERT INTO `file` VALUES (4, 'filee3833edb-eebb-494e-9fc8-56453a0c9f2a', '3.png', '/122231/3.png', 'd41d8cd98f00b204e9800998ecf8427e', 1, '2022-03-31 21:45:46', '2022-03-31 21:45:46');
-INSERT INTO `file` VALUES (5, 'file3e934172-276a-4a07-8ba7-d34c7c7aeb4a', '截屏2022-10-17 上午9.48.14.png', '/122917/截屏2022-10-17 上午9.48.14.png', 'd41d8cd98f00b204e9800998ecf8427e', 1, '2022-10-17 09:51:40', '2022-10-17 09:51:40');
-INSERT INTO `file` VALUES (6, 'filedbb9e5bc-aa6b-4c11-972e-47e79bf0fdde', '1.png', '/122917/1.png', 'd41d8cd98f00b204e9800998ecf8427e', 1, '2022-10-17 09:53:04', '2022-10-17 09:53:04');
 COMMIT;
 
 -- ----------------------------
@@ -122,7 +117,7 @@ CREATE TABLE `goods` (
   `create_time` datetime NOT NULL COMMENT '创造时间',
   `update_time` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`goods_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='商品表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='商品表';
 
 -- ----------------------------
 -- Records of goods
@@ -130,7 +125,6 @@ CREATE TABLE `goods` (
 BEGIN;
 INSERT INTO `goods` VALUES (1, 1, 1, 22.00, 0, 1, '2022-04-02 20:56:23', '2022-04-02 20:56:23');
 INSERT INTO `goods` VALUES (2, 2, 2, 2000.00, 0, 1, '2022-04-02 21:24:51', '2022-04-02 21:24:51');
-INSERT INTO `goods` VALUES (3, 6, 1, 10.00, 0, 1, '2022-10-17 16:49:28', '2022-10-17 16:49:28');
 COMMIT;
 
 -- ----------------------------
@@ -192,7 +186,7 @@ CREATE TABLE `user` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `user` VALUES (1, 'vivo', 'bedfe476f8a2800b2711c7fdbc4d1e50', 61.00, 'user', 'admin:manage', NULL, NULL, 3, '2022-10-16 00:28:25', '2022-10-16 00:28:25');
-INSERT INTO `user` VALUES (2, 'papi', 'bedfe476f8a2800b2711c7fdbc4d1e50', NULL, 'user', 'user:visit', NULL, NULL, 1, '2022-10-16 00:29:09', '2022-10-16 00:29:09');
+INSERT INTO `user` VALUES (2, 'papi', 'bedfe476f8a2800b2711c7fdbc4d1e50', 0.00, 'user', 'user:visit', NULL, NULL, 1, '2022-10-16 00:29:09', '2022-10-16 00:29:09');
 INSERT INTO `user` VALUES (3, 'oppo', 'bedfe476f8a2800b2711c7fdbc4d1e50', 0.00, 'user', 'user:visit', NULL, NULL, 1, '2022-10-17 22:15:50', '2022-10-17 22:15:50');
 COMMIT;
 
