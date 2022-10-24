@@ -137,7 +137,11 @@ export default {
 		},
 
 		handleIndexPage(){
-			this.$emit('searchNft', [])
+			if(this.$route.fullPath == "/"){
+				this.$emit('searchNft', [])
+			}else{
+				this.$router.push('/')
+			}
 		}
 	},
 }

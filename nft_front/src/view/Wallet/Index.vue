@@ -13,7 +13,7 @@
             <div class="myWallet">
                 <div class="walletBalance">
                     <p>Total balance</p> 
-                    <p>10 ETH</p>
+                    <p>{{ balance }} ETH</p>
                 </div>
                 <div>
                     <el-button 
@@ -49,15 +49,12 @@
 					<div class="palette_style">
                         My Wallet
                     </div>
-                    
-                   
-                    <div v-for="item in myNftList" :key="item.artId" class="myNft">
-                        <img :src="require(`../../../../nft_back/nft/picture${item.showFile.filePath}`)" alt="">
-                        <span>{{ item.artName }}</span>
-                    </div>
-                    
 				</div>
 			<hr />
+            <div v-for="item in myNftList" :key="item.artId" class="myNft">
+                <img :src="require(`../../../../nft_back/nft/img${item.showFile.filePath}`)" :alt="`${item.artIntroduction}`">
+                <p>{{ item.artName }}</p>
+            </div>
         </el-drawer>
         </div>
     </div>
@@ -70,7 +67,8 @@ export default {
     data() {
         return {
             myNftShow: false,
-            myNftList: []
+            myNftList: [],
+            balance: 0,
         }
     },
 
@@ -78,8 +76,21 @@ export default {
         ...mapState(['userId'])
     },
 
+    mounted(){
+        this.getBalance()
+    },
+
     methods: {
-        ...mapMutations(['delToken']),
+        ...mapMutations(['delToken', 'setBalance']),
+
+        async getBalance(){
+            let res = await this.$axios.post(this.apiUrl + '/user/getBalance', {
+                userId: this.userId
+            })
+            this.balance = res.data.data
+            this.setBalance(res.data.data)
+        },
+
         handleClose(){
 			this.$emit('showProfile', false)
 		},
@@ -97,7 +108,6 @@ export default {
                 sort: 1
             })
             this.myNftList = res.data.data
-            console.log(this.myNftList)
         },
     
     },
@@ -124,9 +134,14 @@ export default {
         }
     }
     .myNft{
+        display: flex;
+        height: 200px;
+        flex-wrap: wrap;
+        display: inline-block;
+        margin-right: 20px;
         img{
-            width: 40px;
-            height: 40px;
+            flex: 1;
+            height: 150px;
         }
         span{
             font-size: 16px;

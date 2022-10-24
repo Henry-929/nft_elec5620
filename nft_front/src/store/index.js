@@ -7,7 +7,10 @@ export default new Vuex.Store({
   state: {
     token: sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '',
     user: '',
-    userId: 0
+    userId: 0,
+    balance: 0,
+    selectNFT: {},
+    shoppingCart: []
   },
   mutations: {
     setToken (state, token) {
@@ -21,7 +24,24 @@ export default new Vuex.Store({
     delToken (state) {
       state.token = ''
       sessionStorage.removeItem("token")    //删除token
-    }
+    },
+    setBalance(state, value){
+      state.balance = value
+    },
+    setSelectedNFT(state, value){
+      state.selectNFT = value
+    },
+    addToCart(state, value){
+      state.shoppingCart.push(value)
+    },
+    deleteFromCart(state, value){
+      state.shoppingCart = state.shoppingCart.filter(item => {
+        return item.id !== value.id
+      })
+    },
+    clearCart(){
+      state.shoppingCart = []
+    },
   },
   actions: {
   },

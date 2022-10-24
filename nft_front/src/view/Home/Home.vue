@@ -32,7 +32,7 @@
             </el-row>
 			<p style="font-size: 20px;font-weight: bold;margin-left: 2%;">Market</p>
 			<template v-if="searchNftList.length">
-				<div v-for="item in searchNftList" :key="item.goodsId">
+				<div v-for="item in searchNftList" :key="item.goodsId" class="NftGoods" @click="handleGoodsDetail(item)">
 					<el-col :span="6" style="margin-left: 3%;">
 						<el-card :body-style="{ padding: '15px' }" style="height: 380px;margin-bottom: 20px;">
 							<div id="homeimage">
@@ -45,7 +45,7 @@
 				</div>
 			</template>
 			<template v-else>
-				<div v-for="item in NftLists" :key="item.goodsId">
+				<div v-for="item in NftLists" :key="item.goodsId" class="NftGoods" @click="handleGoodsDetail(item)">
 					<el-col :span="6" style="margin-left: 3%;">
 						<el-card :body-style="{ padding: '15px' }" style="height: 380px;margin-bottom: 20px;">
 							<div id="homeimage">
@@ -62,10 +62,11 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import Top from '../../components/Top.vue'
 export default {
     components: {
-        Top
+        Top,
     },
     data() {
         return {
@@ -93,7 +94,7 @@ export default {
                 }
             ],
 			NftLists: [],
-			searchNftList: []
+			searchNftList: [],
         }
     },
 
@@ -102,6 +103,7 @@ export default {
 	},
 
 	methods: {
+			...mapMutations(['setSelectedNFT']),
 			async getAllNfts(){
 				let res = await this.$axios.post(this.apiUrl+"/goods/getAllGoods", {
 					start: 1,
@@ -112,15 +114,19 @@ export default {
 
 			handleSearchNft(value){
 				this.searchNftList = value
-				console.log(this.searchNftList);
 			},
 			
-			handleMinting(){
+			handleGoodsDetail(item){
+				this.$router.push(`/detail?id=${item.goodsId}`)
+				this.setSelectedNFT(item)
+			},
 
+			handleMinting(){
+				
 			},
 
 			handleShoppingCart(){
-				
+				this.$router.push('/shoppingCart')
 			}
 	}
 }
@@ -194,6 +200,10 @@ export default {
 		width: 200px;
 		height: 200px;
 		margin-left: 8%;
+		cursor: pointer;
+	}
+
+	.NftGoods{
 		cursor: pointer;
 	}
 </style>
