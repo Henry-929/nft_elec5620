@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,7 +34,7 @@ public class ShoppingCarController {
     UserService userService;
 
     /**
-     * 购买nft
+     * 购买单个nft
      */
     @PostMapping( "/buyGoodsById")
     public Result buyGoodsById(@RequestBody Map<String, Object> map){
@@ -52,5 +53,31 @@ public class ShoppingCarController {
 
         }
         return new Result(ResultCode.SUCCESS,goodsTrade);
+    }
+
+    /**
+     * 购买多个nft
+     */
+    @PostMapping( "/buyManyGoodsById")
+    public Result buyManyGoodsById(@RequestBody Map<String, Object> map){
+        Long userId = ParamUtil.tradeToLong(map.get("userId"));        // userId
+        List<Long> goodsIdList = (List<Long>) map.get("goodsIdList");        // 多个nft goodID，是个list
+        double totalPrice = (double) map.get("totalPrice");            //多个nft总价
+        String payKey = map.get("payKey").toString();     // 支付密码
+
+        if (userId == null || goodsIdList.size() <= 0 || payKey == null) {
+            return new Result(ResultCode.PARAMETER_NULL_ERROR);
+        }
+
+        for (Long goodsId : goodsIdList ) {
+            GoodsTrade goodsTrade = shoppingCarService.buyGoodsById(userId, goodsId, payKey);
+
+            if (goodsTrade == null) {
+                return new Result(ResultCode.SERVER_ERROR);
+
+            }
+        }
+
+        return new Result(ResultCode.SUCCESS);
     }
 }

@@ -39,7 +39,6 @@ public class ShoppingCarServiceImpl extends ServiceImpl<ShoppingCarMapper, Shopp
     public GoodsTrade buyGoodsById(Long userId, Long goodsId, String payKey) {
         //获取购买用户
         User user = userService.selectUserById(userId);
-        System.out.println(StringUtil.md5(payKey+"aasd123viav9")+"————————"+user.getUserPassword());
         if (!StringUtil.md5(payKey+"aasd123viav9").equals(user.getUserPassword()) ){
             throw new MyException(ResultCode.INCORRECT_CREDENTAIL_ERROR);
         }
