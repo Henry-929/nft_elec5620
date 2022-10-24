@@ -28,7 +28,8 @@ public enum ResultCode {
     PARAMETER_NULL_ERROR(false,30002,"输入内容为空"),
     //---权限操作返回码----
     //---其他操作返回码----
-    EMPTY_CONTENT(true,50001,"暂无内容，看看其他的吧");
+    EMPTY_CONTENT(true,50001,"暂无内容，看看其他的吧"),
+    INSUFFICIENT_BALANCE(false,50002,"账户余额不足，请先充值");
 
     //操作是否成功
     boolean success;

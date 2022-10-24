@@ -1,9 +1,19 @@
 package com.nft.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.nft.entity.GoodsTrade;
+import com.nft.entity.Result;
+import com.nft.entity.ResultCode;
+import com.nft.entity.User;
+import com.nft.service.ShoppingCarService;
+import com.nft.service.UserService;
+import com.nft.util.ParamUtil;
+import com.nft.util.StringUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -17,4 +27,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/shopping-car")
 public class ShoppingCarController {
 
+    @Autowired
+    ShoppingCarService shoppingCarService;
+    @Autowired
+    UserService userService;
+
+    /**
+     * 购买nft
+     */
+    @PostMapping( "/buyGoodsById")
+    public Result buyGoodsById(@RequestBody Map<String, Object> map){
+        Long userId = ParamUtil.tradeToLong(map.get("userId"));        // userId
+        Long goodsId = ParamUtil.tradeToLong(map.get("goodsId"));        // 商品ID
+        String payKey = map.get("payKey").toString();     // 支付密码
+
+        if (userId == null || goodsId == null || payKey == null) {
+            return new Result(ResultCode.PARAMETER_NULL_ERROR);
+        }
+
+        GoodsTrade goodsTrade = shoppingCarService.buyGoodsById(userId,goodsId,payKey);
+
+        if (goodsTrade == null) {
+            return new Result(ResultCode.SERVER_ERROR);
+
+        }
+        return new Result(ResultCode.SUCCESS,goodsTrade);
+    }
 }

@@ -150,13 +150,13 @@ public class UserController {
 
         List<GoodsTrade> temList = goodsTradeService.getBuyOrder(userId);
         if (temList.size() == 0) {
-            return new Result(ResultCode.SERVER_ERROR);
+            return new Result(ResultCode.EMPTY_CONTENT);
         }
         return new Result(ResultCode.SUCCESS,temList);
     }
 
     /**
-     * 获取本人购买记录
+     * 获取本人售出记录
      */
     @PostMapping("/getSaleOrder")
     public Result getSaleOrder(@RequestBody Map<String, Object> map) {
@@ -168,7 +168,7 @@ public class UserController {
 
         List<GoodsTrade> temList = goodsTradeService.getSaleOrder(userId);
         if (temList.size() == 0) {
-            return new Result(ResultCode.SERVER_ERROR);
+            return new Result(ResultCode.EMPTY_CONTENT);
         }
         return new Result(ResultCode.SUCCESS,temList);
     }

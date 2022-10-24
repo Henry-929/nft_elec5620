@@ -100,13 +100,12 @@ public class ArtController {
         Long ownerId = ParamUtil.tradeToLong(map.get("ownerId"));       // ownerId
         Long artId = ParamUtil.tradeToLong(map.get("artId"));       // artId 艺术品ID
         Double price = ParamUtil.tradeToDouble(map.get("price"));      // 价格
-        String payKey = ParamUtil.tradeToString(map.get("payKey"));     // 支付密码
 
-        if (ownerId == null || artId == null || price == null || payKey == null) {
+        if (ownerId == null || artId == null || price == null) {
             return new Result(ResultCode.PARAMETER_NULL_ERROR);
         }
 
-        Long goodsId = artService.setSell(ownerId, artId, price, payKey);
+        Long goodsId = artService.setSell(ownerId, artId, price);
 
         if (goodsId == null) {
             return new Result(ResultCode.SERVER_ERROR);

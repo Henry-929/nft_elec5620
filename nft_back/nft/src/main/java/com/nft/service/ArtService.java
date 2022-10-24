@@ -28,5 +28,5 @@ public interface ArtService extends IService<Art> {
     Boolean setArt(Long artId, String artName, String artIntroduction);
 
     // 将艺术品设置为出售状态
-    Long setSell(Long ownerId, Long artId, Double price, String payKey);
+    Long setSell(Long ownerId, Long artId, Double price);
 }

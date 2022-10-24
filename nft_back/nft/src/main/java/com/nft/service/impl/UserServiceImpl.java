@@ -39,6 +39,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    public User selectUserById(Long userId) {
+        User user = userMapper.selectById(userId);
+        return user;
+    }
+
+    @Override
     public int insertUser(String username, String password, String payKey) throws Exception {
         User user = new User();
         user.setUserName(username);

@@ -1,7 +1,10 @@
 package com.nft.service;
 
+import com.nft.entity.GoodsTrade;
 import com.nft.entity.ShoppingCar;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.HashMap;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ShoppingCarService extends IService<ShoppingCar> {
 
+    GoodsTrade buyGoodsById(Long userId, Long goodsId, String payKey);
 }

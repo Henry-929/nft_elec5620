@@ -6,10 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.ExpiredCredentialsException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestController
@@ -38,4 +41,20 @@ public class GlobalException {
         log.error("运行时异常：----------------{}", "未登录异常捕获");
         return new Result(ResultCode.UNAUTHENTICATED);
     }
+
+    @ExceptionHandler(value = MyException.class)
+    public Result handler(MyException e) {
+        log.error("自定义异常：----------------{}", e.getMessage());
+
+        MyException ce = (MyException) e;
+        Result result = new Result(ce.getResultCode());
+        if (20003 == result.getCode()) {
+            return new Result(ResultCode.INCORRECT_CREDENTAIL_ERROR);
+        }
+        if (50002 == result.getCode()) {
+            return new Result(ResultCode.INSUFFICIENT_BALANCE);
+        }
+        return null;
+    }
+
 }

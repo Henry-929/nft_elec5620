@@ -76,7 +76,7 @@ public class ArtServiceImpl extends ServiceImpl<ArtMapper, Art> implements ArtSe
     }
 
     @Override
-    public Long setSell(Long ownerId, Long artId, Double price, String payKey) {
+    public Long setSell(Long ownerId, Long artId, Double price) {
         Art art = artMapper.selectById(artId);
         if (art == null)
             return null;
