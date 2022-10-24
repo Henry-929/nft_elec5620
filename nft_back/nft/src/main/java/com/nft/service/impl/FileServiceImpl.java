@@ -37,6 +37,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
 
     @Override
     public File addFile(MultipartFile multipartFile) throws IOException {
+
         InputStream inputStream = multipartFile.getInputStream();
 
         Date now = new Date();
@@ -51,7 +52,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
         }
 
         file = new java.io.File(basePath + addPath + fileName);
-        // System.out.println(file);
+//        System.out.println("这里是————————————————"+file);
 
         // 同时还需要新建一个file的字段，并设置数据库文件字段的值
         File dbFile = new File();
