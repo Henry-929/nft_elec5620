@@ -18,25 +18,24 @@
 
                 <el-col :span="8" :offset="1">
                     <div class="block">
-                        <el-carousel class="elcarousel2" height="150px">
+                        <el-carousel class="elcarousel2" height="230px">
                             <el-carousel-item v-for="item in carouselImages2" :key="item.id">
                                 <img :src="item.url" width="100%" height="100%"/>
                             </el-carousel-item>
                         </el-carousel>
                     </div>
 
-                    <el-button class="mintButton" type="primary" @click="handleMinting">Create</el-button>
 
                     <el-button class="shoppingCart" type="success" @click="handleShoppingCart">Shopping Cart</el-button>
                 </el-col>
             </el-row>
 			<p style="font-size: 20px;font-weight: bold;margin-left: 2%;">Market</p>
-			<template v-if="searchNftList.length">
-				<div v-for="item in searchNftList" :key="item.goodsId" class="NftGoods" @click="handleGoodsDetail(item)">
+			<template v-if="searchedMarketNFTs.length">
+				<div v-for="item in searchedMarketNFTs" :key="item.goodsId" class="NftGoods" @click="handleGoodsDetail(item)">
 					<el-col :span="6" style="margin-left: 3%;">
 						<el-card :body-style="{ padding: '15px' }" style="height: 380px;margin-bottom: 20px;">
-							<div id="homeimage">
-								<img style="height: 100%;width: 100%;" :src="require(`../../assets/images/${item.art.artName}.png`)" alt="">
+							<div class="marketNFT">
+								<img style="height: 100%;width: 100%;" :src="require(`../../../../nft_back/nft/img${item.file.filePath}`)" alt="">
 							</div>
 							<h4>{{item.art.artName}}</h4>
 							<p style="font-size: 14px;font-weight:200;">intro:{{item.art.artIntroduction}}</p>
@@ -45,11 +44,11 @@
 				</div>
 			</template>
 			<template v-else>
-				<div v-for="item in NftLists" :key="item.goodsId" class="NftGoods" @click="handleGoodsDetail(item)">
+				<div v-for="item in marketNFTs" :key="item.goodsId" class="NftGoods" @click="handleGoodsDetail(item)">
 					<el-col :span="6" style="margin-left: 3%;">
 						<el-card :body-style="{ padding: '15px' }" style="height: 380px;margin-bottom: 20px;">
-							<div id="homeimage">
-								<img style="height: 100%;width: 100%;" :src="require(`../../assets/images/${item.art.artName}.png`)" alt="">
+							<div class="marketNFT">
+								<img :src="require(`../../../../nft_back/nft/img${item.file.filePath}`)" alt="">
 							</div>
 							<h4>{{item.art.artName}}</h4>
 							<p style="font-size: 14px">{{item.art.artIntroduction}}</p>
@@ -62,7 +61,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import Top from '../../components/Top.vue'
 export default {
     components: {
@@ -93,8 +92,7 @@ export default {
                     url: require("../../assets/images/carousel5.png")
                 }
             ],
-			NftLists: [],
-			searchNftList: [],
+		
         }
     },
 
@@ -102,18 +100,23 @@ export default {
 		this.getAllNfts()
 	},
 
+	computed:{
+		...mapState(['marketNFTs', 'searchedMarketNFTs'])
+	},	
+
 	methods: {
-			...mapMutations(['setSelectedNFT']),
+			...mapMutations(['setSelectedNFT', 'setMarketNFTs', 'setSearchedMarketNFTs']),
 			async getAllNfts(){
 				let res = await this.$axios.post(this.apiUrl+"/goods/getAllGoods", {
 					start: 1,
 					limit: 10
 				})
-				this.NftLists = res.data.data.data
+				console.log(res.data.data.data);
+				this.setMarketNFTs(res.data.data.data)
 			},
 
 			handleSearchNft(value){
-				this.searchNftList = value
+				this.setSearchedMarketNFTs(value)
 			},
 			
 			handleGoodsDetail(item){
@@ -133,7 +136,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-	.mintButton, .shoppingCart {
+	.shoppingCart {
 		font-size: 20px;
 		width: 100%;
 		height: 65px;
@@ -141,10 +144,7 @@ export default {
 		margin-top: 10px;
 	}
 
-	.shoppingCart{
-		position: relative;
-		right: 10px;
-	}
+	
 
 	#inputSearch {
 		height: 45px;
@@ -193,7 +193,6 @@ export default {
 	.elcarousel2 {
 		margin-top: 10px;
 		border-radius: 5px;
-		height: 150px;
 	}
 
 	.nftImages{
@@ -205,5 +204,10 @@ export default {
 
 	.NftGoods{
 		cursor: pointer;
+	}
+	
+	.marketNFT > img{
+		width: 268px;
+		height: 193px;
 	}
 </style>

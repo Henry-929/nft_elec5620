@@ -9,6 +9,8 @@ export default new Vuex.Store({
     user: '',
     userId: 0,
     balance: 0,
+    marketNFTs: [],
+    searchedMarketNFTs: [],
     selectNFT: {},
     shoppingCart: []
   },
@@ -42,6 +44,12 @@ export default new Vuex.Store({
     clearCart(){
       state.shoppingCart = []
     },
+    setMarketNFTs(state, value){
+      state.marketNFTs = value
+    },
+    setSearchedMarketNFTs(state, value){
+      state.searchedMarketNFTs = value
+    }
   },
   actions: {
   },

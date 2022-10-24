@@ -50,7 +50,6 @@
 								style="margin-top: 8px;">
 							</el-input>
 
-
 							<el-button @click="handleRegister" type="primary" style="width: 260px;margin-top: 20px;">Register
 							</el-button>
 						</el-tab-pane>
@@ -94,21 +93,23 @@ export default {
 				this.$message.error('Username and password cannot be empty !')
 			} else {
 				this.$axios.post(this.apiUrl+"/user/login", this.loginInfor).then(res => {
-						if (res.status == 200) {
-							//close drawer
-							this.$emit('showLogin', false)
-							this.$message.success('Successfully logged in')
-							this.setToken({
-								token: res.data.data.token
-							})
-							this.setUser({
-								user: this.loginInfor.username,
-								id: res.data.data.user.userId
-							})
-						} else {
-							console.log(res);
-							this.$message.error('Wrong account or password')
-						}
+					if(res.data.message === "用户名不存在"){
+						this.$message.error('The username does not exist')
+					}else if (res.status == 200) {
+						//close drawer
+						this.$emit('showLogin', false)
+						this.$message.success('Successfully logged in')
+						this.setToken({
+							token: res.data.data.token
+						})
+						this.setUser({
+							user: this.loginInfor.username,
+							id: res.data.data.user.userId
+						})
+					} else {
+						console.log(res);
+						this.$message.error('Wrong account or password')
+					}
 					})
 					.catch(function(error) {console.log(error);});
 			}

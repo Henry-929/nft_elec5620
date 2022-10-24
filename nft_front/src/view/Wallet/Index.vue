@@ -51,12 +51,27 @@
                     </div>
 				</div>
 			<hr />
-            <div v-for="item in myNftList" :key="item.artId" class="myNft">
+            <div v-for="item in myNftList" :key="item.artId" class="myNft" @click="handleClickMyNFT(item)">
                 <img :src="require(`../../../../nft_back/nft/img${item.showFile.filePath}`)" :alt="`${item.artIntroduction}`">
                 <p>{{ item.artName }}</p>
             </div>
         </el-drawer>
         </div>
+
+        <el-dialog title="please input your paykey" :visible.sync="dialogFormVisible" style="width: 80%">
+            <el-form :model="form">
+                <el-form-item label="set Price" style="width: 200px">
+                    <el-input v-model="form.price" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="My paykey" style="width: 200px">
+                    <el-input v-model="form.payKey" show-password autocomplete="off"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">Cancel</el-button>
+                <el-button type="primary" @click="handleConfirmSoldOut">Confirm</el-button>
+            </div>
+            </el-dialog>
     </div>
 </template>
 
@@ -69,6 +84,12 @@ export default {
             myNftShow: false,
             myNftList: [],
             balance: 0,
+            dialogFormVisible: false,
+            form: {
+                payKey: "",
+                price: 0
+            },
+            soldOutNft: {}
         }
     },
 
@@ -81,7 +102,7 @@ export default {
     },
 
     methods: {
-        ...mapMutations(['delToken', 'setBalance']),
+        ...mapMutations(['delToken', 'setBalance', 'setMarketNFTs']),
 
         async getBalance(){
             let res = await this.$axios.post(this.apiUrl + '/user/getBalance', {
@@ -110,6 +131,41 @@ export default {
             this.myNftList = res.data.data
         },
     
+        handleClickMyNFT(item){
+            this.$confirm('Do you want to make this NFT available for sale?', 'message', {
+                confirmButtonText: 'confirm',
+                cancelButtonText: 'cancel',
+                type: 'warning'
+            }).then(() => {
+                this.$message({
+                    type: 'success',
+                    message: 'Successfully modified'
+                })
+                this.dialogFormVisible = true
+                this.soldOutNft = item
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: 'Cancel modeified'
+                });          
+            });
+        },
+
+        async handleConfirmSoldOut(){
+            this.$axios.post(this.apiUrl + '/art/setSell', {
+                ownerId: this.userId,
+                artId: this.soldOutNft.artId,
+                price: this.form.price,
+                payKey: this.form.payKey
+            }).then(async () => {
+                let res = await this.$axios.post(this.apiUrl+"/goods/getAllGoods", {
+					start: 1,
+					limit: 10
+				})
+				this.setMarketNFTs(res.data.data.data)
+                this.dialogFormVisible = false
+            })
+        }
     },
 }
 </script>
@@ -137,6 +193,7 @@ export default {
         display: flex;
         height: 200px;
         flex-wrap: wrap;
+        cursor: pointer;
         display: inline-block;
         margin-right: 20px;
         img{

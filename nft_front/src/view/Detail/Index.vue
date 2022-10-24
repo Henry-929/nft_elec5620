@@ -2,7 +2,7 @@
     <div>
         <Top></Top>
         <div class="selectNFT">
-            <img :src="require(`../../assets/images/${selectNFT.art.artName}.png`)" alt="selectPhoneItem">
+            <img :src="require(`../../../../nft_back/nft/img${selectNFT.file.filePath}`)" alt="selectPhoneItem">
             <p>Art Name: {{selectNFT.art.artName}}</p>
             <p>ArtAurthor: {{selectNFT.art.artAuthor}}</p>
             <p>Price: {{selectNFT.resalePrice}} ETH</p>

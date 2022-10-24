@@ -38,6 +38,14 @@
 					</el-col>
 
 					<el-col>
+						<el-tooltip content="ShoppingCart">
+							<el-menu-item @click="$router.push('/shoppingCart')">
+								<i class="el-icon-shopping-cart-full" style="font-size: 20px"></i>
+							</el-menu-item>
+						</el-tooltip>
+					</el-col>
+
+					<el-col>
 						<el-tooltip content="Profile">
 							<div>
 								<el-menu-item  @click="handleLogin()"><i class="el-icon-user-solid"></i></el-menu-item>
@@ -142,7 +150,8 @@ export default {
 			}else{
 				this.$router.push('/')
 			}
-		}
+		},
+
 	},
 }
 </script>
