@@ -1,7 +1,9 @@
 package com.nft.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.nft.entity.GoodsTrade;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.nft.entity.User;
 import org.springframework.stereotype.Repository;
 
 /**

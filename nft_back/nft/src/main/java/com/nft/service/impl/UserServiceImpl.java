@@ -1,6 +1,7 @@
 package com.nft.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.nft.entity.GoodsTrade;
 import com.nft.entity.User;
 import com.nft.mapper.UserMapper;
 import com.nft.service.EthBlockchainService;
@@ -70,4 +71,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = userMapper.selectById(userId);
         return user.getBalance().doubleValue();
     }
+
 }

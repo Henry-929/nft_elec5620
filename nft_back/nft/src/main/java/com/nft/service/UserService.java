@@ -1,5 +1,6 @@
 package com.nft.service;
 
+import com.nft.entity.GoodsTrade;
 import com.nft.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 

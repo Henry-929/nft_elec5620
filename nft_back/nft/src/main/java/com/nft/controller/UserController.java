@@ -1,9 +1,11 @@
 package com.nft.controller;
 
 
+import com.nft.entity.GoodsTrade;
 import com.nft.entity.Result;
 import com.nft.entity.ResultCode;
 import com.nft.entity.User;
+import com.nft.service.GoodsTradeService;
 import com.nft.service.UserService;
 import com.nft.shiro.JwtToken;
 import com.nft.util.JwtUtil;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,6 +37,8 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    GoodsTradeService goodsTradeService;
 
     /**
      * 登录
@@ -130,6 +135,42 @@ public class UserController {
             return new Result(ResultCode.SERVER_ERROR);
         }
         return new Result(ResultCode.SUCCESS,balance);
+    }
+
+    /**
+     * 获取本人购买记录
+     */
+    @PostMapping("/getBuyOrder")
+    public Result getBuyOrder(@RequestBody Map<String, Object> map) {
+        Long userId = ParamUtil.tradeToLong(map.get("userId"));        // userId
+
+        if (userId == null) {
+            return new Result(ResultCode.PARAMETER_NULL_ERROR);
+        }
+
+        List<GoodsTrade> temList = goodsTradeService.getBuyOrder(userId);
+        if (temList.size() == 0) {
+            return new Result(ResultCode.SERVER_ERROR);
+        }
+        return new Result(ResultCode.SUCCESS,temList);
+    }
+
+    /**
+     * 获取本人购买记录
+     */
+    @PostMapping("/getSaleOrder")
+    public Result getSaleOrder(@RequestBody Map<String, Object> map) {
+        Long userId = ParamUtil.tradeToLong(map.get("userId"));        // userId
+
+        if (userId == null) {
+            return new Result(ResultCode.PARAMETER_NULL_ERROR);
+        }
+
+        List<GoodsTrade> temList = goodsTradeService.getSaleOrder(userId);
+        if (temList.size() == 0) {
+            return new Result(ResultCode.SERVER_ERROR);
+        }
+        return new Result(ResultCode.SUCCESS,temList);
     }
 
     /**
