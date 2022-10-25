@@ -7,7 +7,7 @@
             <p>ArtAurthor: {{selectNFT.art.artAuthor}}</p>
             <p>Price: {{selectNFT.resalePrice}} ETH</p>
             <p>Art introduction: {{selectNFT.art.artIntroduction}}</p>
-            <el-button type="danger" class="addToCart" plain @click="handleAddCart">Add to Cart</el-button>
+            <el-button type="danger" class="addToCart" :disabled="selectNFT.art.artAuthor == user ? true : false" plain @click="handleAddCart">Add to Cart</el-button>
         </div>
     </div>
 </template>
@@ -26,20 +26,26 @@ export default {
     },
 
     computed: {
-        ...mapState(['selectNFT', 'user'])
+        ...mapState(['selectNFT', 'user', 'shoppingCart'])
     },
 
     methods: {
         ...mapMutations(['addToCart']),
         handleAddCart(){
-           if(!this.user){
+            for(let i = 0; i < this.shoppingCart.length; i++){
+                if(this.shoppingCart[i].art.artName === this.selectNFT.art.artName){
+                    this.$message.error('The item already exists in your shopping cart')
+                    return
+                }
+            }
+            if(!this.user){
                 this.$router.push('/')
                 this.$message.error('Please login first')
-           }else{
+            }else{
                 this.$set(this.selectNFT, 'artName', this.selectNFT.art.artName)
                 this.addToCart(this.selectNFT)
-                this.$message.success('add successfully')
-           }
+                this.$message.success('add successfully')  
+            }
         }
     }
 }

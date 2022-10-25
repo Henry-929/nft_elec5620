@@ -20,7 +20,7 @@
 				<div class="el-tabs__item">
 					<el-tabs v-model="activeName" style="margin-top: 50px;">
 
-						<el-tab-pane label="登 录" name="login">
+						<el-tab-pane label="Login" name="login">
 
 							<el-input placeholder="请输入账户" v-model="loginInfor.username" clearable>
 							</el-input>
@@ -35,7 +35,7 @@
 							</el-button>
 						</el-tab-pane>
 
-						<el-tab-pane label="注 册" name="register">
+						<el-tab-pane label="Register" name="register">
 							<el-input placeholder="请输入账户" v-model="registerInfor.register_username" clearable>
 							</el-input>
 
@@ -93,23 +93,26 @@ export default {
 				this.$message.error('Username and password cannot be empty !')
 			} else {
 				this.$axios.post(this.apiUrl+"/user/login", this.loginInfor).then(res => {
+					console.log(res);
 					if(res.data.message === "用户名不存在"){
 						this.$message.error('The username does not exist')
-					}else if (res.status == 200) {
-						//close drawer
-						this.$emit('showLogin', false)
-						this.$message.success('Successfully logged in')
-						this.setToken({
-							token: res.data.data.token
-						})
-						this.setUser({
-							user: this.loginInfor.username,
-							id: res.data.data.user.userId
-						})
-					} else {
-						console.log(res);
+					}else if(res.data.message === "密码不正确"){
 						this.$message.error('Wrong account or password')
-					}
+					} else {
+							//close drawer
+							this.$emit('showLogin', false)
+							this.$message.success('Successfully logged in')
+							console.log(res);
+							this.setToken({
+								token: res.data.data.token,
+								user: res.data.data.user.userName
+							})
+							this.setUser({
+								user: this.loginInfor.username,
+								id: res.data.data.user.userId,
+								balance: res.data.data.user.balance
+							})
+						}
 					})
 					.catch(function(error) {console.log(error);});
 			}

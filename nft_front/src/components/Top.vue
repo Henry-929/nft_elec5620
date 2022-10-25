@@ -5,8 +5,7 @@
 				<el-row style="flex-direction: row;display: flex;">
 					<div style="margin-top: 0px;">
 						<el-col style="flex-direction: row;display: flex;">
-							<span
-								style="text-align: center;margin-top: 20px;font-size: 20px;font-weight: bold">MyNFT</span>
+							<span style="text-align: center;margin-top: 20px;font-size: 20px;font-weight: bold" @click="handleIndexPage">MyNFT</span>
 						</el-col>
 					</div>
 					<div>
@@ -145,6 +144,7 @@ export default {
 		},
 
 		handleIndexPage(){
+			console.log(111);
 			if(this.$route.fullPath == "/"){
 				this.$emit('searchNft', [])
 			}else{

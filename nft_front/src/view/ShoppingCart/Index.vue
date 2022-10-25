@@ -23,7 +23,7 @@
   
         <!-- total price -->
         <div class="totalPrice">
-          <span>Total Price: {{ totalPrice.toFixed(2) }}</span>
+          <span>Total Price: {{ totalPrice.toFixed(2) }} ETH</span>
           <el-button type="danger" @click="handlePayment">Pay</el-button>
         </div>
       </div>
@@ -34,6 +34,19 @@
           <p>You have paid successfully. Return to the main page in {{ seconds }} seconds</p>
         </el-col>
       </div>
+
+      <el-dialog title="please input your paykey" :visible.sync="dialogFormVisible" style="width: 80%">
+        <el-form :model="form">
+            <el-form-item label="My paykey" style="width: 200px">
+                <el-input v-model="form.payKey" show-password autocomplete="off"></el-input>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">Cancel</el-button>
+            <el-button type="primary" @click="handleConfirmPurchase">Confirm</el-button>
+        </div>
+      </el-dialog>
+
     </div>
   </template>
   
@@ -50,12 +63,16 @@
         multipleSelection: [],
         totalPrice: 0,
         ispaid: true,
-        seconds: 5
+        seconds: 5,
+        dialogFormVisible: false,
+        form: {
+          payKey: ''
+        }
       }
     },
   
     computed:{
-      ...mapState(["shoppingCart", "balance"])
+      ...mapState(["shoppingCart", "balance", "userId"])
     },
 
     mounted(){
@@ -66,50 +83,64 @@
         ...mapMutations(['deleteFromCart', 'clearCart']),
 
         handleSelectionChange(val){
-            this.totalPrice = 0
-            this.multipleSelection = val
-            this.multipleSelection.forEach(item => {
-            this.totalPrice += item.resalePrice 
-            })
+          this.totalPrice = 0
+          this.multipleSelection = val
+          this.multipleSelection.forEach(item => {
+          this.totalPrice += item.resalePrice 
+          })
         },
     
     
         handleQuantityChange(){
-            this.totalPrice = 0
-            this.multipleSelection.forEach(item => {
-            this.totalPrice += item.resalePrice 
-            })
+          this.totalPrice = 0
+          this.multipleSelection.forEach(item => {
+          this.totalPrice += item.resalePrice 
+          })
         },
     
         
         removePhoneItem(item){
-            this.deleteFromCart(item)
+          this.deleteFromCart(item)
         },
     
-        // pay the bill
         handlePayment(){
-            if(this.totalPrice == 0){
+          if(this.totalPrice == 0){
             this.$message.error("Please select at least one item!")
+          }else{
+            if(this.balance >= this.totalPrice){
+                this.dialogFormVisible = true
             }else{
-                if(this.balance >= this.totalPrice){
-                    this.$message.success("Payment succeeded!")
-                    this.ispaid = false
-                    this.clearCart()
-                    new Promise((resolve, reject) => {
-                        let timer = setInterval(() => {
-                        if(this.seconds > 0){
-                            this.seconds -= 1
-                        }else{
-                            clearInterval(timer)
-                            this.$router.replace("/home")
-                        }
-                        }, 1000)
-                    })
-                }else{
-                    this.$message.error('Insufficient wallet balance')
-                }
+                this.$message.error('Insufficient wallet balance')
             }
+          }
         },
+
+        async handleConfirmPurchase(){
+          let goodsIdList = []
+          this.shoppingCart.forEach(item => {
+            goodsIdList.push(item.goodsId)
+          })
+          let res = await this.$axios.post(this.apiUrl + '/shopping-car/buyManyGoodsById', {
+              userId: this.userId,
+              goodsIdList,
+              totalPrice: this.totalPrice,
+              payKey: this.form.payKey
+          })
+          this.$message.success("Payment succeeded!")
+          this.ispaid = false
+          this.clearCart()
+          new Promise((resolve, reject) => {
+            let timer = setInterval(() => {
+            if(this.seconds > 0){
+                this.seconds -= 1
+            }else{
+                clearInterval(timer)
+                this.$router.replace("/home")
+            }
+            }, 1000)
+          })
+          this.dialogFormVisible = false
+        }
     }
   }
   </script>

@@ -6,26 +6,36 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     token: sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '',
-    user: '',
-    userId: 0,
-    balance: 0,
+    user: sessionStorage.getItem('user') ? sessionStorage.getItem('user') : '',
+    userId: sessionStorage.getItem('userId') ? sessionStorage.getItem('userId') : '',
+    balance: sessionStorage.getItem('balance') ? sessionStorage.getItem('balance') : '',
     marketNFTs: [],
     searchedMarketNFTs: [],
     selectNFT: {},
-    shoppingCart: []
+    shoppingCart: [],
   },
   mutations: {
-    setToken (state, token) {
-      state.token = token.token
-      sessionStorage.setItem("token", state.token)     //存储token
+    setToken (state, value) {
+      state.token = value.token
+      sessionStorage.setItem("token", state.token)     
     },
     setUser(state, value) {
       state.user = value.user
       state.userId = value.id
+      state.balance = value.balance
+      sessionStorage.setItem("user", state.user)
+      sessionStorage.setItem("userId", state.userId)
+      sessionStorage.setItem("balance", state.balance)
     },
     delToken (state) {
-      state.token = ''
-      sessionStorage.removeItem("token")    //删除token
+      state.token = ""
+      state.user = ""
+      state.userId = 0
+      state.balance = 0
+      sessionStorage.removeItem("token")
+      sessionStorage.removeItem("user")
+      sessionStorage.removeItem("userId")
+      sessionStorage.removeItem("balance")
     },
     setBalance(state, value){
       state.balance = value

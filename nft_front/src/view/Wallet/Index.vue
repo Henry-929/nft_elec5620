@@ -51,27 +51,52 @@
                     </div>
 				</div>
 			<hr />
-            <div v-for="item in myNftList" :key="item.artId" class="myNft" @click="handleClickMyNFT(item)">
+            <div v-for="item in myNftList" :key="item.artId" class="myNft">
                 <img :src="require(`../../../../nft_back/nft/img${item.showFile.filePath}`)" :alt="`${item.artIntroduction}`">
                 <p>{{ item.artName }}</p>
+                <p>
+                    <el-button type="primary" @click="handleUpdateMyNFT(item)" style="width:30px" >
+                        <i class="el-icon-edit myNftButton"></i>
+                    </el-button>
+                    <el-button type="success" @click="handleSetSell(item)" style="width:30px">
+                        <i class="el-icon-setting myNftButton"></i>
+                    </el-button>
+                </p>
             </div>
         </el-drawer>
         </div>
 
-        <el-dialog title="please input your paykey" :visible.sync="dialogFormVisible" style="width: 80%">
-            <el-form :model="form">
-                <el-form-item label="set Price" style="width: 200px">
-                    <el-input v-model="form.price" autocomplete="off"></el-input>
+        <el-dialog title="Message" :visible.sync="dialogformVisible1" style="width: 80%">
+            <el-form :model="form1">
+                <el-form-item label="Set art name:" style="width: 200px">
+                    <el-input v-model="form1.artName" autocomplete="off" :placeholder="selectedNft.artName"></el-input>
                 </el-form-item>
-                <el-form-item label="My paykey" style="width: 200px">
-                    <el-input v-model="form.payKey" show-password autocomplete="off"></el-input>
+                <el-form-item label="Set art introcution:" style="width: 200px">
+                    <el-input v-model="form1.artIntroduction" autocomplete="off" :placeholder="selectedNft.artIntroduction"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">Cancel</el-button>
-                <el-button type="primary" @click="handleConfirmSoldOut">Confirm</el-button>
+                <el-button @click="dialogformVisible1 = false">Cancel</el-button>
+                <el-button type="primary" @click="updateArtInfor">Confirm</el-button>
             </div>
-            </el-dialog>
+        </el-dialog>
+
+        <el-dialog title="Message" :visible.sync="dialogformVisible2" style="width: 80%">
+            <el-form :model="form2">
+                <el-form-item label="Set for sell:" style="width: 200px">
+                    <el-switch v-model="form2.sell"></el-switch>
+                </el-form-item>
+                <template v-if="form2.sell">
+                    <el-form-item label="Set price:" style="width: 200px">
+                        <el-input v-model="form2.price" autocomplete="off"></el-input>
+                    </el-form-item>
+                </template>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogformVisible2 = false">Cancel</el-button>
+                <el-button type="primary" @click="handleSoldOut">Confirm</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -84,12 +109,17 @@ export default {
             myNftShow: false,
             myNftList: [],
             balance: 0,
-            dialogFormVisible: false,
-            form: {
-                payKey: "",
-                price: 0
+            dialogformVisible1: false,
+            dialogformVisible2: false,
+            form1: {
+                artName: '',
+                artIntroduction: ''
             },
-            soldOutNft: {}
+            form2: {
+                price: 0,
+                sell: false,
+            },
+            selectedNft: {}
         }
     },
 
@@ -131,18 +161,14 @@ export default {
             this.myNftList = res.data.data
         },
     
-        handleClickMyNFT(item){
-            this.$confirm('Do you want to make this NFT available for sale?', 'message', {
+        handleUpdateMyNFT(item){
+            this.$confirm('Do you want to modify the inform1ation of the NFT?', 'message', {
                 confirmButtonText: 'confirm',
                 cancelButtonText: 'cancel',
                 type: 'warning'
             }).then(() => {
-                this.$message({
-                    type: 'success',
-                    message: 'Successfully modified'
-                })
-                this.dialogFormVisible = true
-                this.soldOutNft = item
+                this.dialogformVisible1 = true
+                this.selectedNft = item
             }).catch(() => {
                 this.$message({
                     type: 'info',
@@ -151,20 +177,74 @@ export default {
             });
         },
 
-        async handleConfirmSoldOut(){
+        handleSetSell(item){
+            this.$confirm('Do you want to change the sell status for the NFT?', 'message', {
+                confirmButtonText: 'confirm',
+                cancelButtonText: 'cancel',
+                type: 'warning'
+            }).then(() => {
+                this.dialogformVisible2 = true
+                this.selectedNft = item
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: 'Cancel modeified'
+                });          
+            });
+        },
+
+        async updateArtInfor(){
+            let res = await this.$axios.post(this.apiUrl + '/art/setArt', {
+                artId: this.selectedNft.artId,
+                artName: this.form1.artName ? this.form1.artName : this.selectedNft.artName,
+                artIntroduction: this.form1.artIntroduction ? this.form1.artIntroduction : this.selectedNft.artIntroduction
+            })
+            if(res.status == 200){
+                this.form1.artName = ""
+                this.form1.artIntroduction = ""
+                this.handleCheckMyNFT()
+                this.$message.success('Update information successfully')
+            }
+            this.dialogformVisible1 = false
+        },
+
+        async setArtForSell(){
             this.$axios.post(this.apiUrl + '/art/setSell', {
                 ownerId: this.userId,
-                artId: this.soldOutNft.artId,
-                price: this.form.price,
-                payKey: this.form.payKey
+                artId: this.selectedNft.artId,
+                price: this.form2.price,
             }).then(async () => {
                 let res = await this.$axios.post(this.apiUrl+"/goods/getAllGoods", {
-					start: 1,
-					limit: 10
-				})
-				this.setMarketNFTs(res.data.data.data)
-                this.dialogFormVisible = false
+                    start: 1,
+                    limit: 10
+                })
+                console.log(res);
+                this.setMarketNFTs(res.data.data.data)
+                this.$message.success('Set for sell successfully')
             })
+            this.dialogformVisible2 = false
+        },
+
+        async setArtForNotSell(){
+            this.$axios.post(this.apiUrl + '/art/setNotSell', {
+                artId: this.selectedNft.artId,
+            }).then(async () => {
+                let res = await this.$axios.post(this.apiUrl+"/goods/getAllGoods", {
+                    start: 1,
+                    limit: 10
+                })
+                this.setMarketNFTs(res.data.data.data)
+                this.$message.success('Set for Not sell successfully')
+            })
+            this.dialogformVisible2 = false
+        },
+
+        handleSoldOut(){
+            if(this.form2.sell){
+                this.setArtForSell()
+            }else{
+                this.setArtForNotSell()
+            }
         }
     },
 }
@@ -202,6 +282,10 @@ export default {
         }
         span{
             font-size: 16px;
+        }
+        .myNftButton{
+            position: relative;
+            right: 5px;
         }
     }
 </style>
