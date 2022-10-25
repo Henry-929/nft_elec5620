@@ -62,11 +62,16 @@ public class ShoppingCarController {
     public Result buyManyGoodsById(@RequestBody Map<String, Object> map){
         Long userId = ParamUtil.tradeToLong(map.get("userId"));        // userId
         List<Long> goodsIdList = (List<Long>) map.get("goodsIdList");        // 多个nft goodID，是个list
-        double totalPrice = (double) map.get("totalPrice");            //多个nft总价
+        double totalPrice = ParamUtil.tradeToDouble(map.get("totalPrice"));            //多个nft总价
         String payKey = map.get("payKey").toString();     // 支付密码
 
         if (userId == null || goodsIdList.size() <= 0 || payKey == null) {
             return new Result(ResultCode.PARAMETER_NULL_ERROR);
+        }
+
+        User user = userService.selectUserById(userId);
+        if (totalPrice > user.getBalance().doubleValue()){
+            return new Result(ResultCode.INSUFFICIENT_BALANCE);
         }
 
         for (Long goodsId : goodsIdList ) {
