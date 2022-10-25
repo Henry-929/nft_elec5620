@@ -61,7 +61,7 @@ public class ShoppingCarController {
     @PostMapping( "/buyManyGoodsById")
     public Result buyManyGoodsById(@RequestBody Map<String, Object> map){
         Long userId = ParamUtil.tradeToLong(map.get("userId"));        // userId
-        List<String> goodsIdList = (List<String>) map.get("goodsIdList");        // 多个nft goodID，是个list
+        List<Integer> goodsIdList = (List<Integer>) map.get("goodsIdList");        // 多个nft goodID，是个list
         double totalPrice = ParamUtil.tradeToDouble(map.get("totalPrice"));            //多个nft总价
         String payKey = map.get("payKey").toString();     // 支付密码
 
@@ -80,7 +80,6 @@ public class ShoppingCarController {
 
             if (goodsTrade == null) {
                 return new Result(ResultCode.SERVER_ERROR);
-
             }
         }
 
