@@ -1,5 +1,7 @@
 package com.nft.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.nft.entity.User;
 import com.nft.entity.vo.SimpleGoods;
 import com.nft.entity.Goods;
 import com.nft.mapper.GoodsMapper;
@@ -51,5 +53,13 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Override
     public List<SimpleGoods> getGoodsByPrice(double topPrice, double lowPrice) {
         return goodsMapper.getGoodsByPrice(topPrice,lowPrice);
+    }
+
+    @Override
+    public int setNotSell(Long artId) {
+        QueryWrapper<Goods> wrapper = new QueryWrapper<>();
+        wrapper.eq("art_id", artId);
+        int delete = goodsMapper.delete(wrapper);
+        return delete;
     }
 }

@@ -28,4 +28,7 @@ public interface GoodsService extends IService<Goods> {
 
     //搜索通过价格
     List<SimpleGoods> getGoodsByPrice(double topPrice, double lowPrice);
+
+    //设置nft不可出售
+    int setNotSell(Long artId);
 }

@@ -29,7 +29,8 @@ public enum ResultCode {
     //---权限操作返回码----
     //---其他操作返回码----
     EMPTY_CONTENT(true,50001,"暂无内容，看看其他的吧"),
-    INSUFFICIENT_BALANCE(false,50002,"账户余额不足，请先充值");
+    INSUFFICIENT_BALANCE(false,50002,"账户余额不足，请先充值"),
+    NOT_SET_SELL(false,50003,"该NFT未设置出售");
 
     //操作是否成功
     boolean success;

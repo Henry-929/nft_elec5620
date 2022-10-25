@@ -5,6 +5,7 @@ import com.nft.entity.Result;
 import com.nft.entity.ResultCode;
 import com.nft.entity.vo.SimpleArt;
 import com.nft.service.ArtService;
+import com.nft.service.GoodsService;
 import com.nft.util.ParamUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,8 @@ public class ArtController {
 
     @Autowired
     ArtService artService;
+    @Autowired
+    GoodsService goodsService;
 
     /**
      * 上传一个nft作品（铸币）
@@ -95,7 +98,7 @@ public class ArtController {
     /**
      * 将艺术品设置为出售
      */
-    @PostMapping(value = "/setSell")
+    @PostMapping("/setSell")
     public Result setSell(@RequestBody Map<String, Object> map){
         Long ownerId = ParamUtil.tradeToLong(map.get("ownerId"));       // ownerId
         Long artId = ParamUtil.tradeToLong(map.get("artId"));       // artId 艺术品ID
@@ -111,6 +114,25 @@ public class ArtController {
             return new Result(ResultCode.SERVER_ERROR);
         }
         return new Result(ResultCode.SUCCESS,goodsId);
+    }
+
+    /**
+     * 将艺术品设置为不可出售
+     */
+    @PostMapping("/setNotSell")
+    public Result setNotSell(@RequestBody Map<String, Object> map){
+        Long artId = ParamUtil.tradeToLong(map.get("artId"));       // artId 艺术品ID
+
+        if (artId == null) {
+            return new Result(ResultCode.PARAMETER_NULL_ERROR);
+        }
+
+        int goodsId = goodsService.setNotSell(artId);
+
+        if (goodsId < 1) {
+            return new Result(ResultCode.NOT_SET_SELL);
+        }
+        return new Result(ResultCode.SUCCESS);
     }
 
 }
