@@ -25,6 +25,12 @@ export default {
         }
     },
 
+    mounted(){
+        if(!this.selectNFT.art){
+            this.$router.push('/home')
+        }
+    },
+
     computed: {
         ...mapState(['selectNFT', 'user', 'shoppingCart'])
     },
