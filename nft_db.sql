@@ -11,7 +11,7 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 26/10/2022 22:44:38
+ Date: 27/10/2022 00:26:57
 */
 
 SET NAMES utf8mb4;
@@ -158,15 +158,14 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `shopping_car`;
 CREATE TABLE `shopping_car` (
-  `cargood_id` bigint(20) NOT NULL COMMENT '购物车商品ID',
+  `cargood_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '购物车商品ID',
   `user_id` bigint(20) NOT NULL COMMENT '用户ID',
   `goods_id` bigint(20) NOT NULL COMMENT '商品ID',
   `version` int(11) NOT NULL DEFAULT '1' COMMENT '乐观锁',
-  `deleted` int(11) NOT NULL DEFAULT '0',
   `create_time` datetime NOT NULL COMMENT '创造时间',
   `update_time` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`cargood_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='购物车';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='购物车';
 
 -- ----------------------------
 -- Table structure for user
