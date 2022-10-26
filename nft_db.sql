@@ -11,7 +11,7 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 25/10/2022 20:55:29
+ Date: 26/10/2022 22:13:21
 */
 
 SET NAMES utf8mb4;
@@ -126,7 +126,6 @@ CREATE TABLE `goods` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `goods` VALUES (1, 1, 1, 22.00, 0, 1, '2022-04-02 20:56:23', '2022-04-02 20:56:23');
-INSERT INTO `goods` VALUES (3, 3, 1, 5.00, 0, 1, '2022-10-25 19:53:26', '2022-10-25 19:53:26');
 COMMIT;
 
 -- ----------------------------
@@ -178,6 +177,7 @@ CREATE TABLE `user` (
   `user_name` varchar(255) NOT NULL COMMENT '用户名',
   `user_password` varchar(255) NOT NULL COMMENT '密码，数据库中通过保存通过md5加密处理过的值',
   `balance` decimal(10,2) DEFAULT NULL COMMENT '账户余额(ETHB)',
+  `bank_card` bigint(20) DEFAULT NULL,
   `roles` varchar(255) DEFAULT NULL,
   `perms` varchar(255) DEFAULT NULL,
   `eth_address` varchar(255) DEFAULT NULL COMMENT '以太坊地址',
@@ -192,9 +192,9 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 BEGIN;
-INSERT INTO `user` VALUES (1, 'vivo', 'bedfe476f8a2800b2711c7fdbc4d1e50', 61.00, 'user', 'admin:manage', NULL, NULL, 3, '2022-10-16 00:28:25', '2022-10-16 00:28:25');
-INSERT INTO `user` VALUES (2, 'papi', 'bedfe476f8a2800b2711c7fdbc4d1e50', 0.00, 'user', 'user:visit', NULL, NULL, 1, '2022-10-16 00:29:09', '2022-10-16 00:29:09');
-INSERT INTO `user` VALUES (3, 'oppo', 'bedfe476f8a2800b2711c7fdbc4d1e50', 2.00, 'user', 'user:visit', NULL, NULL, 1, '2022-10-17 22:15:50', '2022-10-17 22:15:50');
+INSERT INTO `user` VALUES (1, 'vivo', 'bedfe476f8a2800b2711c7fdbc4d1e50', 61.00, NULL, 'user', 'admin:manage', NULL, NULL, 3, '2022-10-16 00:28:25', '2022-10-16 00:28:25');
+INSERT INTO `user` VALUES (2, 'papi', 'bedfe476f8a2800b2711c7fdbc4d1e50', 0.00, NULL, 'user', 'user:visit', NULL, NULL, 1, '2022-10-16 00:29:09', '2022-10-16 00:29:09');
+INSERT INTO `user` VALUES (3, 'oppo', 'bedfe476f8a2800b2711c7fdbc4d1e50', 10.00, 456, 'user', 'user:visit', NULL, NULL, 3, '2022-10-17 22:15:50', '2022-10-17 22:15:50');
 COMMIT;
 
 -- ----------------------------
