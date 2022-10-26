@@ -54,6 +54,9 @@ public class GlobalException {
         if (50002 == result.getCode()) {
             return new Result(ResultCode.INSUFFICIENT_BALANCE);
         }
+        if (50004 == result.getCode()) {
+            return new Result(ResultCode.WRONG_BANK_CARD_NUMBER);
+        }
         return null;
     }
 

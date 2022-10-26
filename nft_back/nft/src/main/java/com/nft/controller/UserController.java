@@ -106,7 +106,7 @@ public class UserController {
     public Result chargeMTB(@RequestBody Map<String,Object> map){
         Long userId = ParamUtil.tradeToLong(map.get("userId"));                           // userId
         Double ETHBAmount = ParamUtil.tradeToDouble(map.get("ETHBAmount"));              // 充值金额
-        Long bankCard = ParamUtil.tradeToLong(map.get("bankCard"));                   // 银行卡号
+        String bankCard = ParamUtil.tradeToString(map.get("bankCard"));                   // 银行卡号
 
         if (userId == null || ETHBAmount == null || bankCard == null){
             return new Result(ResultCode.PARAMETER_NULL_ERROR);

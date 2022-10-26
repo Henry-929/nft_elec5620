@@ -50,7 +50,7 @@ public class User implements Serializable {
     /**
      * 银行卡号
      */
-    private Long bankCard;
+    private String bankCard;
 
     /**
      * 以太坊地址
