@@ -11,7 +11,7 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 27/10/2022 00:26:57
+ Date: 27/10/2022 00:49:59
 */
 
 SET NAMES utf8mb4;
@@ -119,13 +119,15 @@ CREATE TABLE `goods` (
   `create_time` datetime NOT NULL COMMENT '创造时间',
   `update_time` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`goods_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='商品表';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='商品表';
 
 -- ----------------------------
 -- Records of goods
 -- ----------------------------
 BEGIN;
 INSERT INTO `goods` VALUES (1, 1, 1, 22.00, 0, 1, '2022-04-02 20:56:23', '2022-04-02 20:56:23');
+INSERT INTO `goods` VALUES (6, 5, 3, 30.00, 0, 1, '2022-10-27 00:36:50', '2022-10-27 00:36:50');
+INSERT INTO `goods` VALUES (7, 3, 1, 30.00, 0, 1, '2022-10-27 00:39:06', '2022-10-27 00:39:06');
 COMMIT;
 
 -- ----------------------------
@@ -165,7 +167,15 @@ CREATE TABLE `shopping_car` (
   `create_time` datetime NOT NULL COMMENT '创造时间',
   `update_time` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`cargood_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='购物车';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='购物车';
+
+-- ----------------------------
+-- Records of shopping_car
+-- ----------------------------
+BEGIN;
+INSERT INTO `shopping_car` VALUES (2, 3, 1, 1, '2022-10-27 00:40:12', '2022-10-27 00:40:12');
+INSERT INTO `shopping_car` VALUES (3, 3, 7, 1, '2022-10-27 00:40:27', '2022-10-27 00:40:27');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for user
