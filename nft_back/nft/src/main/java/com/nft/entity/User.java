@@ -48,6 +48,11 @@ public class User implements Serializable {
     private BigDecimal balance;
 
     /**
+     * 银行卡号
+     */
+    private Long bankCard;
+
+    /**
      * 以太坊地址
      */
     private String ethAddress;

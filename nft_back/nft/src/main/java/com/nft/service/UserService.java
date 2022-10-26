@@ -19,7 +19,7 @@ public interface UserService extends IService<User> {
 
     int insertUser(String username, String password, String payKey) throws Exception;
 
-    Double chargeETHB(Long userId, Double ethbAmount, String chargeEvidence);
+    Double chargeETHB(Long userId, Double ethbAmount, Long bankCard);
 
     Double getBalance(Long userId);
 }

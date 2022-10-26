@@ -106,12 +106,12 @@ public class UserController {
     public Result chargeMTB(@RequestBody Map<String,Object> map){
         Long userId = ParamUtil.tradeToLong(map.get("userId"));                           // userId
         Double ETHBAmount = ParamUtil.tradeToDouble(map.get("ETHBAmount"));              // 充值金额
-        String chargeEvidence = ParamUtil.tradeToString(map.get("chargeEvidence"));     // 充值凭证
+        Long bankCard = ParamUtil.tradeToLong(map.get("bankCard"));                   // 银行卡号
 
-        if (userId == null || ETHBAmount == null){
+        if (userId == null || ETHBAmount == null || bankCard == null){
             return new Result(ResultCode.PARAMETER_NULL_ERROR);
         }
-        Double balance = userService.chargeETHB(userId,ETHBAmount,chargeEvidence);
+        Double balance = userService.chargeETHB(userId,ETHBAmount,bankCard);
 
         if (balance == null) {
             return new Result(ResultCode.SERVER_ERROR);

@@ -61,14 +61,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public Double chargeETHB(Long userId, Double ethbAmount, String chargeEvidence) {
+    public Double chargeETHB(Long userId, Double ethbAmount, Long bankCard) {
         User user = userMapper.selectById(userId);
         user.setBalance(new BigDecimal(user.getBalance().doubleValue() + ethbAmount));
-        // 验证充值凭证
+        // 验证银行卡号并储存
+        user.setBankCard(bankCard);
 
         int i = userMapper.updateById(user);
         if (i>0)
-            return user.getBalance().doubleValue() + ethbAmount;
+            return user.getBalance().doubleValue();
         return null;
     }
 
