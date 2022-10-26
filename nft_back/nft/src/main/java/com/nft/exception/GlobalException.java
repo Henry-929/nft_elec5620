@@ -57,6 +57,9 @@ public class GlobalException {
         if (50004 == result.getCode()) {
             return new Result(ResultCode.WRONG_BANK_CARD_NUMBER);
         }
+        if (50005 == result.getCode()) {
+            return new Result(ResultCode.NOT_ADD_TO_CART);
+        }
         return null;
     }
 

@@ -31,7 +31,8 @@ public enum ResultCode {
     EMPTY_CONTENT(true,50001,"暂无内容，看看其他的吧"),
     INSUFFICIENT_BALANCE(false,50002,"账户余额不足，请先充值"),
     NOT_SET_SELL(false,50003,"该NFT未设置出售"),
-    WRONG_BANK_CARD_NUMBER(false,50004,"银行卡号格式不正确");
+    WRONG_BANK_CARD_NUMBER(false,50004,"银行卡号格式不正确"),
+    NOT_ADD_TO_CART(false,50005,"无法添加自己出售的商品到购物车");
 
 
     //操作是否成功

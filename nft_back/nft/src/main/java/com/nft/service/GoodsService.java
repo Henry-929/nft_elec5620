@@ -32,4 +32,6 @@ public interface GoodsService extends IService<Goods> {
 
     //设置nft不可出售
     int setNotSell(Long artId);
+
+    Goods selectGoodsById(Long goodId);
 }

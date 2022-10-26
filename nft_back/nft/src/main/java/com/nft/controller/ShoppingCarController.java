@@ -98,6 +98,7 @@ public class ShoppingCarController {
             return new Result(ResultCode.PARAMETER_NULL_ERROR);
         }
 
+        HashMap<String, Object> hashMap = new HashMap<>();
         ArrayList<SimpleGoods> arts = shoppingCarService.getShoppingCar(userId);
         if (arts == null) {
             return new Result(ResultCode.SERVER_ERROR);
@@ -105,7 +106,15 @@ public class ShoppingCarController {
         if (arts.size() == 0) {
             return new Result(ResultCode.EMPTY_CONTENT);
         }
-        return new Result(ResultCode.SUCCESS,arts);
+
+        double tempPrice = 0;
+        for (SimpleGoods good : arts){
+            tempPrice = tempPrice + good.getResalePrice();
+        }
+
+        hashMap.put("arts",arts);
+        hashMap.put("totalPrice", tempPrice);
+        return new Result(ResultCode.SUCCESS,hashMap);
     }
 
     /**

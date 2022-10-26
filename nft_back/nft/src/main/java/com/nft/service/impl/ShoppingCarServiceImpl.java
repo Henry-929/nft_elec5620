@@ -104,6 +104,10 @@ public class ShoppingCarServiceImpl extends ServiceImpl<ShoppingCarMapper, Shopp
 
     @Override
     public Boolean setShoppingCar(Long userId, Long goodId) {
+        Goods good = goodsService.selectGoodsById(goodId);
+        if (good.getGoodsSellerId() == userId)
+            throw new MyException(ResultCode.NOT_ADD_TO_CART);
+
         ShoppingCar shoppingCar = new ShoppingCar();
         shoppingCar.setUserId(userId);
         shoppingCar.setGoodsId(goodId);

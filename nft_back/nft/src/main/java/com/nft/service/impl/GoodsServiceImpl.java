@@ -62,4 +62,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         int delete = goodsMapper.delete(wrapper);
         return delete;
     }
+
+    @Override
+    public Goods selectGoodsById(Long goodId) {
+        return goodsMapper.selectById(goodId);
+    }
 }
