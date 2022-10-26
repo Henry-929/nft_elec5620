@@ -5,6 +5,7 @@ import com.nft.entity.GoodsTrade;
 import com.nft.entity.Result;
 import com.nft.entity.ResultCode;
 import com.nft.entity.User;
+import com.nft.entity.vo.SimpleGoods;
 import com.nft.service.ShoppingCarService;
 import com.nft.service.UserService;
 import com.nft.util.ParamUtil;
@@ -12,6 +13,7 @@ import com.nft.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +85,64 @@ public class ShoppingCarController {
             }
         }
 
+        return new Result(ResultCode.SUCCESS);
+    }
+
+    /**
+     * 获取本人的购物车
+     */
+    @PostMapping("/getShoppingCar")
+    public Result getShoppingCar(@RequestBody Map<String, Object> map) {
+        Long userId = ParamUtil.tradeToLong(map.get("userId"));
+        if (userId == null) {
+            return new Result(ResultCode.PARAMETER_NULL_ERROR);
+        }
+
+        ArrayList<SimpleGoods> arts = shoppingCarService.getShoppingCar(userId);
+        if (arts == null) {
+            return new Result(ResultCode.SERVER_ERROR);
+        }
+        if (arts.size() == 0) {
+            return new Result(ResultCode.EMPTY_CONTENT);
+        }
+        return new Result(ResultCode.SUCCESS,arts);
+    }
+
+    /**
+     * 将商品添加到购物车
+     */
+    @PostMapping("/setShoppingCar")
+    public Result setShoppingCar(@RequestBody Map<String, Object> map) {
+        Long userId = ParamUtil.tradeToLong(map.get("userId"));
+        Long goodId = ParamUtil.tradeToLong(map.get("goodsId"));
+
+        if (userId == null || goodId == null) {
+            return new Result(ResultCode.PARAMETER_NULL_ERROR);
+        }
+
+        Boolean isSuccess = shoppingCarService.setShoppingCar(userId, goodId);
+        if (isSuccess == null || !isSuccess) {
+            return new Result(ResultCode.SERVER_ERROR);
+        }
+        return new Result(ResultCode.SUCCESS);
+    }
+
+    /**
+     * 将商品从购物车中删除
+     */
+    @PostMapping("/deleteShoppingCar")
+    public Result deleteShoppingCar(@RequestBody Map<String, Object> map) {
+        Long userId = ParamUtil.tradeToLong(map.get("userId"));
+        Long goodId = ParamUtil.tradeToLong(map.get("goodsId"));
+
+        if (userId == null || goodId == null) {
+            return new Result(ResultCode.PARAMETER_NULL_ERROR);
+        }
+
+        Boolean isSuccess = shoppingCarService.deleteShoppingCar(userId, goodId);
+        if (isSuccess == null || !isSuccess) {
+            return new Result(ResultCode.SERVER_ERROR);
+        }
         return new Result(ResultCode.SUCCESS);
     }
 }

@@ -5,6 +5,7 @@ import com.nft.entity.Goods;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.nft.util.Pager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**

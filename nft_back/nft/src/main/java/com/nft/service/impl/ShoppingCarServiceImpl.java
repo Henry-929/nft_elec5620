@@ -2,6 +2,7 @@ package com.nft.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.nft.entity.*;
+import com.nft.entity.vo.SimpleGoods;
 import com.nft.exception.MyException;
 import com.nft.mapper.ShoppingCarMapper;
 import com.nft.service.*;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -33,6 +35,8 @@ public class ShoppingCarServiceImpl extends ServiceImpl<ShoppingCarMapper, Shopp
     ArtService artService;
     @Autowired
     GoodsTradeService goodsTradeService;
+    @Autowired
+    ShoppingCarMapper shoppingCarMapper;
 
     @Override
     @Transactional
@@ -91,5 +95,26 @@ public class ShoppingCarServiceImpl extends ServiceImpl<ShoppingCarMapper, Shopp
         userService.update(wrapper2);
 
         return goodsTrade;
+    }
+
+    @Override
+    public ArrayList<SimpleGoods> getShoppingCar(Long userId) {
+        return shoppingCarMapper.getShoppingCar(userId);
+    }
+
+    @Override
+    public Boolean setShoppingCar(Long userId, Long goodId) {
+        ShoppingCar shoppingCar = new ShoppingCar();
+        shoppingCar.setUserId(userId);
+        shoppingCar.setGoodsId(goodId);
+        return shoppingCarMapper.insert(shoppingCar) > 0;
+    }
+
+    @Override
+    public Boolean deleteShoppingCar(Long userId, Long goodId) {
+        UpdateWrapper<ShoppingCar> wrapper = new UpdateWrapper<ShoppingCar>()
+                .eq("user_id", userId)
+                .eq("goods_id", goodId);
+        return shoppingCarMapper.delete(wrapper) > 0;
     }
 }

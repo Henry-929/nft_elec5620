@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nft.mapper.ShoppingCarMapper">
+    <resultMap id="simpleGoodsMap" type="com.nft.entity.vo.SimpleGoods">
+        <id column="goods_id" property="goodsId"/>
+        <result column="selled" property="selled"/>
+        <result column="resale_price" property="resalePrice"/>
+        <association property="art" javaType="Art">
+            <id property="artId" column="art_id"/>
+            <result property="artName" column="art_name"/>
+            <result property="artIntroduction" column="art_introduction"/>
+            <result property="artAuthor" column="art_author"/>
+        </association>
+        <association property="file" javaType="File">
+            <id property="fileId" column="file_id"/>
+            <result property="filePath" column="file_path"/>
+            <result property="fileFormat" column="file_format"/>
+        </association>
+        <association property="goodsSeller" javaType="User">
+            <id property="userId" column="user_id"/>
+            <result property="userName" column="user_name"/>
+        </association>
+    </resultMap>
 
+
+    <select id="getShoppingCar" resultMap="simpleGoodsMap">
+        SELECT `goods`.goods_id,`goods`.resale_price,`goods`.selled,
+               `art`.art_author,`art`.art_introduction,`art`.art_name,
+               `file`.file_path,`file`.file_format
+        FROM `goods`,`art`,`file`,`shopping_car`
+        WHERE `goods`.art_id = `art`.art_id
+          AND `file`.file_id = `art`.art_file
+          AND `goods`.goods_id = `shopping_car`.goods_id
+          AND `shopping_car`.user_id = #{userId}
+        ORDER BY `shopping_car`.create_time DESC
+    </select>
 </mapper>

@@ -28,7 +28,7 @@ public class ShoppingCar implements Serializable {
     /**
      * 购物车商品ID
      */
-    @TableId(value = "cargood_id", type = IdType.ASSIGN_ID)
+    @TableId(value = "cargood_id", type = IdType.AUTO)
     private Long cargoodId;
 
     /**
@@ -46,9 +46,6 @@ public class ShoppingCar implements Serializable {
      */
     @Version
     private Integer version;
-
-    @TableLogic
-    private Integer deleted;
 
     /**
      * 创造时间
