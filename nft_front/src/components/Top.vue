@@ -141,10 +141,16 @@ export default {
 		async handleSearch() {
 			if(this.inputSearch == ''){
 				this.$message.error('Please inputs something !')
+				window.location.reload()
 			}else{
 				let res = await this.$axios.get(this.apiUrl + `/goods/search/${this.inputSearch}`)
-				this.$emit('searchNft', res.data.data)
-				this.inputSearch = ''
+				if(res.data.message !== '暂无内容，看看其他的吧'){
+					this.$emit('searchNft', res.data.data.arts)
+					this.inputSearch = ''
+				}else{
+					this.$emit('searchNft', false)
+					this.inputSearch = ''
+				}
 			}
 		},
 

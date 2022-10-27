@@ -30,7 +30,10 @@
                 </el-col>
             </el-row>
 			<p style="font-size: 20px;font-weight: bold;margin-left: 2%;">Market</p>
-			<div v-if="marketNFTs.length || searchedMarketNFTs.length">
+			<div v-if="noSearchResult || (!marketNFTs.length && !searchedMarketNFTs.length)">
+				<p style="font-size: 20px">There is no suitable item at the moment</p>
+			</div>
+			<div v-else>
 				<template v-if="searchedMarketNFTs.length">
 					<div v-for="item in searchedMarketNFTs" :key="item.goodsId" class="NftGoods" @click="handleGoodsDetail(item)">
 						<el-col :span="6" style="margin-left: 3%;">
@@ -58,9 +61,7 @@
 					</div>
 				</template>
 			</div>
-			<div v-else>
-				<p style="font-size: 20px">There is no suitable item at the moment</p>
-			</div>
+			
         </div>
     </div>
 </template>
@@ -97,7 +98,7 @@ export default {
                     url: require("../../assets/images/carousel5.png")
                 }
             ],
-		
+			noSearchResult: false
         }
     },
 
@@ -122,7 +123,11 @@ export default {
 			},
 
 			handleSearchNft(value){
-				this.setSearchedMarketNFTs(value)
+				if(value){
+					this.setSearchedMarketNFTs(value)
+				}else{
+					this.noSearchResult = true
+				}
 			},
 			
 			handleGoodsDetail(item){
