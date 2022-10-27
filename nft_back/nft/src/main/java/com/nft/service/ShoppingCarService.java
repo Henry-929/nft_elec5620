@@ -18,7 +18,7 @@ import java.util.HashMap;
  */
 public interface ShoppingCarService extends IService<ShoppingCar> {
 
-    GoodsTrade buyGoodsById(Long userId, Long goodsId, String payKey);
+    GoodsTrade buyGoodsById(Long goodsId,Long userId,String payKey);
 
     ArrayList<SimpleGoods> getShoppingCar(Long userId);
 

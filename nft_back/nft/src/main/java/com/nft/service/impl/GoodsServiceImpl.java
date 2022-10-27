@@ -56,7 +56,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public int setNotSell(Long artId) {
+    public int setNotSell(Long goodId,Long artId) {
         QueryWrapper<Goods> wrapper = new QueryWrapper<>();
         wrapper.eq("art_id", artId);
         int delete = goodsMapper.delete(wrapper);
@@ -66,5 +66,17 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Override
     public Goods selectGoodsById(Long goodId) {
         return goodsMapper.selectById(goodId);
+    }
+
+    @Override
+    public List<SimpleGoods> getAllGoodNoLimit() {
+        return goodsMapper.getAllGoodsNoLimit();
+    }
+
+    @Override
+    public Goods selectGoodsByArtId(Long artId) {
+        QueryWrapper<Goods> wrapper = new QueryWrapper<>();
+        wrapper.eq("art_id", artId);
+        return goodsMapper.selectOne(wrapper);
     }
 }

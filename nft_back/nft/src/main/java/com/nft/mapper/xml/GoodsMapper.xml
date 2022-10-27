@@ -72,4 +72,13 @@
         </if>
     </select>
 
+    <select id="getAllGoodsNoLimit" resultMap="simpleGoodsMap">
+        SELECT `goods`.goods_id,`goods`.resale_price,`goods`.selled,
+               `art`.art_author,`art`.art_introduction,`art`.art_name,
+               `file`.file_path,`file`.file_format,
+               `user`.user_name
+        FROM `goods`,`art`,`file`,`user`
+        WHERE `goods`.art_id = `art`.art_id and `file`.file_id = `art`.art_file and `goods`.goods_seller_id = `user`.user_id
+    </select>
+
 </mapper>

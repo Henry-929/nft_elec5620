@@ -31,7 +31,11 @@ public interface GoodsService extends IService<Goods> {
     List<SimpleGoods> getGoodsByPrice(double topPrice, double lowPrice);
 
     //设置nft不可出售
-    int setNotSell(Long artId);
+    int setNotSell(Long goodId,Long artId);
 
     Goods selectGoodsById(Long goodId);
+
+    List<SimpleGoods> getAllGoodNoLimit();
+
+    Goods selectGoodsByArtId(Long artId);
 }

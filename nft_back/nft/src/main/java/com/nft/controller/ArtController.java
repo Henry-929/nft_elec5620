@@ -1,6 +1,7 @@
 package com.nft.controller;
 
 
+import com.nft.entity.Goods;
 import com.nft.entity.Result;
 import com.nft.entity.ResultCode;
 import com.nft.entity.vo.SimpleArt;
@@ -127,7 +128,9 @@ public class ArtController {
             return new Result(ResultCode.PARAMETER_NULL_ERROR);
         }
 
-        int goodsId = goodsService.setNotSell(artId);
+        Goods good = goodsService.selectGoodsByArtId(artId);
+
+        int goodsId = goodsService.setNotSell(good.getGoodsId(),artId);
 
         if (goodsId < 1) {
             return new Result(ResultCode.NOT_SET_SELL);

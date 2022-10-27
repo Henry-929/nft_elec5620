@@ -4,6 +4,7 @@ package com.nft.controller;
 import com.nft.entity.vo.SimpleGoods;
 import com.nft.entity.Result;
 import com.nft.entity.ResultCode;
+import com.nft.service.ESService;
 import com.nft.service.GoodsService;
 import com.nft.util.Pager;
 import com.nft.util.ParamUtil;
@@ -12,6 +13,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +32,8 @@ public class GoodsController {
 
     @Autowired
     GoodsService goodsService;
+    @Autowired
+    ESService esService;
 
     /**
      * 获取所有的nft，根据条件
@@ -74,15 +78,21 @@ public class GoodsController {
      * 查询活动通过关键字
      */
     @GetMapping("/search/{keywords}")
-    public Result searchGoodsByKeywords(@PathVariable("keywords") String keywords){
+    public Result searchGoodsByKeywords(@PathVariable("keywords") String keywords) throws IOException {
         if (keywords == null) {
             return new Result(ResultCode.PARAMETER_NULL_ERROR);
         }
-        List<SimpleGoods> searchGoods = goodsService.getGoodsByKeywords(keywords);
-        if (searchGoods.size() == 0) {
-            return new Result(ResultCode.EMPTY_CONTENT);
+//        List<SimpleGoods> searchGoods = goodsService.getGoodsByKeywords(keywords);
+        Map<String, Object> map = esService.searchBlogForQuery(1, 10, keywords);
+
+        List<SimpleGoods> arts = (List<SimpleGoods>) map.get("arts");
+        if (map == null){
+            return new Result(ResultCode.SERVER_ERROR);
         }
-        return new Result(ResultCode.SUCCESS,searchGoods);
+//        if (arts.size() == 0) {
+//            return new Result(ResultCode.EMPTY_CONTENT);
+//        }
+        return new Result(ResultCode.SUCCESS,map);
     }
 
     /**

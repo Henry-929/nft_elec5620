@@ -30,4 +30,6 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 
     //搜索通过价格
     List<SimpleGoods> getGoodsByPrice(double topPrice, double lowPrice);
+
+    List<SimpleGoods> getAllGoodsNoLimit();
 }

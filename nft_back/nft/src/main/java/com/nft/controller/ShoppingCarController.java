@@ -48,7 +48,7 @@ public class ShoppingCarController {
             return new Result(ResultCode.PARAMETER_NULL_ERROR);
         }
 
-        GoodsTrade goodsTrade = shoppingCarService.buyGoodsById(userId,goodsId,payKey);
+        GoodsTrade goodsTrade = shoppingCarService.buyGoodsById(goodsId, userId, payKey);
 
         if (goodsTrade == null) {
             return new Result(ResultCode.SERVER_ERROR);
@@ -78,7 +78,7 @@ public class ShoppingCarController {
 
         for (int i=0;i<goodsIdList.size();i++) {
             Long goodsId = Long.valueOf(goodsIdList.get(i));
-            GoodsTrade goodsTrade = shoppingCarService.buyGoodsById(userId, goodsId, payKey);
+            GoodsTrade goodsTrade = shoppingCarService.buyGoodsById(goodsId, userId, payKey);
 
             if (goodsTrade == null) {
                 return new Result(ResultCode.SERVER_ERROR);

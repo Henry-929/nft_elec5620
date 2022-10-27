@@ -40,7 +40,7 @@ public class ShoppingCarServiceImpl extends ServiceImpl<ShoppingCarMapper, Shopp
 
     @Override
     @Transactional
-    public GoodsTrade buyGoodsById(Long userId, Long goodsId, String payKey) {
+    public GoodsTrade buyGoodsById(Long goodsId, Long userId, String payKey) {
         //获取购买用户
         User user = userService.selectUserById(userId);
         if (!StringUtil.md5(payKey+"aasd123viav9").equals(user.getUserPassword()) ){
