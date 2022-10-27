@@ -94,6 +94,9 @@ public class ShoppingCarServiceImpl extends ServiceImpl<ShoppingCarMapper, Shopp
                 .eq("user_id", user.getUserId());
         userService.update(wrapper2);
 
+        //更新购物车
+        deleteShoppingCar(userId, goodsId);
+
         return goodsTrade;
     }
 
