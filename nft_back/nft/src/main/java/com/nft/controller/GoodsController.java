@@ -82,16 +82,15 @@ public class GoodsController {
         if (keywords == null) {
             return new Result(ResultCode.PARAMETER_NULL_ERROR);
         }
-//        List<SimpleGoods> searchGoods = goodsService.getGoodsByKeywords(keywords);
         Map<String, Object> map = esService.searchBlogForQuery(1, 10, keywords);
 
         List<SimpleGoods> arts = (List<SimpleGoods>) map.get("arts");
         if (map == null){
             return new Result(ResultCode.SERVER_ERROR);
         }
-//        if (arts.size() == 0) {
-//            return new Result(ResultCode.EMPTY_CONTENT);
-//        }
+        if (arts.size() == 0) {
+            return new Result(ResultCode.EMPTY_CONTENT);
+        }
         return new Result(ResultCode.SUCCESS,map);
     }
 
@@ -104,6 +103,9 @@ public class GoodsController {
 
         List<SimpleGoods> searchGoods = goodsService.getGoodsByPrice(topPrice,lowPrice);
 
+        if (searchGoods == null){
+            return new Result(ResultCode.SERVER_ERROR);
+        }
         if (searchGoods.size() == 0) {
             return new Result(ResultCode.EMPTY_CONTENT);
         }
