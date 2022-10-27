@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,11 +68,11 @@ public class GoodsController {
             return new Result(ResultCode.PARAMETER_NULL_ERROR);
         }
 
-        SimpleGoods detailsById = goodsService.getGoodDetailsById(goodId);
-        if (detailsById == null) {
+        HashMap<String, Object> hashMap = goodsService.getGoodDetailsById(goodId);
+        if (hashMap == null) {
             return new Result(ResultCode.SERVER_ERROR);
         }
-        return new Result(ResultCode.SUCCESS,detailsById);
+        return new Result(ResultCode.SUCCESS,hashMap);
     }
 
     /**

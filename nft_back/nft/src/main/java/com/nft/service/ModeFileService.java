@@ -1,7 +1,7 @@
 package com.nft.service;
 
-import com.nft.entity.File;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.nft.entity.File;
 import com.nft.entity.ModeFile;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @author XXXXX
  * @since 2022-10-08
  */
-public interface FileService extends IService<File> {
+public interface ModeFileService extends IService<ModeFile> {
 
-    File addFile(MultipartFile multipartFile) throws IOException;
+    ArrayList<ModeFile> addModeFile(MultipartFile[] multipartFile, String folderName, Long artId) throws IOException;
 }

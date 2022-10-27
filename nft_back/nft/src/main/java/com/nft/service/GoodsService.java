@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.nft.util.Pager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ public interface GoodsService extends IService<Goods> {
     Pager<SimpleGoods> getAllGood(Integer start, Integer limit);
 
     //获取good详情by id
-    SimpleGoods getGoodDetailsById(Long goodId);
+    HashMap<String, Object> getGoodDetailsById(Long goodId);
 
     //搜索通过关键词
     List<SimpleGoods> getGoodsByKeywords(String keywords);

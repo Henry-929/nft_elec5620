@@ -1,6 +1,7 @@
 package com.nft.service.impl;
 
 import com.nft.entity.File;
+import com.nft.entity.ModeFile;
 import com.nft.mapper.FileMapper;
 import com.nft.service.FileService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -14,6 +15,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 

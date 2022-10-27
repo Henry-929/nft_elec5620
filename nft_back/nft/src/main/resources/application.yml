@@ -28,6 +28,7 @@ mybatis-plus:
 
 File:
   basePath: img
+  modeBasePath: model
 
 elasticsearch:
   hostname: 39.96.40.139

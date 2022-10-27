@@ -1,10 +1,12 @@
 package com.nft.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.nft.entity.ModeFile;
 import com.nft.entity.User;
 import com.nft.entity.vo.SimpleGoods;
 import com.nft.entity.Goods;
 import com.nft.mapper.GoodsMapper;
+import com.nft.mapper.ModeFileMapper;
 import com.nft.service.GoodsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nft.util.Pager;
@@ -27,6 +29,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     @Autowired
     GoodsMapper goodsMapper;
+    @Autowired
+    ModeFileMapper modeFileMapper;
 
     @Override
     public Pager<SimpleGoods> getAllGood(Integer start, Integer limit) {
@@ -41,8 +45,22 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public SimpleGoods getGoodDetailsById(Long goodId) {
-        return goodsMapper.getGoodDetailsById(goodId);
+    public HashMap<String, Object> getGoodDetailsById(Long goodId) {
+        HashMap<String, Object> map = new HashMap<>();
+
+        SimpleGoods goodDetailsById = goodsMapper.getGoodDetailsById(goodId);
+        if (goodDetailsById == null){
+            return null;
+        }
+
+        Long artId = goodDetailsById.getArt().getArtId();
+        QueryWrapper<ModeFile> wrapper = new QueryWrapper<>();
+        wrapper.eq("art_id", artId);
+        List<ModeFile> modeFiles = modeFileMapper.selectList(wrapper);
+
+        map.put("SimpleGoods",goodDetailsById);
+        map.put("modeFiles",modeFiles);
+        return map;
     }
 
     @Override

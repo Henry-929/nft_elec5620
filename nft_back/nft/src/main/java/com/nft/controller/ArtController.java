@@ -1,12 +1,12 @@
 package com.nft.controller;
 
 
-import com.nft.entity.Goods;
-import com.nft.entity.Result;
-import com.nft.entity.ResultCode;
+import com.nft.entity.*;
 import com.nft.entity.vo.SimpleArt;
 import com.nft.service.ArtService;
+import com.nft.service.FileService;
 import com.nft.service.GoodsService;
+import com.nft.service.ModeFileService;
 import com.nft.util.ParamUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +34,10 @@ public class ArtController {
     ArtService artService;
     @Autowired
     GoodsService goodsService;
+    @Autowired
+    FileService fileService;
+    @Autowired
+    ModeFileService modeFileService;
 
     /**
      * 上传一个nft作品（铸币）
@@ -42,7 +46,7 @@ public class ArtController {
     public Result uploadArt(MultipartFile file, String artName, String artAuthor,
                             String artIntroduction, Long userId) throws IOException {
 
-        if (artName == null || artIntroduction == null) {
+        if (artName == null || artIntroduction == null || file == null) {
             return new Result(ResultCode.PARAMETER_NULL_ERROR);
         }
 
@@ -52,6 +56,24 @@ public class ArtController {
             return new Result(ResultCode.SERVER_ERROR);
         }
         return new Result(ResultCode.SUCCESS,artId);
+    }
+
+    /**
+     * 同时上传多个mode文件
+     */
+    @PostMapping("/uploadFiles")
+    public Result uploadFiles(MultipartFile[] files, String folderName, Long artId) throws IOException {
+
+        if (folderName == null || files == null) {
+            return new Result(ResultCode.PARAMETER_NULL_ERROR);
+        }
+
+        ArrayList<ModeFile> modeFiles = modeFileService.addModeFile(files,folderName,artId);
+
+        if (modeFiles == null) {
+            return new Result(ResultCode.SERVER_ERROR);
+        }
+        return new Result(ResultCode.SUCCESS,modeFiles);
     }
 
     /**
