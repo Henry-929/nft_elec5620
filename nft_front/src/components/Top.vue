@@ -5,7 +5,7 @@
 				<el-row style="flex-direction: row;display: flex;">
 					<div style="margin-top: 0px;">
 						<el-col style="flex-direction: row;display: flex;">
-							<span style="text-align: center;margin-top: 20px;font-size: 20px;font-weight: bold" @click="handleIndexPage">MyNFT</span>
+							<span style="cursor: pointer;text-align: center;margin-top: 20px;font-size: 20px;font-weight: bold" @click="handleIndexPage">MyNFT</span>
 						</el-col>
 					</div>
 					<div>
@@ -17,15 +17,17 @@
 							</el-input>
 						</el-col>
 					</div>
+					
 					<el-col style="margin-left: 20px;">
-						<el-menu-item 
-							index="/" 
-							background-color="#1c213f" 
-							style="font-size: 15px;"
-							@click="handleIndexPage"
-							>
-							Index Page
-						</el-menu-item>
+						<el-slider
+							class="slider"
+							v-model="ranegValue"
+							range
+							:marks="marks"
+							:min="0"
+							:max="1000"
+							@change="handleSlideSearch"
+						></el-slider>
 					</el-col>
 
 					<el-col>
@@ -51,13 +53,7 @@
 							</div>
 						</el-tooltip>
 					</el-col>
-					
-					<el-col>
-						<el-tooltip content="ChangeTheme">
-							<el-switch class="colorButton" @change="handleColorChange" v-model="changeColor" active-text="White" inactive-text="Dark"></el-switch>
-						</el-tooltip>
-					</el-col>
-
+			
 					<div v-if="!token && showDrawer">
 						<Login :showDrawer="showDrawer" @showLogin="handleLoginDrawer"></Login>
 					</div>
@@ -92,7 +88,16 @@ export default {
 			changeColor: true,
 			inputSearch: '',
 			showDrawer: false,
-			showMinting: false
+			showMinting: false,
+			ranegValue: [0, 1000],
+			marks: {
+				50:'50',
+				200:'200',
+				400: '400',
+				600: '600',
+				800: '800',
+				1000: '1000'
+			}
 		};
 	},
 
@@ -144,7 +149,6 @@ export default {
 		},
 
 		handleIndexPage(){
-			console.log(111);
 			if(this.$route.fullPath == "/"){
 				this.$emit('searchNft', [])
 			}else{
@@ -152,6 +156,10 @@ export default {
 			}
 		},
 
+		async handleSlideSearch(){
+			let res = await this.$axios.get(this.apiUrl + `/goods/search/${this.ranegValue[1]}/${this.ranegValue[0]}`)
+			this.$emit('searchNft', res.data.data)
+		}
 	},
 }
 </script>
@@ -172,8 +180,8 @@ export default {
 		background-color: rgb(255, 255, 255) !important;
 	}
 
-	.colorButton{
+	.slider{
 		position: relative;
-		top: 20px;
+		top: 10px;
 	}
 </style>

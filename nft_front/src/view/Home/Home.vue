@@ -30,32 +30,37 @@
                 </el-col>
             </el-row>
 			<p style="font-size: 20px;font-weight: bold;margin-left: 2%;">Market</p>
-			<template v-if="searchedMarketNFTs.length">
-				<div v-for="item in searchedMarketNFTs" :key="item.goodsId" class="NftGoods" @click="handleGoodsDetail(item)">
-					<el-col :span="6" style="margin-left: 3%;">
-						<el-card :body-style="{ padding: '15px' }" style="height: 380px;margin-bottom: 20px;">
-							<div class="marketNFT">
-								<img style="height: 100%;width: 100%;" :src="require(`../../../../nft_back/nft/img${item.file.filePath}`)" alt="">
-							</div>
-							<h4>{{item.art.artName}}</h4>
-							<p style="font-size: 14px;font-weight:200;">intro:{{item.art.artIntroduction}}</p>
-						</el-card>
-					</el-col>
-				</div>
-			</template>
-			<template v-else>
-				<div v-for="item in marketNFTs" :key="item.goodsId" class="NftGoods" @click="handleGoodsDetail(item)">
-					<el-col :span="6" style="margin-left: 3%;">
-						<el-card :body-style="{ padding: '15px' }" style="height: 380px;margin-bottom: 20px;">
-							<div class="marketNFT">
-								<img :src="require(`../../../../nft_back/nft/img${item.file.filePath}`)" alt="">
-							</div>
-							<h4>{{item.art.artName}}</h4>
-							<p style="font-size: 14px">{{item.art.artIntroduction}}</p>
-						</el-card>
-					</el-col>
-				</div>
-			</template>
+			<div v-if="marketNFTs.length || searchedMarketNFTs.length">
+				<template v-if="searchedMarketNFTs.length">
+					<div v-for="item in searchedMarketNFTs" :key="item.goodsId" class="NftGoods" @click="handleGoodsDetail(item)">
+						<el-col :span="6" style="margin-left: 3%;">
+							<el-card :body-style="{ padding: '15px' }" style="height: 380px;margin-bottom: 20px;">
+								<div class="marketNFT">
+									<img style="height: 100%;width: 100%;" :src="require(`../../../../nft_back/nft/img${item.file.filePath}`)" alt="">
+								</div>
+								<h4>{{item.art.artName}}</h4>
+								<p style="font-size: 14px;font-weight:200;">intro:{{item.art.artIntroduction}}</p>
+							</el-card>
+						</el-col>
+					</div>
+				</template>
+				<template v-else>
+					<div v-for="item in marketNFTs" :key="item.goodsId" class="NftGoods" @click="handleGoodsDetail(item)">
+						<el-col :span="6" style="margin-left: 3%;">
+							<el-card :body-style="{ padding: '15px' }" style="height: 380px;margin-bottom: 20px;">
+								<div class="marketNFT">
+									<img :src="require(`../../../../nft_back/nft/img${item.file.filePath}`)" alt="">
+								</div>
+								<h4>{{item.art.artName}}</h4>
+								<p style="font-size: 14px">{{item.art.artIntroduction}}</p>
+							</el-card>
+						</el-col>
+					</div>
+				</template>
+			</div>
+			<div v-else>
+				<p style="font-size: 20px">There is no suitable item at the moment</p>
+			</div>
         </div>
     </div>
 </template>
@@ -111,8 +116,9 @@ export default {
 					start: 1,
 					limit: 10
 				})
-				console.log(res.data.data.data);
-				this.setMarketNFTs(res.data.data.data)
+				if(res.data.message !== "暂无内容，看看其他的吧"){
+					this.setMarketNFTs(res.data.data.data)
+				}
 			},
 
 			handleSearchNft(value){

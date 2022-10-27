@@ -9,6 +9,7 @@ export default new Vuex.Store({
     user: sessionStorage.getItem('user') ? sessionStorage.getItem('user') : '',
     userId: sessionStorage.getItem('userId') ? sessionStorage.getItem('userId') : '',
     balance: sessionStorage.getItem('balance') ? sessionStorage.getItem('balance') : '',
+    bankCard: sessionStorage.getItem('bankCard') ? sessionStorage.getItem('balance') : '',
     marketNFTs: [],
     searchedMarketNFTs: [],
     selectNFT: {},
@@ -43,6 +44,9 @@ export default new Vuex.Store({
     setSelectedNFT(state, value){
       state.selectNFT = value
     },
+    setBankCard(state, value){
+      state.bankCard = value
+    },
     addToCart(state, value){
       state.shoppingCart.push(value)
     },
@@ -51,7 +55,7 @@ export default new Vuex.Store({
         return item.id !== value.id
       })
     },
-    clearCart(){
+    clearCart(state){
       state.shoppingCart = []
     },
     setMarketNFTs(state, value){

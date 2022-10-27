@@ -7,7 +7,7 @@
             <p>ArtAurthor: {{selectNFT.art.artAuthor}}</p>
             <p>Price: {{selectNFT.resalePrice}} ETH</p>
             <p>Art introduction: {{selectNFT.art.artIntroduction}}</p>
-            <el-button type="danger" class="addToCart" :disabled="selectNFT.art.artAuthor == user ? true : false" plain @click="handleAddCart">Add to Cart</el-button>
+            <el-button type="danger" class="addToCart" plain @click="handleAddCart">Add to Cart</el-button>
         </div>
     </div>
 </template>
@@ -32,12 +32,13 @@ export default {
     },
 
     computed: {
-        ...mapState(['selectNFT', 'user', 'shoppingCart'])
+        ...mapState(['selectNFT', 'user', 'shoppingCart', 'userId'])
     },
 
     methods: {
         ...mapMutations(['addToCart']),
-        handleAddCart(){
+
+        async handleAddCart(){
             for(let i = 0; i < this.shoppingCart.length; i++){
                 if(this.shoppingCart[i].art.artName === this.selectNFT.art.artName){
                     this.$message.error('The item already exists in your shopping cart')
@@ -48,9 +49,18 @@ export default {
                 this.$router.push('/')
                 this.$message.error('Please login first')
             }else{
-                this.$set(this.selectNFT, 'artName', this.selectNFT.art.artName)
-                this.addToCart(this.selectNFT)
-                this.$message.success('add successfully')  
+                let res = await this.$axios.post(this.apiUrl + '/shopping-car/setShoppingCar', {
+                    userId: this.userId,
+                    goodsId: this.selectNFT.goodsId
+                })
+                if(res.data.message == "无法添加自己出售的商品到购物车"){
+                    this.$message.error('You cannot add your own items to the shopping cart')
+                    return
+                }else{
+                    this.$set(this.selectNFT, 'artName', this.selectNFT.art.artName)
+                    this.addToCart(this.selectNFT)
+                    this.$message.success('add successfully')  
+                }
             }
         }
     }

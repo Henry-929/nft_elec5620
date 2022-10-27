@@ -16,14 +16,14 @@
           <el-table-column prop="resalePrice" label="Price" width="150px"></el-table-column>
           <el-table-column  label="Option"  >
             <template slot-scope="scope">
-              <el-button type="danger" icon="el-icon-delete" size="mini" @click="removePhoneItem(scope.row)" > Delete</el-button>
+              <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeItem(scope.row)" >Delete</el-button>
             </template>
           </el-table-column>
         </el-table>
   
         <!-- total price -->
         <div class="totalPrice">
-          <span>Total Price: {{ totalPrice.toFixed(2) }} ETH</span>
+          <span>Total Price: {{ totalPrice }} ETH</span>
           <el-button type="danger" @click="handlePayment">Pay</el-button>
         </div>
       </div>
@@ -60,6 +60,7 @@
     data() {
       return {
         checked: true,
+        shoppingCart: [],
         multipleSelection: [],
         totalPrice: 0,
         ispaid: true,
@@ -72,15 +73,33 @@
     },
   
     computed:{
-      ...mapState(["shoppingCart", "balance", "userId"])
+      ...mapState(["balance", "userId"])
     },
 
     mounted(){
-        console.log(this.shoppingCart);
+       this.getUserShoppingCart()
     },
   
     methods: {
         ...mapMutations(['deleteFromCart', 'clearCart']),
+
+        async getUserShoppingCart(){
+          this.$axios.post(this.apiUrl + '/shopping-car/getShoppingCar', {
+            userId: this.userId
+          }).then((res) => {
+            if(res.data.message == "暂无内容，看看其他的吧"){
+              return 
+            }else if(res.data.message == "您还未登录"){
+              this.$router.push('/home')
+            } else{
+              this.shoppingCart = res.data.data.arts
+              for(let i = 0; i < this.shoppingCart.length; i++){
+                this.$set(this.shoppingCart[i], 'artName', this.shoppingCart[i].art.artName)
+              }
+              this.totalPrice = res.data.data.totalPrice
+            }
+          })
+        },
 
         handleSelectionChange(val){
           this.totalPrice = 0
@@ -99,8 +118,17 @@
         },
     
         
-        removePhoneItem(item){
-          this.deleteFromCart(item)
+        removeItem(item){
+          this.$axios.post(this.apiUrl + '/shopping-car/deleteShoppingCar', {
+            userId: this.userId,
+            goodsId: item.goodsId
+          }).then(() => {
+            this.shoppingCart =  this.shoppingCart.filter(i => {
+              return i.goodsId != item.goodsId
+            })
+            this.getUserShoppingCart()
+            this.deleteFromCart(item)
+          })
         },
     
         handlePayment(){
@@ -120,26 +148,27 @@
           this.shoppingCart.forEach(item => {
             goodsIdList.push(item.goodsId)
           })
-          let res = await this.$axios.post(this.apiUrl + '/shopping-car/buyManyGoodsById', {
+          this.$axios.post(this.apiUrl + '/shopping-car/buyManyGoodsById', {
               userId: this.userId,
               goodsIdList,
               totalPrice: this.totalPrice,
               payKey: this.form.payKey
-          })
-          this.$message.success("Payment succeeded!")
-          this.ispaid = false
-          this.clearCart()
-          new Promise((resolve, reject) => {
-            let timer = setInterval(() => {
-            if(this.seconds > 0){
-                this.seconds -= 1
-            }else{
-                clearInterval(timer)
-                this.$router.replace("/home")
-            }
-            }, 1000)
-          })
-          this.dialogFormVisible = false
+          }).then(() => {
+            this.dialogFormVisible = false
+            this.$message.success("Payment succeeded!")
+            this.ispaid = false
+            this.clearCart()
+            new Promise((resolve, reject) => {
+              let timer = setInterval(() => {
+              if(this.seconds > 0){
+                  this.seconds -= 1
+              }else{
+                  clearInterval(timer)
+                  this.$router.replace("/home")
+              }
+              }, 1000)
+            })
+            })
         }
     }
   }

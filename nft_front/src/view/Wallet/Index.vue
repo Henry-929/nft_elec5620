@@ -15,9 +15,9 @@
                     <p>Total balance</p> 
                     <p>{{ balance }} ETH</p>
                 </div>
-                <div>
+                <div class="buttonArea">
                     <el-button 
-                    @click="handleLoginOut" 
+                    @click="handleOpenBackCardForm" 
                     class="recharge" type="primary" 
                     style="width: 150px;margin-top: 20px;margin-right: 30px;"
                     >
@@ -29,6 +29,13 @@
                     style="width: 150px;margin-top: 20px;margin-right: 30px;"
                     >
                         My NFTs
+			        </el-button>
+                    <el-button 
+                    @click="handlePurchaseRecords" 
+                    class="checkPurchaseRecord" type="primary" 
+                    style="width: 200px;margin-top: 20px;margin-right: 30px;"
+                    >
+                        View purchase records
 			        </el-button>
                     <el-button 
                     @click="handleLoginOut" 
@@ -66,7 +73,22 @@
         </el-drawer>
         </div>
 
-        <el-dialog title="Message" :visible.sync="dialogformVisible1" style="width: 80%">
+        <el-dialog title="Recharge form" :visible.sync="dialogBankCardForm" style="width: 80%">
+            <el-form :model="bankCardForm">
+                <el-form-item label="Set bank card:" style="width: 200px" v-if="!bankCard">
+                    <el-input v-model="bankCardForm.card" minlength="16" show-word-limit autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="Recharge amount:" style="width: 200px">
+                    <el-input v-model="bankCardForm.recharge" autocomplete="off"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogBankCardForm = false">Cancel</el-button>
+                <el-button type="primary" @click="handleAddFunds">Confirm</el-button>
+            </div>
+        </el-dialog>
+
+        <el-dialog title="Art information form" :visible.sync="dialogformVisible1" style="width: 80%">
             <el-form :model="form1">
                 <el-form-item label="Set art name:" style="width: 200px">
                     <el-input v-model="form1.artName" autocomplete="off" :placeholder="selectedNft.artName"></el-input>
@@ -81,7 +103,7 @@
             </div>
         </el-dialog>
 
-        <el-dialog title="Message" :visible.sync="dialogformVisible2" style="width: 80%">
+        <el-dialog title="Set sell form" :visible.sync="dialogformVisible2" style="width: 80%">
             <el-form :model="form2">
                 <el-form-item label="Set for sell:" style="width: 200px">
                     <el-switch v-model="form2.sell"></el-switch>
@@ -97,6 +119,19 @@
                 <el-button type="primary" @click="handleSoldOut">Confirm</el-button>
             </div>
         </el-dialog>
+
+        <el-dialog title="Purchase record" :visible.sync="dialogPurchaseRecordForm" style="width: 80%">
+            <div v-for="(item, index) in purchaseRecords" :key="item.goodsId">
+                <p>Order number: {{ index + 1}}</p>
+                <p>GoodsId: {{ item.goodsId }}</p>
+                <p>Purchase Time: {{ item.createTime | dateFormat }}</p>
+                <p>Cost: {{ item.coin }}</p>
+                <hr>
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="dialogPurchaseRecordForm=false">Confirm</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -109,8 +144,10 @@ export default {
             myNftShow: false,
             myNftList: [],
             balance: 0,
+            dialogBankCardForm: false,
             dialogformVisible1: false,
             dialogformVisible2: false,
+            dialogPurchaseRecordForm: false,
             form1: {
                 artName: '',
                 artIntroduction: ''
@@ -119,12 +156,17 @@ export default {
                 price: 0,
                 sell: false,
             },
+            bankCardForm: {
+                card: '',
+                recharge: 0,
+            },
+            purchaseRecords: [],
             selectedNft: {}
         }
     },
 
     computed:{
-        ...mapState(['userId'])
+        ...mapState(['userId', 'bankCard', "marketNFTs"])
     },
 
     mounted(){
@@ -132,7 +174,7 @@ export default {
     },
 
     methods: {
-        ...mapMutations(['delToken', 'setBalance', 'setMarketNFTs']),
+        ...mapMutations(['delToken', 'setBalance', 'setMarketNFTs', 'setBankCard']),
 
         async getBalance(){
             let res = await this.$axios.post(this.apiUrl + '/user/getBalance', {
@@ -209,6 +251,12 @@ export default {
         },
 
         async setArtForSell(){
+            for(let i = 0; i < this.marketNFTs.length; i++){
+                if(this.marketNFTs[i].goodsId == this.selectedNft.artId){
+                    this.$message.error('goods already exist in market')
+                    return
+                }
+            }
             this.$axios.post(this.apiUrl + '/art/setSell', {
                 ownerId: this.userId,
                 artId: this.selectedNft.artId,
@@ -218,7 +266,7 @@ export default {
                     start: 1,
                     limit: 10
                 })
-                console.log(res);
+                
                 this.setMarketNFTs(res.data.data.data)
                 this.$message.success('Set for sell successfully')
             })
@@ -233,13 +281,60 @@ export default {
                     start: 1,
                     limit: 10
                 })
+                console.log(res);
                 this.setMarketNFTs(res.data.data.data)
                 this.$message.success('Set for Not sell successfully')
             })
             this.dialogformVisible2 = false
         },
 
+        handleOpenBackCardForm(){
+            this.dialogBankCardForm = true
+        },
+
+        handlePurchaseRecords(){
+            this.$axios.post(this.apiUrl + '/user/getBuyOrder', {
+                userId: this.userId
+            }).then((res) => {
+                console.log(res);
+                this.dialogPurchaseRecordForm = true
+                if(res.data.message !== "暂无内容，看看其他的吧"){
+                    this.purchaseRecords = res.data.data
+                }
+            })
+        },
+
+        async handleAddFunds(){
+            if(!this.bankCard && !this.bankCardForm.card){
+                this.$message.error('Please bind your bank card')
+                return
+            }
+            if(!this.bankCardForm.recharge){
+                this.$message.error('The recharge amount can not be 0')
+                return
+            }
+            this.$axios.post(this.apiUrl + "/user/charge", {
+                userId: this.userId,
+                ETHBAmount: this.bankCardForm.recharge,
+                bankCard: this.bankCard ? this.bankCard : this.bankCardForm.card
+            }).then((res)=>{
+                if(res.data.message == "银行卡号格式不正确"){
+                    this.$message.error('Incorrect format of bank card number')
+                }else{
+                    this.setBankCard({
+                        card: this.bankCardForm.card
+                    })
+                    this.dialogBankCardForm = false
+                    this.getBalance()
+                }
+            })
+        },
+
         handleSoldOut(){
+            if(this.form2.sell && this.form2.price == 0){
+                this.$message.error('The price can not be 0')
+                return
+            }
             if(this.form2.sell){
                 this.setArtForSell()
             }else{
@@ -268,6 +363,14 @@ export default {
                 font-weight: bold;
             }
         }
+    }
+    .buttonArea{
+        position: relative;
+    }
+    .loginOutButton{
+        position: absolute;
+        top: 300px;
+        right: 28%;
     }
     .myNft{
         display: flex;
