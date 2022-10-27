@@ -93,7 +93,6 @@ export default {
 				this.$message.error('Username and password cannot be empty !')
 			} else {
 				this.$axios.post(this.apiUrl+"/user/login", this.loginInfor).then(res => {
-					console.log(res);
 					if(res.data.message === "用户名不存在"){
 						this.$message.error('The username does not exist')
 					}else if(res.data.message === "密码不正确"){
@@ -102,7 +101,6 @@ export default {
 							//close drawer
 							this.$emit('showLogin', false)
 							this.$message.success('Successfully logged in')
-							console.log(res);
 							this.setToken({
 								token: res.data.data.token,
 								user: res.data.data.user.userName
@@ -114,7 +112,7 @@ export default {
 							})
 						}
 					})
-					.catch(function(error) {console.log(error);});
+					.catch(function(error) {(error);})
 			}
 
 		},
@@ -132,16 +130,14 @@ export default {
 					payKey: this.registerInfor.register_payKey
 				}).then(res => {
 						if (res.status == 200) {
-							console.log(res.data);
 							// close drawer
 							this.$emit('showLogin', false)
 							this.$message.success('Successfully registered')
 						} else {
-							console.log(res);
 							this.$message.error('registered failed')
 						}
 					})
-					.catch(function(error) {console.log(error);});
+					.catch(function(error) {(error);});
 			}
 
 		}

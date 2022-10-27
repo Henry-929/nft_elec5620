@@ -121,13 +121,16 @@
         </el-dialog>
 
         <el-dialog title="Purchase record" :visible.sync="dialogPurchaseRecordForm" style="width: 80%">
-            <div v-for="(item, index) in purchaseRecords" :key="item.goodsId">
+            <template v-if="purchaseRecords.length">
+                <div v-for="(item, index) in purchaseRecords" :key="item.goodsId">
                 <p>Order number: {{ index + 1}}</p>
                 <p>GoodsId: {{ item.goodsId }}</p>
                 <p>Purchase Time: {{ item.createTime | dateFormat }}</p>
                 <p>Cost: {{ item.coin }}</p>
                 <hr>
             </div>
+            </template>
+            <p v-else style="font-size: 20px; font-weight: bold">There is no any purchase record now</p>
             <div slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="dialogPurchaseRecordForm=false">Confirm</el-button>
             </div>
@@ -281,7 +284,6 @@ export default {
                     start: 1,
                     limit: 10
                 })
-                console.log(res);
                 this.setMarketNFTs(res.data.data.data)
                 this.$message.success('Set for Not sell successfully')
             })
@@ -296,7 +298,6 @@ export default {
             this.$axios.post(this.apiUrl + '/user/getBuyOrder', {
                 userId: this.userId
             }).then((res) => {
-                console.log(res);
                 this.dialogPurchaseRecordForm = true
                 if(res.data.message !== "暂无内容，看看其他的吧"){
                     this.purchaseRecords = res.data.data
