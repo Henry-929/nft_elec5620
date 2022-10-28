@@ -40,13 +40,14 @@ public class ModeFileServiceImpl extends ServiceImpl<ModeFileMapper, ModeFile> i
     String modeBasePath;
 
     @Override
-    public ArrayList<ModeFile> addModeFile(MultipartFile[] files, String folderName, Long artId) throws IOException {
+    public ArrayList<ModeFile> addModeFile(MultipartFile[] files, Long artId) throws IOException {
         ArrayList<ModeFile> fileList = new ArrayList<>();
 
         for (MultipartFile multipartFile : files){
             InputStream inputStream = multipartFile.getInputStream();
 
-            String addPath = "/" + folderName + "/";
+            Date now = new Date();
+            String addPath = "/" + now.getYear() + now.getMonth() + now.getDate() + "/";
             // 文件名称包括文件类型后缀
             String fileName = multipartFile.getOriginalFilename();
 

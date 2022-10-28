@@ -62,13 +62,13 @@ public class ArtController {
      * 同时上传多个mode文件
      */
     @PostMapping("/uploadFiles")
-    public Result uploadFiles(MultipartFile[] files, String folderName, Long artId) throws IOException {
+    public Result uploadFiles(MultipartFile[] files, Long artId) throws IOException {
 
-        if (folderName == null || files == null) {
+        if (files == null) {
             return new Result(ResultCode.PARAMETER_NULL_ERROR);
         }
 
-        ArrayList<ModeFile> modeFiles = modeFileService.addModeFile(files,folderName,artId);
+        ArrayList<ModeFile> modeFiles = modeFileService.addModeFile(files,artId);
 
         if (modeFiles == null) {
             return new Result(ResultCode.SERVER_ERROR);

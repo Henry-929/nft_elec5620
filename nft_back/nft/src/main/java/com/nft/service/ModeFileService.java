@@ -18,5 +18,5 @@ import java.util.ArrayList;
  */
 public interface ModeFileService extends IService<ModeFile> {
 
-    ArrayList<ModeFile> addModeFile(MultipartFile[] multipartFile, String folderName, Long artId) throws IOException;
+    ArrayList<ModeFile> addModeFile(MultipartFile[] multipartFile, Long artId) throws IOException;
 }
