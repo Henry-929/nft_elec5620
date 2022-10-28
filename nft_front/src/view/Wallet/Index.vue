@@ -255,7 +255,7 @@ export default {
 
         async setArtForSell(){
             for(let i = 0; i < this.marketNFTs.length; i++){
-                if(this.marketNFTs[i].goodsId == this.selectedNft.artId){
+                if(this.marketNFTs[i].art.artName == this.selectedNft.artName){
                     this.$message.error('goods already exist in market')
                     return
                 }

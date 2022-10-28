@@ -29,8 +29,6 @@
 								style="margin-top: 10px;">
 							</el-input>
 
-							<el-button type="text" style="margin-left: 170px;">Forgot password?</el-button>
-
 							<el-button @click="handleLogin" type="primary" style="width: 220px;margin-top: 20px;margin-right: 30px;">Login
 							</el-button>
 						</el-tab-pane>
