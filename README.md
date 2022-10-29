@@ -22,6 +22,27 @@
 
 ## Programming Language:
 Java 14 JavaScript HTML CSS
+note: If you use java14, you need to add the following dependencies
+ <dependency>
+ <groupId>javax.xml.bind</groupId>
+ <artifactId>jaxb-api</artifactId>
+ <version>2.3.0</version>
+ </dependency>
+ <dependency>
+ <groupId>com.sun.xml.bind</groupId>
+ <artifactId>jaxb-impl</artifactId>
+ <version>2.3.0</version>
+ </dependency>
+ <dependency>
+ <groupId>com.sun.xml.bind</groupId>
+ <artifactId>jaxb-core</artifactId>
+ <version>2.3.0</version>
+ </dependency>
+ <dependency>
+ <groupId>javax.activation</groupId>
+ <artifactId>activation</artifactId>
+ <version>1.1.1</version>
+ </dependency>
 
 ## Development Tools:
 IDEA,Navicat,Git,VSCODE,Postman
