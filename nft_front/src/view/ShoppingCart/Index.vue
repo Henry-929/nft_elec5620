@@ -154,21 +154,25 @@
               goodsIdList,
               totalPrice: this.totalPrice,
               payKey: this.form.payKey
-          }).then(() => {
-            this.dialogFormVisible = false
-            this.$message.success("Payment succeeded!")
-            this.ispaid = false
-            this.clearCart()
-            new Promise((resolve, reject) => {
-              let timer = setInterval(() => {
-              if(this.seconds > 0){
-                  this.seconds -= 1
+          }).then((res) => {
+              if(res.data.message == "密码不正确"){
+                  this.$message.error("Wrong paykey")
               }else{
-                  clearInterval(timer)
-                  this.$router.replace("/home")
+                this.dialogFormVisible = false
+                this.$message.success("Payment succeeded!")
+                this.ispaid = false
+                this.clearCart()
+                new Promise((resolve, reject) => {
+                  let timer = setInterval(() => {
+                  if(this.seconds > 0){
+                      this.seconds -= 1
+                  }else{
+                      clearInterval(timer)
+                      this.$router.replace("/home")
+                  }
+                  }, 1000)
+                })
               }
-              }, 1000)
-            })
             })
         }
     }

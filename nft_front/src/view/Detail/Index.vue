@@ -76,6 +76,7 @@ export default {
         if(this.selectNFT.art.artName == "bigwhite"){
             this.getBigWhiteModel()
         }
+        this.setSearchShow(false)
     },
 
     computed: {
@@ -83,7 +84,7 @@ export default {
     },
 
     methods: {
-        ...mapMutations(['addToCart']),
+        ...mapMutations(['addToCart', 'setSearchShow']),
 
         onLoad() {
 			this.rotate();
