@@ -1,5 +1,7 @@
 package com.nft.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.nft.entity.GoodsTrade;
 import com.nft.entity.ResultCode;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.Map;
 
 /**
  * <p>
@@ -57,9 +60,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setBalance(new BigDecimal(0));
 
 //        生成一个该用户对应的区块链上的账户
-//        JSONObject jsonObject = new JSONObject(ethBlockchainService.creatEthAddress(payKey));
-//        user.setEthAddress((String) jsonObject.get("address"));
-//        user.setKeySrc((String) jsonObject.get("fileName"));
+//        Map<String, Object> map = ethBlockchainService.creatEthAddress(payKey);
+//        user.setEthAddress(JSON.toJSONString(map.get("address")));
+//        user.setKeySrc(JSON.toJSONString(map.get("fileName")));
         return userMapper.insert(user);
     }
 

@@ -1,6 +1,7 @@
 package com.nft.util;
 
 import com.nft.entity.Palette;
+import org.springframework.beans.factory.annotation.Value;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
@@ -16,15 +17,14 @@ import java.math.BigInteger;
 public class EthUtil {
 
     private String contractAddress = "0xC81d3f19aFa188bF27FE941Fefe5b68fb4988864";
-    private String baseKeyPath = "/Users/mac/IdeaProjects/nft/GETH/keystore/";
+    @Value("${File.gethPath}")
+    private String baseKeyPath;
     private String adminKey = "UTC--2022-10-15T12-46-10.370Z--c81d3f19afa188bf27fe941fefe5b68fb4988864";
     private String adminPassword = "12345678";
     private static String url = "http://localhost:8545";
 
     private Web3j web3j;
-
     private static EthUtil ethUtil;
-
 
     public static EthUtil getInstance() {
         if (ethUtil == null) {
@@ -39,7 +39,6 @@ public class EthUtil {
 
     private EthUtil() {
     }
-
 
     public Web3j getWeb3j() {
         if (web3j == null) {

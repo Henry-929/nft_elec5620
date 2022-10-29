@@ -3,6 +3,7 @@ package com.nft.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.nft.service.EthBlockchainService;
 import com.nft.util.EthUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.web3j.crypto.Bip39Wallet;
 import org.web3j.crypto.Bip44WalletUtils;
@@ -19,14 +20,17 @@ import java.util.Map;
 public class EthBlockchainServiceImpl implements EthBlockchainService {
     private static Web3j web3j;
 
+    // 生成 Keystore
+    @Value("${File.gethPath}")
+    String walletFilePath;
+
     static {
         web3j = EthUtil.getInstance().getWeb3j();
     }
 
     @Override
-    public String creatEthAddress(String payKey) throws Exception {
-        // 生成 Keystore
-        String walletFilePath = "/Users/mac/IdeaProjects/nft/GETH/keystore";
+    public Map<String, Object> creatEthAddress(String payKey) throws Exception {
+
         File file = new File(walletFilePath);
         if (!file.exists()) {
             file.mkdirs();
@@ -41,8 +45,8 @@ public class EthBlockchainServiceImpl implements EthBlockchainService {
         String address = credentials.getAddress();
 
         //解锁账户发起交易。钱包keyStore文件保存在geth节点上,用户发起交易需要解锁账户,
-        //转账 10ETH
-        EthUtil.getInstance().sendETH(address, 10);
+        //转账 1ETH
+        //EthUtil.getInstance().sendETH(address, 1);
 
         // 在以太坊中加载并实施Palette智能合约，将生成的该用户设置为合约的用户
         TransactionReceipt transactionReceipt = EthUtil.getInstance().getPalette()
@@ -53,7 +57,7 @@ public class EthBlockchainServiceImpl implements EthBlockchainService {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("address", address);
             map.put("fileName", bip39Wallet.getFilename());
-            return JSON.toJSONString(map);
+            return map;
         }
         return null;
     }

@@ -29,6 +29,7 @@ mybatis-plus:
 File:
   basePath: img
   modeBasePath: model
+  gethPath: GETH/keystore
 
 elasticsearch:
   hostname: 39.96.40.139
