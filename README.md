@@ -19,7 +19,7 @@
 - View my NFTs
 
 ## Programming Language:
-Java 14 JavaScript HTML CSS
+Java14/Java8 JavaScript HTML CSS
 note: If you use java14, you need to add the following dependencies
  <dependency>
  <groupId>javax.xml.bind</groupId>
