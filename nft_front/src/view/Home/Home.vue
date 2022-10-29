@@ -104,6 +104,7 @@ export default {
 
 	mounted() {
 		this.getAllNfts()
+		this.setSearchShow(true)
 	},
 
 	computed:{
@@ -111,7 +112,7 @@ export default {
 	},	
 
 	methods: {
-			...mapMutations(['setSelectedNFT', 'setMarketNFTs', 'setSearchedMarketNFTs']),
+			...mapMutations(['setSelectedNFT', 'setMarketNFTs', 'setSearchedMarketNFTs', 'setSearchShow']),
 			async getAllNfts(){
 				let res = await this.$axios.post(this.apiUrl+"/goods/getAllGoods", {
 					start: 1,
@@ -125,6 +126,7 @@ export default {
 			handleSearchNft(value){
 				if(value){
 					this.setSearchedMarketNFTs(value)
+					this.noSearchResult = false
 				}else{
 					this.noSearchResult = true
 				}
@@ -217,8 +219,13 @@ export default {
 		cursor: pointer;
 	}
 	
-	.marketNFT > img{
-		width: 268px;
-		height: 193px;
+	.marketNFT {
+		width: 236px;
+		height: 204px;
+	}
+
+	.marketNFT  img{
+		width: 100%;
+		height: 100%;
 	}
 </style>

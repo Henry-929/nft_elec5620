@@ -78,10 +78,11 @@
 
     mounted(){
        this.getUserShoppingCart()
+       this.setSearchShow(false)
     },
   
     methods: {
-        ...mapMutations(['deleteFromCart', 'clearCart']),
+        ...mapMutations(['deleteFromCart', 'clearCart', 'setSearchShow']),
 
         async getUserShoppingCart(){
           this.$axios.post(this.apiUrl + '/shopping-car/getShoppingCar', {

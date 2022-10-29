@@ -14,6 +14,7 @@ export default new Vuex.Store({
     searchedMarketNFTs: [],
     selectNFT: {},
     shoppingCart: [],
+    searchShow: true
   },
   mutations: {
     setToken (state, value) {
@@ -63,6 +64,9 @@ export default new Vuex.Store({
     },
     setSearchedMarketNFTs(state, value){
       state.searchedMarketNFTs = value
+    },
+    setSearchShow(state, value){
+      state.searchShow = value
     }
   },
   actions: {

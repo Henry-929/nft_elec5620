@@ -1,7 +1,7 @@
 <template>
     <div>
         <Top></Top>
-        <div class="selectNFT" v-if="selectNFT.art.artName !== 'bigwhite'">
+        <div class="selectNFT" v-if="selectNFT.file.fileFormat !== 'bigWhite.jpg'">
             <img id="selectedImg" :src="require(`../../../../nft_back/nft/img${selectNFT.file.filePath}`)" alt="selectPhoneItem">
             <p>Art Name: {{selectNFT.art.artName}}</p>
             <p>ArtAurthor: {{selectNFT.art.artAuthor}}</p>

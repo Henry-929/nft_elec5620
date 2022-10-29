@@ -8,7 +8,7 @@
 							<span style="cursor: pointer;text-align: center;margin-top: 20px;font-size: 20px;font-weight: bold" @click="handleIndexPage">MyNFT</span>
 						</el-col>
 					</div>
-					<div>
+					<div v-if="searchShow">
 						<el-col style="width: 360px;margin-left: 40px;margin-top: 6px;">
 							<el-input placeholder="Search here" v-model="inputSearch">
 								<i
@@ -20,6 +20,7 @@
 					
 					<el-col style="margin-left: 20px;">
 						<el-slider
+							v-if="searchShow"
 							class="slider"
 							v-model="ranegValue"
 							range
@@ -73,7 +74,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 import Login from '../view/Login/Index.vue'
 import Wallet from '../view/Wallet/Index.vue'
 import Mint from '../view/Mint/Index.vue'
@@ -97,12 +98,12 @@ export default {
 				600: '600',
 				800: '800',
 				1000: '1000'
-			}
+			},
 		};
 	},
 
 	computed: {
-		...mapState(['token'])
+		...mapState(['token', 'searchShow'])
 	},
 
 	methods: {
@@ -164,6 +165,7 @@ export default {
 
 		async handleSlideSearch(){
 			let res = await this.$axios.get(this.apiUrl + `/goods/search/${this.ranegValue[1]}/${this.ranegValue[0]}`)
+			console.log(res);
 			this.$emit('searchNft', res.data.data)
 		}
 	},
