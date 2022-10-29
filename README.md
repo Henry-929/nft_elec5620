@@ -19,11 +19,9 @@
 - Email
   * Notification
 - Chatting
-## Development Environment
-Operating System: Windows 10
 
 ## Programming Language:
-Java 8 JavaScript HTML CSS
+Java 14 JavaScript HTML CSS
 
 ## Development Tools:
 IDEA,Navicat,Git,VSCODE,Postman
@@ -41,7 +39,8 @@ MySQL8
 node 16.17.0
 
 ## Dependency Library：
-Springboot 2.7.3, Mybatis-plus 3.4.1, shiro-spring 1.4.0, jjwt 0.9.1, fastjson 1.2.75 Vue/Cli 2.0 ElementUI 2.15.10 axios 0.27.2 spring-boot-starter-mail jakarta.xml.bind-api
+Springboot 2.7.3, Mybatis-plus 3.4.1, shiro-spring 1.4.0, jjwt 0.9.1, fastjson 1.2.75, elasticsearch-rest-high-level-client 7.13.0, aspectjweaver 1.9.6, org.web3j 4.2.0
+Vue/Cli 2.0 ElementUI 2.15.10 axios 0.27.2
 
 ## Deployment steps：
 Front-end running steps：
