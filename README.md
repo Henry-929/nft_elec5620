@@ -15,6 +15,8 @@
   * keywords
   * price
 - View purchase record
+- View wallet balance
+- View my NFTs
 
 ## Programming Language:
 Java 14 JavaScript HTML CSS
