@@ -1,4 +1,4 @@
-#Project Name: nft_elec5620
+# Project Name: nft_elec5620
 Working functionalities of the project
 Registration
 Login
