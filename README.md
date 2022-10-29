@@ -11,6 +11,9 @@
   * add NFT
   * delete NFT
   * payment
+- Search 
+  * keywords
+  * price
 - View purchase record
 
 ## Programming Language:
