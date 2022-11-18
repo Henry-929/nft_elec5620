@@ -3,9 +3,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://39.96.40.139:3306/nft_db?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
-    username: root
-    password: Zzy190015
+    url: jdbc:mysql://localhost:3306/nft_db?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username:
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 logging:
